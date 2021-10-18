@@ -22,12 +22,18 @@ dashboardPage(
     tabItems(
       
       #First tab content
+      tabItem(tabName = "Background",
+              h1("Preliminary Information")),
+      
+      #Second tab content
       tabItem(tabName = "United States",
               h2("Addiction in the United States")),
-      #Second tab content
+      
+      #Third tab content
       tabItem(tabName = "Virginia",
               h3("Addiction in Virginia")),
-      #Third tab content
+      
+      #Fourth tab content
       tabItem(tabName = "Data Sources",
               h4("Data Sources and Further Information")))
     )
