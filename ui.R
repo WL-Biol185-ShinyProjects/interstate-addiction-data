@@ -11,10 +11,10 @@ dashboardPage(
     #Define content of sidebar - options to go to different pages (US, VA, types of drugs, etc.)
     
     sidebarMenu(
-      menuItem("Background", tabName = "Background", icon = icon("Background")),
-      menuItem("United States", tabName = "United States", icon = icon("United States")),
-      menuItem("Virginia", tabName = "Virginia", icon = icon("Virginia")),
-      menuItem("Data Sources", tabName = "Data Sources", icon=icon("Data Sources"))
+      menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
+      menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
+      menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marker-alt")),
+      menuItem("Data Sources", tabName = "datasourcesTab", icon=icon("chart-line"))
       )
     ),
 
@@ -22,19 +22,19 @@ dashboardPage(
     tabItems(
       
       #First tab content
-      tabItem(tabName = "Background",
-              h1("Preliminary Information")),
+      tabItem(tabName = "backgroundTab",
+              h2("Preliminary Information")),
       
       #Second tab content
-      tabItem(tabName = "United States",
+      tabItem(tabName = "unitedstatesTab",
               h2("Addiction in the United States")),
       
       #Third tab content
-      tabItem(tabName = "Virginia",
-              h3("Addiction in Virginia")),
+      tabItem(tabName = "virginiaTab",
+              h2("Addiction in Virginia")),
       
       #Fourth tab content
-      tabItem(tabName = "Data Sources",
-              h4("Data Sources and Further Information")))
+      tabItem(tabName = "datasourcesTab",
+              h2("Data Sources and Further Information")))
     )
 )
