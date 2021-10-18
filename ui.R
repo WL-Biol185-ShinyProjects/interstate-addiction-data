@@ -3,7 +3,7 @@
 library(shiny)
 library(shinydashboard)
 
-dashboardPage(
+dashboardPage(skin = "purple",
   dashboardHeader(title = "Interstate Addiction"),
 
   dashboardSidebar(
@@ -11,26 +11,29 @@ dashboardPage(
     #Define content of sidebar - options to go to different pages (US, VA, types of drugs, etc.)
     
     sidebarMenu(
-      menuItem("Background", tabName = "Background", icon = icon("dashboard")),
-      menuItem("United States", tabName = "United States", icon = icon("dashboard")),
-      menuItem("Virginia", tabName = "Virginia", icon = icon("dashboard")),
-      menuItem("Data Sources", tabName = "Data Sources", icon = icon("dashboard"))
+      menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
+      menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
+      menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marked")),
+      menuItem("Data Sources", tabName = "datasourcesTab", icon=icon("server"))
       )
     ),
 
   dashboardBody(
     tabItems(
-      tabItem(tabName = "Background",
+      #First tab content
+      tabItem(tabName = "backgroundTab",
               h2("Preliminary Information")),
       
-      tabItem(tabName = "United States",
+      #Second tab content
+      tabItem(tabName = "unitedstatesTab",
               h2("Addiction in the United States")),
       
-      tabItem(tabName = "Virginia",
+      #Third tab content
+      tabItem(tabName = "virginiaTab",
               h2("Addiction in Virginia")),
       
-      tabItem(tabName = "Data Sources",
-              h2("Data Sources and Further Information"))
-      )
+      #Fourth tab content
+      tabItem(tabName = "datasourcesTab",
+              h2("Data Sources and Further Information")))
     )
 )
