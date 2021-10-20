@@ -24,10 +24,10 @@ dashboardPage(skin = "purple",
       #First tab content - contains info about drug addiction in the United States and why we chose this topic
       tabItem(tabName = "backgroundTab",
               h1(strong("Preliminary Information")), br(),
-              h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"),
-              h3("United States Drug addiction data was compiled from . We used these data to visualize the relationships between
-                 drug type and death, etc. We also used these data to hone in on these relationships specifically within the state
-                 of Virginia."), br()),
+              h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"), br(),
+              h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between
+                 drug type and death, etc. We also used these datasets to hone in on these relationships specifically within the state
+                 of Virginia."), align = "center"), br()),
 
       
       #Second tab content
