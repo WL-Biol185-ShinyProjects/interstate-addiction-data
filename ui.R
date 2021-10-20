@@ -28,10 +28,11 @@ dashboardPage(skin = "purple",
               h3("United States Drug addiction data was compiled from . We used these data to visualize the relationships between
                  drug type and death, etc. We also used these data to hone in on these relationships specifically within the state
                  of Virginia."), br(),
+
       
       #Second tab content
       tabItem(tabName = "unitedstatesTab",
-              h2("Addiction in the United States")),
+              h1(strong("Addiction in the United States"))),
       
       #Third tab content
       tabItem(tabName = "virginiaTab",
