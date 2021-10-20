@@ -22,11 +22,13 @@ dashboardPage(skin = "purple",
     tabItems(
       #First tab content
       tabItem(tabName = "backgroundTab",
-              h2("Preliminary Information")),
+              h1(strong("Preliminary Information")), br(),
+              h2("Hello"), br()),
+      
       
       #Second tab content
       tabItem(tabName = "unitedstatesTab",
-              h2("Addiction in the United States")),
+              h1(strong("Addiction in the United States"))),
       
       #Third tab content
       tabItem(tabName = "virginiaTab",
