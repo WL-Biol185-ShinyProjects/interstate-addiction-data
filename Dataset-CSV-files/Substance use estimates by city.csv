@@ -47,4 +47,8 @@ City_State,Marijuana,Cocaine,Heroin,Meth
 "Tulsa, OK",64.9,21.8,3.1,13.4
 "Virginia Beach, VA",61.5,19.4,2.5,10.6
 "Washington, D.C.",59.3,15.1,2.3,5.1
+<<<<<<< HEAD
 "Wichita, KS",64.4,21.8,3,13.4
+=======
+"Wichita, KS",64.4,21.8,3,13.4
+>>>>>>> ae9f578c9416da7c291c344307f65293c748ac61
