@@ -1,4 +1,4 @@
-State,Year,Month,Period,Percent Complete,Percent Pending Investigation,Percent with drugs specified,StateName
+State,Year,Month,Period,Percent_Complete,Percent_Pending_Investigation,Percent_with_drugs_specified,StateName
 AK,2015,January,12 month-ending,100,0,89.68,Alaska
 AK,2015,February,12 month-ending,100,0,88.98,Alaska
 AK,2015,March,12 month-ending,100,0,88.8,Alaska
