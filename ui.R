@@ -2,6 +2,7 @@
 
 library(shiny)
 library(shinydashboard)
+library(leaflet)
 
 dashboardPage(skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -32,7 +33,8 @@ dashboardPage(skin = "purple",
       
       #Second tab content
       tabItem(tabName = "unitedstatesTab",
-              h1(strong("Addiction in the United States"))),
+              h1(strong("Addiction in the United States")),
+              mainPanel(plotOutput("drug_overdose_deaths"))),
       
       #Third tab content
       tabItem(tabName = "virginiaTab",

@@ -1,4 +1,4 @@
-Location,Range_Category,2019 Age_adjusted_Rate,2019_Number_of_Deaths
+State,Range_Category,2019 Age_adjusted_Rate,Number_of_Deaths
 Alabama,16.1 to 18.5,16.3,768
 Alaska,16.1 to 18.5,17.8,132
 Arizona,21.1 to 57.0,26.8,1907
