@@ -2,6 +2,7 @@
 
 library(shiny)
 library(shinydashboard)
+library(leaflet)
 
 dashboardPage(skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -42,5 +43,16 @@ dashboardPage(skin = "purple",
       tabItem(tabName = "datasourcesTab",
               h1(strong("Data Sources and Further Information")))
     )
+),
+
+fluidPage(
+  # map output
+  leafletOutput("worldMap"),
+  
+  # line break (puts some space between map and button)
+  br(),
+  
+  # a button
+  actionButton("newButton", "New place!")
 )
 )
