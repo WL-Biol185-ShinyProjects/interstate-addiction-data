@@ -4,11 +4,13 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 
+CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
+
 dashboardPage(skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
   dashboardSidebar(width = 300,
     
-    #Define content of sidebar - options to go to different pages (US, VA, types of drugs, etc.)
+    #Sidebar - options to go to different pages (US, VA, types of drugs, etc.)
     
     sidebarMenu(
       menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
@@ -18,11 +20,11 @@ dashboardPage(skin = "purple",
       )
     ),
 
-  #Dashboard is created
+  #Dashboard - main info and data
   dashboardBody(
     tabItems(
 
-      #First tab content - contains info about drug addiction in the United States and why we chose this topic
+      #First tab content - info about drug addiction in the US and why we chose this topic
       tabItem(tabName = "backgroundTab",
               h1(strong("Preliminary Information")), br(),
               h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"), br(),
@@ -31,35 +33,25 @@ dashboardPage(skin = "purple",
                  of Virginia."), align = "center"), br()),
 
       
-      #Second tab content
+      #Second tab content - info about US cities' drug use, death rates, and other categories
       tabItem(tabName = "unitedstatesTab",
               h1(strong("Addiction in the United States")),
-              h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction
-              Center, based on the percentage of users per city population surveyed."),
+              h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American
+              Addiction Center, based on the percentage of users per city population surveyed."),
               tabBox(
-                selectizeInput('', label = NULL, choices = c("Top 5 Cities with Marijuana Use", "Top 5 Cities with Cocaine Use",
-                                                             "Top 5 Cities with Heroin Use", "Top 5 Cities with Meth Use"),
-                             selected = "Select category...", multiple = FALSE, options = NULL)),
-              leafletOutput(majorCities)),
+                selectizeInput("select", label = NULL, choices = c("Select category...", "Top 5 Cities with Marijuana Use",
+                                                             "Top 5 Cities with Cocaine Use", "Top 5 Cities with Heroin Use",
+                                                             "Top 5 Cities with Meth Use"),
+                             selected = "Select category...", multiple = FALSE, options = majorCities)),
+              leafletOutput(CityLatLon)),
       
-      #Third tab content
+      #Third tab content - info about VA counties' drug use, median incomes, and other categories
       tabItem(tabName = "virginiaTab",
               h1(strong("Addiction in Virginia"))),
       
       #Fourth tab content
       tabItem(tabName = "datasourcesTab",
               h1(strong("Data Sources and Further Information")))
-    )
-),
-
-fluidPage(
-  # map output
-  leafletOutput("worldMap"),
-  
-  # line break (puts some space between map and button)
-  br(),
-  
-  # a button
-  actionButton("newButton", "New place!")
-)
+      
+    ))
 )
