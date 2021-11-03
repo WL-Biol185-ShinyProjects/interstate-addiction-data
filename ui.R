@@ -2,6 +2,7 @@
 
 library(shiny)
 library(shinydashboard)
+library(leaflet)
 
 dashboardPage(skin = "purple",
               dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -28,19 +29,36 @@ dashboardPage(skin = "purple",
                           h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between
                  drug type and death, etc. We also used these datasets to hone in on these relationships specifically within the state
                  of Virginia."), align = "center"), br()),
-                  
-                  
-                  #Second tab content
-                  tabItem(tabName = "unitedstatesTab",
-                          h1(strong("Addiction in the United States"))),
-                  
-                  #Third tab content
-                  tabItem(tabName = "virginiaTab",
-                          h1(strong("Addiction in Virginia"))),
-                  
-                  #Fourth tab content
-                  tabItem(tabName = "datasourcesTab",
-                          h1(strong("Data Sources and Further Information")))
-                )
-              )
+      
+      #Second tab content
+      tabItem(tabName = "unitedstatesTab",
+              h1(strong("Addiction in the United States")),
+              h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction
+              Center, based on the percentage of users per city population surveyed."),
+              tabBox(
+                selectizeInput('', label = NULL, choices = c("Top 5 Cities with Marijuana Use", "Top 5 Cities with Cocaine Use",
+                                                             "Top 5 Cities with Heroin Use", "Top 5 Cities with Meth Use"),
+                             selected = "Select category...", multiple = FALSE, options = NULL)),
+              leafletOutput(majorCities)),
+      
+      #Third tab content
+      tabItem(tabName = "virginiaTab",
+              h1(strong("Addiction in Virginia"))),
+      
+      #Fourth tab content
+      tabItem(tabName = "datasourcesTab",
+              h1(strong("Data Sources and Further Information")))
+    )
+),
+
+fluidPage(
+  # map output
+  leafletOutput("worldMap"),
+  
+  # line break (puts some space between map and button)
+  br(),
+  
+  # a button
+  actionButton("newButton", "New place!")
+)
 )
