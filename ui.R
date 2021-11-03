@@ -7,6 +7,7 @@ library(leaflet)
 CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
 dashboardPage(skin = "purple",
+
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
   dashboardSidebar(width = 300,
     
@@ -28,10 +29,32 @@ dashboardPage(skin = "purple",
       tabItem(tabName = "backgroundTab",
               h1(strong("Preliminary Information")), br(),
               h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"), br(),
-              h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between
+              h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between")),
+              dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
+              dashboardSidebar(width = 300,
+                               
+                               #Define content of sidebar - options to go to different pages (US, VA, types of drugs, etc.)
+                               
+                               sidebarMenu(
+                                 menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
+                                 menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
+                                 menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marked")),
+                                 menuItem("Data Sources", tabName = "datasourcesTab", icon=icon("server"))
+                               )
+              ),
+              
+              #Dashboard is created
+              dashboardBody(
+                tabItems(
+                  
+                  #First tab content - contains info about drug addiction in the United States and why we chose this topic
+                  tabItem(tabName = "backgroundTab",
+                          h1(strong("Preliminary Information")), br(),
+                          h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"), br(),
+                          h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between
+>>>>>>> d159b4d2fd2f397b13d15961e733af53a9d85b68
                  drug type and death, etc. We also used these datasets to hone in on these relationships specifically within the state
                  of Virginia."), align = "center"), br()),
-
       
       #Second tab content - info about US cities' drug use, death rates, and other categories
       tabItem(tabName = "unitedstatesTab",
@@ -51,7 +74,8 @@ dashboardPage(skin = "purple",
       
       #Fourth tab content
       tabItem(tabName = "datasourcesTab",
-              h1(strong("Data Sources and Further Information")))
-      
-    ))
+              h1(strong("Data Sources and Further Information"))),
+      )))
+    )
+  )
 )
