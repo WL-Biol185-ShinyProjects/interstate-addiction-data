@@ -33,7 +33,14 @@ dashboardPage(skin = "purple",
       
       #Second tab content
       tabItem(tabName = "unitedstatesTab",
-              h1(strong("Addiction in the United States"))),
+              h1(strong("Addiction in the United States")),
+              h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction
+              Center, based on the percentage of users per city population surveyed."),
+              tabBox(
+                selectizeInput('', label = NULL, choices = c("Top 5 Cities with Marijuana Use", "Top 5 Cities with Cocaine Use",
+                                                             "Top 5 Cities with Heroin Use", "Top 5 Cities with Meth Use"),
+                             selected = "Select category...", multiple = FALSE, options = NULL)),
+              leafletOutput(majorCities)),
       
       #Third tab content
       tabItem(tabName = "virginiaTab",
