@@ -10,7 +10,7 @@ dashboardPage(skin = "purple",
 
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
   dashboardSidebar(width = 300,
-    
+                   
     #Sidebar - options to go to different pages (US, VA, types of drugs, etc.)
     
     sidebarMenu(
@@ -23,6 +23,20 @@ dashboardPage(skin = "purple",
 
   #Dashboard - main info and data
   dashboardBody(
+    fluidRow(
+      box(title = "Box title", "Box content"),
+      box()),
+        
+    fluidRow(
+      box(title = "Title 1", width = 4, solidHeader = TRUE, status = "primary", "Box content"),
+      box(title = "Title 2", width = 4, solidHeader = TRUE, "Box content"),
+      box(title = "Title 3", width = 4, solidHeader = TRUE, status = "warning", "Box content")),
+    
+    fluidRow(
+      box(width = 4, background = "black", "A box with a solid black background"),
+      box(title = "Title 5", width = 4, background = "light-blue", "A box with a solid light-blue background"),
+      box(title = "Title 6", width = 4, background = "maroon", "A box with a solid maroon background")),
+
     tabItems(
 
       #First tab content - info about drug addiction in the US and why we chose this topic
