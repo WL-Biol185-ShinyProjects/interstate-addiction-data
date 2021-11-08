@@ -29,8 +29,23 @@ dashboardPage(skin = "purple",
       tabItem(
         tabName = "backgroundTab",
         h1(strong("Preliminary Information")),
+        h4(("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia."), style = "font-size:25px;", align = "center"),
         br(),
-        h4(("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia."), align = "center"),
+        
+        fluidRow(
+          box(
+            icon("prescription-bottle", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "On average, 38% of US adults battled an illegal drug use disorder each year"),
+          box(
+            icon("search-dollar", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"),
+          box(
+            icon("tablets", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine."),
+        
         br(),
         
         fluidRow(
@@ -45,22 +60,9 @@ dashboardPage(skin = "purple",
           box(
             title = "% Addicts receiving treatment",
             width = 4, solidHeader = TRUE,
-            "ggplot percent of addicts receiving treatment vs. admitted to ER?")),
-        
-        fluidRow(
-          box(
-            icon("prescription-bottle", class = NULL, lib = "font-awesome"),
-            width = 4, height = 160, status = "primary", style = "font-size:20px;",
-            "On average, 38% of US adults battled an illegal drug use disorder each year"),
-          box(
-            icon("search-dollar", class = NULL, lib = "font-awesome"),
-            width = 4, height = 160, status = "primary", style = "font-size:20px;",
-            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"),
-          box(
-            icon("tablets", class = NULL, lib = "font-awesome"),
-            width = 4, height = 160, status = "primary", style = "font-size:20px;",
-            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine.")
-        )),
+            "ggplot percent of addicts receiving treatment vs. admitted to ER?"))
+        )
+      ),
 
       # Second tab content - info about US cities' drug use, death rates, and other categories
 
@@ -68,11 +70,13 @@ dashboardPage(skin = "purple",
         tabName = "unitedstatesTab",
         h1(strong("Addiction in the United States")),
         h4("Addiction is a common problem in several of the United States' major cities. Check out the interactive map below to see
-           addiction trends and drug use within the United States' major cities. Survey data was sourced from the American Addiction
-           Center, based on the percentage of users per city population surveyed."),
-
+           addiction trends and drug use within the United States' major cities.", style= "font-size:20px;"),
+        
         fluidRow(
-          box(leafletOutput("CityLatLon")))
+          box(leafletOutput("CityLatLon"))),
+        
+        h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
+        
       ),
       
       # Third tab content - info about VA counties' drug use, median incomes, and other categories
