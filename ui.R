@@ -2,9 +2,8 @@
 
 library(shiny)
 library(shinydashboard)
-#library(leaflet)
+library(leaflet)
 
-#CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
 dashboardPage(skin = "purple",
 
@@ -23,7 +22,7 @@ dashboardPage(skin = "purple",
 
   #Dashboard - main info and data
   dashboardBody(
-    
+
     tabItems(
       #First tab content - info about drug addiction in the US and why we chose this topic
 
@@ -31,37 +30,64 @@ dashboardPage(skin = "purple",
         tabName = "backgroundTab",
         h1(strong("Preliminary Information")),
         br(),
-        h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"),
+        h4(("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia."), align = "center"),
         br(),
-        h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between"), align = "center"),
-        br(),
-        box(title = "Title 1", width = 4, solidHeader = TRUE, status = "primary", "Box content"),
-        box(title = "Title 2", width = 4, solidHeader = TRUE, status = "warning", "Box content"),
-        box(title = "Title 3", width = 4, solidHeader = TRUE, status = "warning", "Box content"),
-      ),
+        
+        fluidRow(
+          box(
+            title = "Types of Drugs",
+            width = 4, solidHeader = TRUE,
+            "Types of drugs infographic"),
+          box(
+            title = "Drug Use Trends from xYear to xYear",
+            width = 4, solidHeader = TRUE,
+            "ggplot trend line showing increase in drug use over the last 50 years"),
+          box(
+            title = "% Addicts receiving treatment",
+            width = 4, solidHeader = TRUE,
+            "ggplot percent of addicts receiving treatment vs. admitted to ER?")),
+        
+        fluidRow(
+          box(
+            icon("prescription-bottle", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "On average, 38% of US adults battled an illegal drug use disorder each year"),
+          box(
+            icon("search-dollar", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"),
+          box(
+            icon("tablets", class = NULL, lib = "font-awesome"),
+            width = 4, height = 160, status = "primary", style = "font-size:20px;",
+            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine.")
+        )),
 
       # Second tab content - info about US cities' drug use, death rates, and other categories
 
       tabItem(
         tabName = "unitedstatesTab",
         h1(strong("Addiction in the United States")),
-        h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction Center, based on the percentage of users per city population surveyed.")
+        h4("Addiction is a common problem in several of the United States' major cities. Check out the interactive map below to see
+           addiction trends and drug use within the United States' major cities. Survey data was sourced from the American Addiction
+           Center, based on the percentage of users per city population surveyed."),
 
+        fluidRow(
+          box(leafletOutput("CityLatLon")))
       ),
       
       # Third tab content - info about VA counties' drug use, median incomes, and other categories
 
       tabItem(
         tabName = "virginiaTab",
-        h1(strong("Addiction in Virginia")),
+        h1(strong("Addiction in Virginia"))
       ),
 
       # Fourth tab content
 
       tabItem(
         tabName = "datasourcesTab",
-        h1(strong("Data Sources and Further Information")),
-      ),
+        h1(strong("Data Sources and Further Information"))
+      )
     )
   )
 )
