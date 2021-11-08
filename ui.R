@@ -4,7 +4,6 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 
-#CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
 dashboardPage(skin = "purple",
 
@@ -23,19 +22,6 @@ dashboardPage(skin = "purple",
 
   #Dashboard - main info and data
   dashboardBody(
-    fluidRow(
-      box(title = "Box title", "Box content"),
-      box()),
-        
-    fluidRow(
-      box(title = "Title 1", width = 4, solidHeader = TRUE, status = "primary", "Box content"),
-      box(title = "Title 2", width = 4, solidHeader = TRUE, "Box content"),
-      box(title = "Title 3", width = 4, solidHeader = TRUE, status = "warning", "Box content")),
-    
-    fluidRow(
-      box(width = 4, background = "black", "A box with a solid black background"),
-      box(title = "Title 5", width = 4, background = "light-blue", "A box with a solid light-blue background"),
-      box(title = "Title 6", width = 4, background = "maroon", "A box with a solid maroon background")),
 
     tabItems(
       #First tab content - info about drug addiction in the US and why we chose this topic
@@ -54,26 +40,8 @@ dashboardPage(skin = "purple",
 
       tabItem(
         tabName = "unitedstatesTab",
-        h1(strong("Addiction in the United States")),
-        h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction Center, based on the percentage of users per city population surveyed.")
-#        box(
-#          selectizeInput(
-#            "select",
-#            label = NULL,
-#            choices = c(
-#              "Select category...",
-#              "Top 5 Cities with Marijuana Use",
-#              "Top 5 Cities with Cocaine Use",
-#              "Top 5 Cities with Heroin Use",
-#              "Top 5 Cities with Meth Use"
-#            ),
-#            selected = "Select category...",
-#            multiple = FALSE,
-#            options = majorCities
-#          )
-#        ),
-#        leafletOutput(CityLatLon)
-      ),
+        h1(strong("Addiction in the United States"))),
+
       
       # Third tab content - info about VA counties' drug use, median incomes, and other categories
 
@@ -87,7 +55,7 @@ dashboardPage(skin = "purple",
       tabItem(
         tabName = "datasourcesTab",
         h1(strong("Data Sources and Further Information"))
-      ),
+      )
     )
   )
 )
