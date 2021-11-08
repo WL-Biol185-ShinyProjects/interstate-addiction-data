@@ -32,8 +32,6 @@ majorCities <- data.frame( lat = c(35.0844, 32.7357, 33.7490, 30.2672, 39.2904, 
                           , stringsAsFactors = FALSE
 )
 
-#stopped inputting city coordinates at Miami
-
 leaflet(data = majorCities) %>%
   addTiles() %>%
   addMarkers(popup = ~place)

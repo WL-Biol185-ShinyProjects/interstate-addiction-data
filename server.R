@@ -1,12 +1,14 @@
 library(shiny)
 library(shinydashboard)
 
-read.csv(CityLatLon, "rt")
+#CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
-function(input,output, session) {  
-  output$CityLatLon <- renderLeaflet({
-    leaflet(data = CityLatLon) %>%
-      addTiles() %>%
-      addMarkers(popup = ~place)})
+#function(input,output, session) {  
+#  output$CityLatLon <- renderLeaflet({
+#    leaflet(data = CityLatLon) %>%
+#      addTiles() %>%
+#      addMarkers(popup = ~place)})
   
-}
+#}
+  
+function(input, output, session) {}
