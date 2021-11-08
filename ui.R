@@ -4,7 +4,7 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 
-CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
+#CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
 dashboardPage(skin = "purple",
 
@@ -38,33 +38,56 @@ dashboardPage(skin = "purple",
       box(title = "Title 6", width = 4, background = "maroon", "A box with a solid maroon background")),
 
     tabItems(
-
       #First tab content - info about drug addiction in the US and why we chose this topic
-      tabItem(tabName = "backgroundTab",
-              h1(strong("Preliminary Information")), br(),
-              h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"), br(),
-              h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between"),
-                 align = "center"), br()),
+
+      tabItem(
+        tabName = "backgroundTab",
+        h1(strong("Preliminary Information")),
+        br(),
+        h1(strong("Welcome to our drug addiction statistics project"), style = "color: #2C69D2", align = "center"),
+        br(),
+        h4(("United States Drug addiction data was compiled from -. We used these datasets to visualize the relationships between"), align = "center"),
+        br()
+      ),
+
+      # Second tab content - info about US cities' drug use, death rates, and other categories
+
+      tabItem(
+        tabName = "unitedstatesTab",
+        h1(strong("Addiction in the United States")),
+        h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American Addiction Center, based on the percentage of users per city population surveyed.")
+#        box(
+#          selectizeInput(
+#            "select",
+#            label = NULL,
+#            choices = c(
+#              "Select category...",
+#              "Top 5 Cities with Marijuana Use",
+#              "Top 5 Cities with Cocaine Use",
+#              "Top 5 Cities with Heroin Use",
+#              "Top 5 Cities with Meth Use"
+#            ),
+#            selected = "Select category...",
+#            multiple = FALSE,
+#            options = majorCities
+#          )
+#        ),
+#        leafletOutput(CityLatLon)
+      ),
       
-      #Second tab content - info about US cities' drug use, death rates, and other categories
-      tabItem(tabName = "unitedstatesTab",
-              h1(strong("Addiction in the United States")),
-              h4("Addiction is a common problem in several of the United States' major cities. Survey data was sourced from the American
-              Addiction Center, based on the percentage of users per city population surveyed."),
-              box(
-                selectizeInput("select", label = NULL, choices = c("Select category...", "Top 5 Cities with Marijuana Use",
-                                                             "Top 5 Cities with Cocaine Use", "Top 5 Cities with Heroin Use",
-                                                             "Top 5 Cities with Meth Use"),
-                             selected = "Select category...", multiple = FALSE, options = majorCities)),
-              leafletOutput(CityLatLon)),
-      
-      #Third tab content - info about VA counties' drug use, median incomes, and other categories
-      tabItem(tabName = "virginiaTab",
-              h1(strong("Addiction in Virginia"))),
-      
-      #Fourth tab content
-      tabItem(tabName = "datasourcesTab",
-              h1(strong("Data Sources and Further Information"))),
+      # Third tab content - info about VA counties' drug use, median incomes, and other categories
+
+      tabItem(
+        tabName = "virginiaTab",
+        h1(strong("Addiction in Virginia"))
+      ),
+
+      # Fourth tab content
+
+      tabItem(
+        tabName = "datasourcesTab",
+        h1(strong("Data Sources and Further Information"))
+      ),
     )
   )
 )
