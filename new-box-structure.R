@@ -1,4 +1,0 @@
-fluidRow(
-  box(leafletOutput(""))
-)
-
