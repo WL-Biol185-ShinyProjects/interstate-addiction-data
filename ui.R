@@ -3,6 +3,7 @@
 library(shiny)
 library(shinydashboard)
 library(leaflet)
+library(ggplot2)
 
 dashboardPage(
   skin = "purple",
@@ -112,7 +113,13 @@ dashboardPage(
 
       tabItem(
         tabName = "virginiaTab",
-        h1(strong("Addiction in Virginia"))
+        h1(strong("Addiction in Virginia")),
+        
+        fluidRow(
+          box(
+            plotOutput("virginiaStatisticsGraph")
+        )
+        )
         
         #Insert VA heat tiles/chloropeth map to show all the counties
         #Counties with higher opioid death rates will be colored darker
