@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(leaflet)
 
 CityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 
