@@ -91,7 +91,7 @@ dashboardPage(
         
         fluidRow(
           box(
-            leafletOutput()
+            leafletOutput('myMap')
           )
         ),
         
