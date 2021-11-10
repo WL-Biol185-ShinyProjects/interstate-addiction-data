@@ -79,7 +79,7 @@ dashboardPage(
             )
           )
         )
-      ),
+      )),
 
       # Second tab content - info about US cities' drug use, death rates, and other categories
 
@@ -88,44 +88,64 @@ dashboardPage(
         h1(strong("Addiction in the United States")),
         h4("Addiction is a common problem in several of the United States' major cities. Check out the interactive map below to see addiction trends and drug use within the United States' major cities.", style= "font-size:20px;"),
         
-        selectizeInput("", label = "Compare US cities to see which cities use different drugs the most",
-                       choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
-                       selected = NULL,
-                       multiple = FALSE,
-                       width = 500,
-                       size = NULL),
+        fluidRow(
+          selectizeInput("", label = "Compare US cities to see which cities use different drugs the most",
+                        choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
+                        selected = NULL,
+                        multiple = FALSE,
+                        width = 500,
+                        size = NULL)),
+#            leafletOutput('myMap'))),
+        br(),
         
         #Clicking on city's pin will show city's drug stats to the right of the map
-        
-#        fluidRow(
-#          box(
-#            leafletOutput('myMap')),
-          
-#        ),
 
-        selectizeInput("", label = "Compare drug use trends within each of the 50 US states",
-                       choices = c("Select a state...", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-                                   "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-                                   "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-                                   "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"),
-                       selected = NULL,
-                       multiple = FALSE,
-                       width = 500,
-                       size = NULL),
-                       
-        #Insert ggplot line graph that shows the selected (selectizeInput) states' trend over the years
-        #Insert text box to the right of ggplot trend graph - shows whether state has experienced an increase, decrease, or stayed the same based on the data set values
-            #Want the output to say "___ has seen a significant increase in drug use in the last 20 years"
+        fluidRow(
+          selectizeInput("", label = "Compare drug use trends within each of the 50 US states",
+                        choices = c("Select a state...", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+                                    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                                    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+                                    "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"),
+                        selected = NULL,
+                        multiple = FALSE,
+                        width = 500,
+                        size = NULL)),
+#            plotOutput(), - insert ggplot line graph that shows the selected states' trend over the years
+          br(),
         
-        #insert dropdown for US states' death rates - ggplot
+        fluidRow(
+          #ggplot point graph - hover over each states' data point to see exact number; x-axis is state abbreviation; y-axis is # 2019 deaths;
+          selectizeInput("", label = "Drug-related death rates in each US state in 2019",
+                         choices = c("Select a state...", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+                                     "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                                     "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+                                     "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"),
+                         selected = NULL,
+                         multiple = NULL,
+                         width = 500,
+                         size = NULL),
+          box(
+            title = "SELECTED STATE'S drug use trends over X YEARS",
+            width = 6,
+            solidHeader = TRUE,
+            "___ has seen a sig incr/decr/no change in drug use in the last X years")),
 
-        #Insert ggplot graph using reporting rates per state data set - static graph
-            #Make y-axis = years ... adjust y-axis if only using reporting data from 1 year
-            #Make x-axis = percentage reported (50%, 75%, 100%)
-            #Each data point can be clicked on to show the state's name and exact percentage
+        fluidRow(
+          box(
+            selectizeInput("", label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
+                           choices = c("Select a state...", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+                                       "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                                       "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+                                       "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"),
+                           selected = NULL,
+                           multiple = NULL,
+                           width = 500,
+                           size = NULL)
+#            plotOutput(), - insert ggplot - x-axis = MonthYear, y-axis = % reported
+        )),
         
         h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
-      ),
+      )),
 
       # Third tab content - info about VA counties' drug use, median incomes, and other categories
 
@@ -155,8 +175,5 @@ dashboardPage(
 
       tabItem(
         tabName = "datasourcesTab",
-        h1(strong("Data Sources and Further Information"))
-      )
-    )
-  )
+        h1(strong("Data Sources and Further Information")))
 )
