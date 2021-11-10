@@ -11,4 +11,8 @@ library(shinydashboard)
   
 #}
   
-function(input, output, session) {}
+function(input, output, session) {
+  leaflet(data = majorCities) %>%
+    addTiles() %>%
+    addMarkers(popup = ~place)
+}
