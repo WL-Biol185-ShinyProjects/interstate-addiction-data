@@ -1,3 +1,4 @@
 fluidRow(
   box(leafletOutput(""))
 )
+
