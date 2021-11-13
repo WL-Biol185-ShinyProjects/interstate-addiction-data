@@ -63,7 +63,7 @@ dashboardPage(
               title = "Types of Drugs",
               width = 4,
               solidHeader = TRUE,
-              "Types of drugs infographic"
+              img(src = "Common-Drugs.png", height = 50, width = 50),
             ),
             box(
               title = "Drug Use Trends from xYear to xYear",
@@ -171,7 +171,7 @@ dashboardPage(
             title = "SELECTED STATE'S drug use trends over X YEARS",
             width = 4,
             solidHeader = TRUE,
-            "___ has seen a sig incr/decr/no change in drug use in the last X years"
+            "___ has seen a significant incr/decr/no change in drug use in the last X years"
           )
         ),
         fluidRow(
