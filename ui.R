@@ -196,24 +196,11 @@ dashboardPage(
         fluidRow(
           box(
             selectInput("locality", label = "Select a VA locality to view the number of opioid deaths per year",
-                           choices = c("Select a locality...", "Accomack County", "Albemarle County", "Alexandria City", "Alleghany County", "Amelia County", "Amherst County", "Appomattox County", "Arlington County", 
-                                       "Augusta County", "Bath County", "Bedford City", "Bedford County", "Bland County", "Botetourt County", "Bristol City", "Brunswick County", "Buchanan County", 
-                                       "Buckingham County", "Buena Vista City", "Campbell County", "Caroline County", "Carroll County", "Charles City County", "Charlotte County", "Charlottesville City", 
-                                       "Chesapeake City", "Chesterfield County", "Clarke County", "Colonial Heights City", "Covington City", "Craig County", "Culpeper County", "Cumberland County", "Danville City", 
-                                       "Dickenson County", "Dinwiddie County", "Emporia City", "Essex County", "Fairfax City", "Fairfax County", "Falls Church City", "Fauquier County", "Floyd County", "Fluvanna County", 
-                                       "Franklin City", "Franklin County", "Frederick County", "Fredericksburg City", "Galax City", "Giles County", "Gloucester County", "Goochland County", "Grayson County","Greene_County",
-                                       "Greensville County", "Halifax County", "Hampton City", "Hanover County", "Harrisonburg City", "Henrico County", "Henry County", "Highland County", "Hopewell City", "Isle of Wight County",
-                                       "James City County", "King and Queen County", "King George County", "King William County", "Lancaster County", "Lee County", "Lexington City", "Loudoun County", "Louisa County", 
-                                       "Lunenburg County", "Lynchburg City", "Madison County", "Manassas City", "Manassas Park City", "Martinsville City", "Mathews County", "Mecklenburg County", "Middlesex County",
-                                       "Montgomery County", "Nelson County", "New Kent County", "Newport News City", "Norfolk City", "Northampton County", "Northumberland County", "Norton City", "Nottoway County", "Orange County",
-                                       "Page County", "Patrick County", "Petersburg City", "Pittsylvania_County", "Poquoson City", "Portsmouth City", "Powhatan County", "Prince Edward County", "Prince George County", "Prince William County",
-                                       "Pulaski County", "Radford City", "Rappahannock County", "Richmond City", "Richmond County", "Roanoke City", "Roanoke County", "Rockbridge County", "Rockingham County", "Russell County", "Salem City",
-                                       "Scott County", "Shenandoah County", "Smyth County", "Southampton County", "Spotsylvania County", "Stafford County", "Staunton City", "Suffolk City", "Surry County", "Sussex County", "Tazewell County", 
-                                       "Virginia Beach City", "Warren County", "Washington County", "Waynesboro City", "Westmoreland County", "Williamsburg City", "Winchester City", "Wise County", "Wythe County", "York County", "Total"),
+                           choices = c(colnames(virginiaStatistics),
                            selected = NULL,
                            multiple = FALSE,
                            width = 500,
-                           size = NULL),
+                           size = NULL)),
             plotOutput("virginiaStatisticsGraph")
           )
         )
