@@ -29,7 +29,7 @@ dashboardPage(
 
       tabItem(
         tabName = "backgroundTab",
-        h1(strong("Preliminary Information")),
+        h1(strong("Background Information")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:25px;", align = "center"),
         br(),
         fluidRow(
@@ -57,11 +57,8 @@ dashboardPage(
           br(),
           fluidRow(
             box(
-              title = "Types of Drugs",
               width = 4,
-              solidHeader = TRUE,
-              "this won't run lol"),
-              #img(src = "Common-Drugs.png", height = 50, width = 50),
+              img(src = "Common-Drugs.png", height = 250, width = 300)),
             box(
               title = "Drug Use Trends from xYear to xYear",
               width = 4,
@@ -181,33 +178,34 @@ dashboardPage(
           )
         )
       ),
-          
+      
+      #Insert VA heat tiles/chloropeth map to show all the counties
+      #Counties with higher opioid death rates will be colored darker
+      #Hovering over the county's outline will show you the county's number of deaths (as per the data set)
+      #Infographic to the right of the heat tiles/chloropeth map?
+      #Insert text box suggesting a link between drug use and poverty/median income
+      #Insert ggplot trend line graph comparing county income vs. opioid use/death rates
+      
       tabItem(
         tabName = "datasourcesTab",
-        h1(strong("Data Sources and Further Information"))
+        h1(strong("Data Sources and Further Information")),
+        h4("Data regarding Virginia's opioid statistics by county were sourced from:"),
+        h4("https://www.vdh.virginia.gov/medical-examiner/forensic-epidemiology/", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding Virginia's median household income were sourced from:"),
+        h4("https://fred.stlouisfed.org/release/tables?eid=268980&rid=175", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding states' drug overdose reporting rates and quality levels were sourced from:"),
+        h4("https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding states' total drug overdose deaths from 2019 were sourced from:"),
+        h4("https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding the surveillance of emergency room visits involving drug overdoses were sourced from:"),
+        h4("https://www.cdc.gov/drugoverdose/nonfatal/all-drugs.html", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding provisional drug overdose death counts was sourced from:"),
+        h4("https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding overdose-related deaths from 1999 to 2019 were sourced from:"),
+        h4("https://www.drugabuse.gov/drug-topics/trends-statistics/overdose-death-rates", style = "color: #04D4F0", align = "center"),
+        h4("Data regarding major cities' substance use estimates were sourced from:"),
+        h4("https://americanaddictioncenters.org/learn/substance-abuse-by-city/", style = "color: #04D4F0", align = "center")
       )
-      
-        # Insert VA heat tiles/chloropeth map to show all the counties
-        # Counties with higher opioid death rates will be colored darker
-        # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-
-        # Infographic to the right of the heat tiles/chloropeth map
-
-        # Insert text box with description/short info about the possible link between drug use and median income/poverty
-
-        # Insert ggplot trend line graph comparing county income vs. opioid use/death rate - IN PROGRESS
-
-      #tabItem(
-      #  tabName = "datasourcesTab",
-      #  h1(strong("Data Sources and Further Information")),
-      #  h5("Virginia opioid statistics by county were sourced from https://www.vdh.virginia.gov/medical-examiner/forensic-epidemiology/"),
-      #  h5("Virginia median household income data was sourced from https://fred.stlouisfed.org/release/tables?eid=268980&rid=175"),
-      #  h5("States' drug overdose reporting rates and quality levels data was sourced from https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"),
-      #  h5("States' total drug overdose deaths from 2019 were sourced from https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"),
-      #  h5("Data regarding the surveillance of emergency room visits involving drug overdoses was sourced from https://www.cdc.gov/drugoverdose/nonfatal/all-drugs.html"),
-      # h5("Data regarding provisional drug overdose death counts was sourced from https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"),
-      #  h5("Overdose-related deaths from 1999 to 2019 were sourced from https://www.drugabuse.gov/drug-topics/trends-statistics/overdose-death-rates"),
-      #  h5("Major cities' substance use estimates were sourced from https://americanaddictioncenters.org/learn/substance-abuse-by-city/"))
     )
   )
 )
