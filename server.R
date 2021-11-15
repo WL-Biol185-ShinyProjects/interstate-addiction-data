@@ -13,14 +13,18 @@ virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", head
 #      addMarkers(popup = ~place)})
   
 #}
-  
+
 function(input, output, session) {
   leaflet(data = CityLatLon) %>%
     addTiles() %>%
     addMarkers(popup = ~place)
 
   output$virginiaStatisticsGraph <- renderPlot ({
+<<<<<<< HEAD
     ggplot(virginiaStatistics, aes(Year, Accomack_County)) + geom_bar(stat = 'identity', fill = "#572EFD") + theme(axis.text.x= element_text(angle = 60, hjust = 1))
     
+=======
+    ggplot(virginiaStatistics, aes(Year, Charlottesville_City)) + geom_bar(stat = 'identity', fill = "#572EFD") + theme(axis.text.x= element_text(angle = 60, hjust = 1))
+>>>>>>> 796f74a61c3a7a5c901b688ebe6e3416dafe0321
   })
-  }
+}
