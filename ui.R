@@ -5,6 +5,8 @@ library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
+virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
+
 dashboardPage(
   skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -174,6 +176,12 @@ dashboardPage(
         h1(strong("Addiction in Virginia")),
         fluidRow(
           box(
+            selectInput("locality", label = "Select a VA locality to view the number of opioid deaths per year",
+                           choices = c(colnames(virginiaStatistics),
+                           selected = NULL,
+                           multiple = FALSE,
+                           width = 500,
+                           size = NULL)),
             plotOutput("virginiaStatisticsGraph")
           )
         )
