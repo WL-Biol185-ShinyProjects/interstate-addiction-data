@@ -16,15 +16,17 @@ virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", head
 #}
 
 function(input, output, session) {
-  leaflet(data = CityLatLon) %>%
-    addTiles() %>%
-    addMarkers(popup = ~place)
-  
-  output$virginiaStatisticsGraph <- renderPlot ({
-    
-    locality <- input$locality
 
+#I think we need to call the renderLeaflet function somewhere in this blurb
+  
+  leaflet(
+    data = CityLatLon) %>%
+    addTiles() %>%
+    addMarkers(popup = ~place
+  )
+
+  output$virginiaStatisticsGraph <- renderPlot ({
+    locality <- input$locality
     ggplot(virginiaStatistics, aes(Year, locality)) + geom_bar(stat = 'identity', fill = "#572EFD") + theme(axis.text.x= element_text(angle = 60, hjust = 1))
-    
   })
 }
