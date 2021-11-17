@@ -97,8 +97,8 @@ dashboardPage(
               selectize = FALSE,
               width = 500,
               size = NULL),
-            "insert leaflet map under this dropdown menu",
-            leafletOutput(CityLatLon)
+            "insert leaflet map under this dropdown menu"
+#            leafletOutput(CityLatLon)
             ),
           box(
             icon = NULL,
