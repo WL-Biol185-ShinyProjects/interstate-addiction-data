@@ -22,8 +22,6 @@ function(input, output, session) {
   
   output$virginiaStatisticsGraph <- renderPlot ({
     
-    locality <- input$locality
-
     ggplot(virginiaStatistics, aes(Year, Accomack_County)) + geom_bar(stat = 'identity', fill = "#572EFD") + theme(axis.text.x= element_text(angle = 60, hjust = 1))
     
   })
