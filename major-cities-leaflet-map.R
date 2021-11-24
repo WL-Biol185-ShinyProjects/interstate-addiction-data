@@ -34,4 +34,3 @@ myMap <- data.frame(lat = c(35.0844, 32.7357, 33.7490, 30.2672, 39.2904, 42.3601
 leaflet(data = myMap) %>%
   addTiles() %>%
   addMarkers(popup = ~place)
-

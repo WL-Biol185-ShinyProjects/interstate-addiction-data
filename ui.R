@@ -27,14 +27,13 @@ dashboardPage(
 
   dashboardBody(
     tabItems(
-      
-      #IDEA - make a solid-color, long text column (width = 4) with a 2x2 of boxes that have info/graphs in them
-      #use the long text column to expand upon what drug addiction is, why we chose the idea, etc.
+      # IDEA - make a solid-color, long text column (width = 4) with a 2x2 of boxes that have info/graphs in them
+      # use the long text column to expand upon what drug addiction is, why we chose the idea, etc.
 
       tabItem(
         tabName = "backgroundTab",
-        h1(strong("Background Information")),
-        h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:25px;", align = "center"),
+        h1(strong("BACKGROUND INFORMATION")),
+        h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
         br(),
         fluidRow(
           box(
@@ -43,49 +42,58 @@ dashboardPage(
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "On average, 38% of US adults battled an illegal drug use disorder each year"),
+            "On average, 38% of US adults battled an illegal drug use disorder each year"
+          ),
           box(
             icon("search-dollar", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"),
+            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"
+          ),
           box(
             icon("tablets", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine.")
+            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine."
+          )
         ),
         br(),
         fluidRow(
           box(
             width = 4,
-            img(src = "Common-Drugs.png", height = 250, width = 300)),
-          box(
-            title = "Drug Use Trends from xYear to xYear",
-            width = 4,
-            solidHeader = TRUE,
-            "ggplot trend line showing increase in drug use over the last 50 years"),
+            img(src = "Common-Drugs.png", height = 250, width = 300)
+          ),
+          ggplot(virginiaStatistics),
+          #box(
+          #  ggplot(virginiaStatistics),
+          #  title = "Drug Use Trends from xYear to xYear",
+          #  width = 4,
+          #  solidHeader = TRUE
+          #  # "ggplot trend line showing increase in drug use over the last 50 years"
+          #),
           box(
             title = "% Addicts receiving treatment",
             width = 4,
             solidHeader = 4,
-            "ggplot percent of addicts receiving treatment vs. admitted to ER?")
+            "ggplot percent of addicts receiving treatment vs. admitted to ER?"
+          )
         )
       ),
 
       tabItem(
         tabName = "unitedstatesTab",
-        h1(strong("Addiction in the United States")),
-        h4("Addiction is a common problem in several of the United States' major cities. Check out the interactives below to see addiction trends and drug use within the United States' major cities.", style = "font-size:20px;"),
+        h1(strong("ADDICTION IN THE UNITED STATES")),
+        h4("Addiction is a common problem in several of the United States' major cities. Check out the interactives below to see addiction trends and drug use within the United States' major cities.", style = "font-size:20px"),
+        br(),
         fluidRow(
           box(
             icon = NULL,
-            width = 8,
-            height = 110,
+            # width = 8,
+            # height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -96,10 +104,21 @@ dashboardPage(
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
-              size = NULL),
-            "insert leaflet map under this dropdown menu"
-#            leafletOutput(CityLatLon)
+              size = NULL
             ),
+
+            # "insert leaflet map under this dropdown menu"
+
+            # leafletOutput(CityLatLon)
+
+            # leaflet(data = CityLatLon) %>%
+            # setView(lng = -79.442778, lat = 37.783889, zoom = 12) %>%
+            # addTiles()
+
+            leaflet(data = CityLatLon) %>% 
+            addTiles() %>% 
+            addMarkers(popup = ~place)
+          ),
           box(
             icon = NULL,
             width = 4,
@@ -107,6 +126,7 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             "make this box data-dependent, where based on the state's data, it'll show [state name] centered above a pie chart with the city's drug stats"
+            #major cities data set
           )
         ),
         br(),
@@ -124,8 +144,10 @@ dashboardPage(
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
-              size = NULL),
+              size = NULL
+            ),
             "plotOutput() - insert ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear"
+            #drug overdose deaths per state data set and VSRR provisional drug overdose data set
           )
         ),
         br(),
@@ -144,8 +166,10 @@ dashboardPage(
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
-              size = NULL),
+              size = NULL
+            ),
             "insert ggplot scatterplot that will plot state abbrev. vs. number of 2019 deaths (y-axis); goal is to hover over a data point and have a pop-up text box tell you the exact number of deaths"
+            #2019 drug overdose deaths per state data set
           ),
           box(
             icon = NULL,
@@ -153,7 +177,9 @@ dashboardPage(
             height = 110,
             status = "primary",
             style = "font-size:16px;",
-            "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'")
+            "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
+            #surveillance of ER visit trends data set
+          )
         ),
         br(),
         fluidRow(
@@ -173,37 +199,39 @@ dashboardPage(
               width = 500,
               size = NULL),
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
+            #reporting rates and quality per states data set
           )
         )
-#        h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
+        # h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
       ),
       
       tabItem(
         tabName = "virginiaTab",
-        h1(strong("Addiction in Virginia")),
+        h1(strong("ADDICTION IN VIRGINIA")),
         fluidRow(
           box(
-            selectInput("locality", label = "Select a VA locality to view the number of opioid deaths per year",
-                           choices = c(colnames(virginiaStatistics),
-                           selected = NULL,
-                           multiple = FALSE,
-                           width = 500,
-                           size = NULL)),
-            plotOutput("virginiaStatisticsGraph")
+            selectInput(
+              "locality",
+              label = "Select a VA locality to view the number of opioid deaths per year",
+              choices = c(colnames(virginiaStatistics), selected = NULL, multiple = FALSE, width = 500, size = NULL)
+            ),
+            plotOutput("virginiaStatistics")
           )
         )
       ),
-      
-      #Insert VA heat tiles/chloropeth map to show all the counties
-      #Counties with higher opioid death rates will be colored darker
-      #Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-      #Infographic to the right of the heat tiles/chloropeth map?
-      #Insert text box suggesting a link between drug use and poverty/median income
-      #Insert ggplot trend line graph comparing county income vs. opioid use/death rates
-      
+
+      # Insert VA heat tiles/chloropeth map to show all the counties
+      # Counties with higher opioid death rates will be colored darker
+      # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
+      # Infographic to the right of the heat tiles/chloropeth map?
+      # Insert text box suggesting a link between drug use and poverty/median income
+      # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
+
       tabItem(
         tabName = "datasourcesTab",
+        align = "center",
         h1(strong("Data Sources and Further Information")),
+        br(),
         br(),
         a(
           "VIRGINIA'S OPIOID STATISTICS BY COUNTY",
@@ -212,12 +240,14 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
         br(),
+        br(),
         a(
           "VIRGINIA'S MEDIAN HOUSEHOLD INCOME",
           href = "https://fred.stlouisfed.org/release/tables?eid=268980&rid=175",
           target = "_blank",
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
+        br(),
         br(),
         a(
           "STATES' DRUG OVERDOSE REPORTING RATES AND QUALITY LEVELS",
@@ -226,12 +256,14 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
         br(),
+        br(),
         a(
           "STATES' TOTAL DRUG OVERDOES DEATHS FROM 2019",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
+        br(),
         br(),
         a(
           "THE SURVEILLANCE OF EMERGENCY ROOM VISITS INVOLVING DRUG OVERDOSES",
@@ -240,12 +272,14 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
         br(),
+        br(),
         a(
           "PROVISIONAL DRUG OVERDOES DEATH COUNTS",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
+        br(),
         br(),
         a(
           "OVERDOSE-RELATED DEATHS FROM 1999 to 2019",
@@ -254,6 +288,7 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         ),
         br(),
+        br(),
         a(
           "MAJOR CITIES' SUBSTANCE USE ESTIMATES",
           href = "https://americanaddictioncenters.org/learn/substance-abuse-by-city/",
@@ -261,6 +296,6 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         )
       )
-)
-)
+    )
+  )
 )
