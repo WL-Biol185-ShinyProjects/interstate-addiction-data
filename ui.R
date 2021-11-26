@@ -42,7 +42,7 @@ dashboardPage(
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "On average, 38% of US adults battled an illegal drug use disorder each year"
+            "On average, 38% of US adults battle an illegal drug use disorder each year"
           ),
           box(
             icon("search-dollar", class = NULL, lib = "font-awesome"),
@@ -58,7 +58,7 @@ dashboardPage(
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "The drugs most commonly associated with overdose include: fentanyl, heroin, cocaine, opioids, and methamphetamine."
+            "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
           )
         ),
         br(),
@@ -67,19 +67,20 @@ dashboardPage(
             width = 4,
             img(src = "Common-Drugs.png", height = 250, width = 300)
           ),
-          ggplot(virginiaStatistics),
-          #box(
-          #  ggplot(virginiaStatistics),
-          #  title = "Drug Use Trends from xYear to xYear",
-          #  width = 4,
-          #  solidHeader = TRUE
-          #  # "ggplot trend line showing increase in drug use over the last 50 years"
-          #),
+          box(
+            title = "Drug Use Trends from xYear to xYear",
+            width = 4,
+            solidHeader = TRUE
+            # "ggplot trend line showing increase in drug use over the last 50 years"
+            # ggplot(virginiaStatistics),
+            # might end up removing this box and reformatting to fit page
+          ),
           box(
             title = "% Addicts receiving treatment",
             width = 4,
             solidHeader = 4,
             "ggplot percent of addicts receiving treatment vs. admitted to ER?"
+            # might end up removing this box and adding a blurb with the reason we chose this topic
           )
         )
       ),
@@ -99,35 +100,26 @@ dashboardPage(
             selectInput(
               inputId = "",
               label = "Compare US cities to see which cities use different drugs the most",
-              choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
+              choices = c("Select a category..." = "",
+                          "Top 5 Marijuana Use"  = "marijuana_5",
+                          "Top 5 Cocaine Use"    = "cocaine_5",
+                          "Top 5 Heroin Use"     = "heroin_5",
+                          "Top 5 Meth Use"       = "meth_5"),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
               size = NULL
-            ),
-
-            # "insert leaflet map under this dropdown menu"
-
-            # leafletOutput(CityLatLon)
-
+            )
+          ),
+            
             # leaflet(data = CityLatLon) %>%
             # setView(lng = -79.442778, lat = 37.783889, zoom = 12) %>%
             # addTiles()
 
             leaflet(data = CityLatLon) %>% 
-            addTiles() %>% 
+            addTiles() %>%
             addMarkers(popup = ~place)
-          ),
-          box(
-            icon = NULL,
-            width = 4,
-            height = 110,
-            status = "primary",
-            style = "font-size:16px;",
-            "make this box data-dependent, where based on the state's data, it'll show [state name] centered above a pie chart with the city's drug stats"
-            #major cities data set
-          )
         ),
         br(),
         fluidRow(
