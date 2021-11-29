@@ -98,8 +98,8 @@ dashboardPage(
               selectize = FALSE,
               width = 500,
               size = NULL),
-            "insert leaflet map under this dropdown menu",
-            leafletOutput(CityLatLon)
+            "insert leaflet map under this dropdown menu"
+            # leafletOutput(CityLatLon)
             ),
           box(
             icon = NULL,
@@ -184,15 +184,12 @@ dashboardPage(
         h1(strong("Addiction in Virginia")),
         fluidRow(
           box(
-            selectInput("locality", label = "Select a VA locality to view the number of opioid deaths per year",
-                           choices = c(colnames(virginiaStatistics)),
-                           selected = NULL,
-                           multiple = FALSE,
-                           width = 500,
-                           size = NULL)),
-            plotOutput("virginiaStatisticsGraph")
+            selectInput(inputId = "location",
+                        label = "Choose a Virginia locality",
+                        list("Accomack_County","Albemarle_County","Alexandria_City","Alleghany_County","Amelia_County","Amherst_County","Appomattox_County","Arlington_County","Augusta_County","Bath_County","Bedford_City","Bedford_County","Bland_County","Botetourt_County","Bristol_City","Brunswick_County","Buchanan_County","Buckingham_County","Buena_Vista_City","Campbell_County","Caroline_County","Carroll_County","Charles_City_County","Charlotte_County","Charlottesville_City","Chesapeake_City","Chesterfield_County","Clarke_County","Colonial_Heights_City","Covington_City","Craig_County","Culpeper_County","Cumberland_County","Danville_City","Dickenson_County","Dinwiddie_County","Emporia_City","Essex_County","Fairfax_City","Fairfax_County","Falls_Church_City","Fauquier_County","Floyd_County","Fluvanna_County","Franklin_City","Franklin_County","Frederick_County","Fredericksburg_City","Galax_City","Giles_County","Gloucester_County","Goochland_County","Grayson_County","Greene_County","Greensville_County","Halifax_County","Hampton_City","Hanover_County","Harrisonburg_City","Henrico_County","Henry_County","Highland_County","Hopewell_City","Isle_of_Wight_County","James_City_County","King_and_Queen_County","King_George_County","King_William_County","Lancaster_County","Lee_County","Lexington_City","Loudoun_County","Louisa_County","Lunenburg_County","Lynchburg_City","Madison_County","Manassas_City","Manassas_Park_City","Martinsville_City","Mathews_County","Mecklenburg_County","Middlesex_County","Montgomery_County","Nelson_County","New_Kent_County","Newport_News_City","Norfolk_City","Northampton_County","Northumberland_County","Norton_City","Nottoway_County","Orange_County","Page_County","Patrick_County","Petersburg_City","Pittsylvania_County","Poquoson_City","Portsmouth_City","Powhatan_County","Prince_Edward_County","Prince_George_County","Prince_William_County","Pulaski_County","Radford_City","Rappahannock_County","Richmond_City","Richmond_County","Roanoke_City","Roanoke_County","Rockbridge_County","Rockingham_County","Russell_County","Salem_City","Scott_County","Shenandoah_County","Smyth_County","Southampton_County","Spotsylvania_County","Stafford_County","Staunton_City","Suffolk_City","Surry_County","Sussex_County","Tazewell_County","Virginia_Beach_City","Warren_County","Washington_County","Waynesboro_City","Westmoreland_County","Williamsburg_City","Winchester_City","Wise_County","Wythe_County","York_County","Out_of_State","Unknown","Total")),
+            plotOutput("fatalitiesPlot")
           )
-        ),
+        )),
       
       #Insert VA heat tiles/chloropeth map to show all the counties
       #Counties with higher opioid death rates will be colored darker
