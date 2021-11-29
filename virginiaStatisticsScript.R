@@ -1,28 +1,12 @@
-library(lubridate)
 library(tidyverse)
 
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 
-tables <- lapply(virginiaStatistics, function(table) {
+vaStatisticsTidy <- gather(virginiaStatistics,
+       key = "Year",
+       value = "Deaths",
+       2:17)
 
-names(virginiaStatistics) <- lapply(virginiaStatistics[1, ], as.character)
+vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 
 
-tidyTable <- gather(virginiaStatistics[1:16],
-                    key = "year",
-                    value = "deaths",
-                    2:16) %>%
-            rename(Locality = "Locality")
-            filter(!is.na(deaths)) %>%
-            mutate(Year = as.numeric(year)) %>%
-            select(-(year))
-
-tidyTable <- tidyTable %>%
-  mutate(fatalities = as.numeric(deaths)) %>%
-  select(-(deaths))
-
-tidyTable
-}
-)
-
-table1 <- tables[[1]]
