@@ -5,7 +5,10 @@ library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
-vaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
+# files sourced
+
+source("virginiaStatisticsScript.R")
+
 
 dashboardPage(
   skin = "purple",
@@ -203,14 +206,16 @@ dashboardPage(
             status = "primary",
             selectInput(
               inputId = "locality",
-              label = "Select a Virginia locality to view the number of opioid deaths per year",
-              choices = c(colnames(vaStatistics), selected = NULL, multiple = FALSE, width = 500, size = NULL)
+              label = "Select a locality in Virginia",
+              choices = unique(vaStatisticsTidy$Locality),
+              multiple = FALSE,
+              selected = "Accomack County"
             ),
+            plotOutput(outputId = "virginiaDeathsPlot")
+          ),
 
             ## Need a server function to show the opioid deaths per year for the selected locality.
 
-            plotOutput("localityOpioidDeaths")
-          ),
           box(
             title = strong("Why Virginia?"), style = "font-size:18px;",
             icon("question-circle-o", class = NULL, lib = "font-awesome"),
@@ -243,7 +248,8 @@ dashboardPage(
             height = 550,
             status= "primary",
             style = "font-size:16px;",
-            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While there are several social factors that influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason for people turning to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
+            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While there are several social factors that influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason for people turning to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."#,
+            # selectInput(inputId = "locality")
           )
         )
       ),
@@ -254,6 +260,7 @@ dashboardPage(
       # Infographic to the right of the heat tiles/chloropeth map?
       # Insert text box suggesting a link between drug use and poverty/median income
       # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
+
 
       tabItem(
         tabName = "datasourcesTab",
