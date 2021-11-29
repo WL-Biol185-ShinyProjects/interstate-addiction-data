@@ -3,24 +3,24 @@ library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
+source("virginiaStatisticsScript.R")
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
-vaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 
 
 ## The following gets the top five substances in descending order.
 
-marijuanaTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Marijuana),][1:5,]
-cocaineTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Cocaine),][1:5,]
-heroinTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Heroin),][1:5,]
-methTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Meth),][1:5,]
+# marijuanaTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Marijuana),][1:5,]
+# cocaineTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Cocaine),][1:5,]
+# heroinTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Heroin),][1:5,]
+# methTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Meth),][1:5,]
 
 ## Since lat/lon is not in the substances data we need to merge it with the cityLatLon data.
 
-marijuanaLatLon <- merge(marijuanaTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# marijuanaLatLon <- merge(marijuanaTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
@@ -61,23 +61,11 @@ function(input, output, session) {
 
   })
   
-  #data <- reactive({
-   # req(input$locality_choose)
-  #  df <- virginiaStatistics %>% filter(locality %in% input$locality_choose)
-  #  %>% group_by(Year)})
-  
- # output$plot <- renderPlot ({
-  #  g <- ggplot(df, aes(y = locality, x = Year))
-   # g + geom_bar(stat = "identity")
-  # })
-  
-  output$fatalitiesPlot <- renderPlot({
-    df <- virginiaStatistics[[input$location]]
-    ggplot(df, aes(Year, Locality)) +
-      geom_line() +
-      geom_point() +
-      xlab("Year") +
-      ylab("Locality")
+
+  output$virginiaDeathsPlot <- renderPlot ({
+    df <- vaStatisticsTidy %>%
+      filter(Locality %in% input$locality)
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
   })
   
 }
