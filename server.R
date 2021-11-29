@@ -3,23 +3,24 @@ library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
+source("virginiaStatisticsScript.R")
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
-vaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
+
 
 ## The following gets the top five substances in descending order.
 
-marijuanaTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Marijuana),][1:5,]
-cocaineTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Cocaine),][1:5,]
-heroinTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Heroin),][1:5,]
-methTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Meth),][1:5,]
+# marijuanaTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Marijuana),][1:5,]
+# cocaineTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Cocaine),][1:5,]
+# heroinTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Heroin),][1:5,]
+# methTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Meth),][1:5,]
 
 ## Since lat/lon is not in the substances data we need to merge it with the cityLatLon data.
 
-marijuanaLatLon <- merge(marijuanaTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# marijuanaLatLon <- merge(marijuanaTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+# methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
@@ -50,38 +51,21 @@ function(input, output, session) {
     }
   })
 
-  output$drugUseTrendsPlot <- renderPlot({
-    # Add ggplot to display drug use trend data.
-
-    ggplot()
-  })
-
-  output$localityOpioidDeaths <- renderPlot({
-    # Add ggplot to display locality opioid deaths.
+#I think we need to call the renderLeaflet function somewhere in this blurb
+  
+  output$CityLatLon <- renderLeaflet({
     
-    ggplot()
-  })
-}
+  leaflet(data = CityLatLon) %>%
+    addTiles() %>%
+    addMarkers(popup = ~place)
 
-# output$virginiaStatisticsGraph <- renderPlot (
-#function(input, output, session) {
-#  leaflet(data = methLatLon) %>% 
-#    addTiles() %>%
-#    addMarkers(popup = ~City_State)
-#
-#  output$vaStatistics <- renderPlot(
-#    {
-#      ggplot(
-#        vaStatistics,
-#        aes(Year, Accomack_County)
-#      ) +
-#      geom_bar(
-#        stat = 'identity',
-#        fill = "#572EFD"
-#      ) +
-#      theme(
-#        axis.text.x = element_text(angle = 60, hjust = 1)
-#      )
-#    }
-#  )
-#}
+  })
+  
+
+  output$virginiaDeathsPlot <- renderPlot ({
+    df <- vaStatisticsTidy %>%
+      filter(Locality %in% input$locality)
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
+  })
+  
+}
