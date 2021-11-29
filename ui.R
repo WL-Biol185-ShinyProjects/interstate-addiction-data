@@ -5,7 +5,7 @@ library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
-virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
+vaStatistics <- read.csv("Dataset-CSV-files/VAstatisticsCleaned.csv", header = TRUE)
 
 dashboardPage(
   skin = "purple",
@@ -42,7 +42,7 @@ dashboardPage(
             height = 160,
             status = "primary",
             style = "font-size:20px;",
-            "On average, 38% of US adults battle an illegal drug use disorder each year"
+            "On average, 38% of US adults battle an illegal drug use disorder each year."
           ),
           box(
             icon("search-dollar", class = NULL, lib = "font-awesome"),
@@ -98,13 +98,9 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "",
+              inputId = "topFiveCategory",
               label = "Compare US cities to see which cities use different drugs the most",
-              choices = c("Select a category..." = "",
-                          "Top 5 Marijuana Use"  = "marijuana_5",
-                          "Top 5 Cocaine Use"    = "cocaine_5",
-                          "Top 5 Heroin Use"     = "heroin_5",
-                          "Top 5 Meth Use"       = "meth_5"),
+              choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
@@ -112,14 +108,11 @@ dashboardPage(
               size = NULL
             )
           ),
-            
-            # leaflet(data = CityLatLon) %>%
-            # setView(lng = -79.442778, lat = 37.783889, zoom = 12) %>%
-            # addTiles()
 
-            leaflet(data = CityLatLon) %>% 
-            addTiles() %>%
-            addMarkers(popup = ~place)
+          ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
+          ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
+
+          leafletOutput("topFiveMap")
         ),
         br(),
         fluidRow(
@@ -130,7 +123,7 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "",
+              inputId = "drugUseTrends",
               label = "Compare drug use trends within each of the 50 US states",
               choices = c("Select a state...", state.name),
               multiple = FALSE,
@@ -138,8 +131,12 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-            "plotOutput() - insert ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear"
-            #drug overdose deaths per state data set and VSRR provisional drug overdose data set
+
+            # "plotOutput() - insert ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear"
+            # drug overdose deaths per state data set and VSRR provisional drug overdose data set
+
+            # Neeed to create a server function that will create the data for the ggplot output.
+            plotOutput("drugUseTrendsPlot")
           )
         ),
         br(),
@@ -203,11 +200,14 @@ dashboardPage(
         fluidRow(
           box(
             selectInput(
-              "locality",
-              label = "Select a VA locality to view the number of opioid deaths per year",
-              choices = c(colnames(virginiaStatistics), selected = NULL, multiple = FALSE, width = 500, size = NULL)
+              inputId = "locality",
+              label = "Select a Virginia locality to view the number of opioid deaths per year",
+              choices = c(colnames(vaStatistics), selected = NULL, multiple = FALSE, width = 500, size = NULL)
             ),
-            plotOutput("virginiaStatistics")
+
+            ## Need a server function to show the opioid deaths per year for the selected locality.
+
+            plotOutput("localityOpioidDeaths")
           )
         )
       ),
