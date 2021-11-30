@@ -1,26 +1,7 @@
-library(shiny)
-library(shinydashboard)
 library(leaflet)
 library(ggplot2)
 
-source("virginiaStatisticsScript.R")
-cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
-substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
-
-
-## The following gets the top five substances in descending order.
-
-marijuanaTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Marijuana),][1:5,]
-cocaineTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Cocaine),][1:5,]
-heroinTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Heroin),][1:5,]
-methTopFive <- substanceUseEstimates[order(-substanceUseEstimates$Meth),][1:5,]
-
-## Since lat/lon is not in the substances data we need to merge it with the cityLatLon data.
-
-marijuanaLatLon <- merge(marijuanaTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
-methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
+source("datasets.R")
 
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
@@ -51,21 +32,11 @@ function(input, output, session) {
     }
   })
 
-#I think we need to call the renderLeaflet function somewhere in this blurb
-  
-  output$CityLatLon <- renderLeaflet({
-    
-  leaflet(data = CityLatLon) %>%
-    addTiles() %>%
-    addMarkers(popup = ~place)
-
-  })
-  
+  # I think we need to call the renderLeaflet function somewhere in this blurb.
 
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
     ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
   })
-  
 }
