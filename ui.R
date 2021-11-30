@@ -7,8 +7,7 @@ library(ggplot2)
 
 # files sourced
 
-source("virginiaStatisticsScript.R")
-
+#source("virginiaStatisticsScript.R")
 
 dashboardPage(
   skin = "purple",
@@ -30,10 +29,8 @@ dashboardPage(
 
   dashboardBody(
     tabItems(
-      # IDEA - make a solid-color, long text column (width = 4) with a 2x2 of boxes that have info/graphs in them
-      # use the long text column to expand upon what drug addiction is, why we chose the idea, etc.
-
       tabItem(
+        # Idea - add box with reason we chose this topic, define drug addiction, types of drugs, etc.
         tabName = "backgroundTab",
         h1(strong("BACKGROUND INFORMATION")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
@@ -68,7 +65,7 @@ dashboardPage(
         fluidRow(
           box(
             width = 4,
-            img(src = "Common-Drugs.png", height = 250, width = 300)
+            img(src = "Common-Drugs.png", height = 250, width = 330)
           ),
           box(
             title = "Drug Use Trends from xYear to xYear",
@@ -227,9 +224,9 @@ dashboardPage(
             As native Virginians, we chose to focus on this increasingly prevalent opioid crisis within our home state of Virginia. While Virginia pales
             in comparison to national averages of opioid-related overdoses and deaths, it still contributes to the opioid crisis, including in ways you
             wouldn't expect. For example, in 2018, Virginian physicians wrote 44.8 opioid prescriptions per 100 people. While this is lower than the national
-            average of 51.4 prescriptions per 100 people, it is still cause for concern. Opioids, and their even deadly derivatives like heroin and fentanyl,
-            are very easy to access due to their prevalence in healthcare. As such, opioids have played a great role in opening people up to further addiction
-            to stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
+            average of 51.4 prescriptions per 100 people, it is still cause for concern. Opioids, and their even deadlier derivatives like heroin, morphine, and
+            fentanyl, are very easy to access due to their prevalence in healthcare. As such, opioids have helped lead people towards further addiction to
+            stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
           )
         ),
         fluidRow(
@@ -245,10 +242,10 @@ dashboardPage(
             title = strong("Are poverty and drug use related?"), style = "font-size:18px;",
             icon("credit-card", class = NULL, lib = "font-awesome"),
             width = 4,
-            height = 550,
+            height = 530,
             status= "primary",
             style = "font-size:16px;",
-            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While there are several social factors that influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason for people turning to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."#,
+            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."#,
             # selectInput(inputId = "locality")
           )
         )
