@@ -7,7 +7,8 @@ library(ggplot2)
 
 # files sourced
 
-source("virginiaStatisticsScript.R")
+# source("virginiaStatisticsScript.R")
+source("datasets.R")
 
 dashboardPage(
   skin = "purple",
@@ -123,21 +124,21 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "drugUseTrends",
+              inputId = "month",
               label = "Compare drug use trends within each of the 50 US states",
-              choices = c("Select a state...", state.name),
+              choices = unique(surveyERTrendsTidy),
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
               size = NULL
             ),
+            plotOutput("drugUseTrendsPlot")
+          ),
 
             # "plotOutput() - insert ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear"
             # drug overdose deaths per state data set and VSRR provisional drug overdose data set
 
             # Neeed to create a server function that will create the data for the ggplot output.
-            plotOutput("drugUseTrendsPlot")
-          )
         ),
         br(),
         fluidRow(

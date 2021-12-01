@@ -39,4 +39,10 @@ function(input, output, session) {
       filter(Locality %in% input$locality)
     ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
   })
+  
+  output$drugUseTrendsPlot <- renderPlot ({
+    df <- surveyERTrendsTidy %>%
+      filter(Month %in% input$month)
+    ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point()
+  })
 }

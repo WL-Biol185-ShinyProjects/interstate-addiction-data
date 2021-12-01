@@ -4,11 +4,11 @@ library(ggplot2)
 # Read all data CSVs.
 
 overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Per State.csv", header = TRUE)
-cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon.csv", header = TRUE)
-reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
-stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
+cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
+# reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
+# stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
-surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
+surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE)
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
@@ -36,10 +36,10 @@ VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_De
 
 # Top five substances wrangling (in descending order).
 
-marijuanaTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimates$Marijuana),][1:5,]
-cocaineTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimates$Cocaine),][1:5,]
-heroinTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimates$Heroin),][1:5,]
-methTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimates$Meth),][1:5,]
+marijuanaTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Marijuana),][1:5,]
+cocaineTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Cocaine),][1:5,]
+heroinTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Heroin),][1:5,]
+methTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Meth),][1:5,]
 
 # Since lat/lon is not in the substances data we need to merge it with the cityLatLon data.
 
@@ -49,8 +49,15 @@ heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("p
 methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 
 # Surveillance trends (ER) of drug use per state wrangling
-  # need stateAbbrev to be strings, and need to make a ggplot that plots points and connects them with a line for each state
+
+surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
+surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
+# surveyERTrendsByState <- surveyERTrendsTidy[1:728] - won't establish a variable if NA is there, but need NA option for graphing
+# surveyERTrendChanges <- surveyERTrendsTidy[729:780] - won't establish a variable if NA is there, but need NA option for graphing
+
+  # ggplot that plots points and connects them with a line for each state
   # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use"
+  # want each x-axis point to be a month - gather those columns into one variable name? but keep numbers distinct
   # x-axis: each month
   # y-axis: #, just a ylin from 0 to ymax
   # some states didn't report ER trends data - when that state is selected, have empty graph and text box to the right that says "STATE did not report ER surveillance trends of drug use for this time period."
