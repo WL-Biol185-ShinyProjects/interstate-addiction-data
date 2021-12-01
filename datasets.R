@@ -1,4 +1,5 @@
 library(tidyverse)
+library(ggplot2)
 
 # Read all data CSVs.
 
@@ -15,7 +16,7 @@ VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_De
 # Overdoses by state 2019 wrangling
   # x-axis: state.abbrev
   # y-axis: # of deaths, just a ylim from 0 to y-max
-  # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths) + geom_point() - this won't run
+  # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point()
 
 # Overdose deaths by state wrangling
 
