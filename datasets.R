@@ -9,7 +9,7 @@ cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
-virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE)
+virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE, na.strings = "**")
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 
@@ -55,12 +55,18 @@ methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place
   # y-axis: #, just a ylin from 0 to ymax
   # some states didn't report ER trends data - when that state is selected, have empty graph and text box to the right that says "STATE did not report ER surveillance trends of drug use for this time period."
   
-# Virginia income wrangling
-  
 # Virginia statistics wrangling
 
-vaStatisticsTidy <- gather(virginiaStatistics, key = "Year", value = "Deaths", 2:17)
+virginiaStatistics$Total <- NULL
+
+vaStatisticsTidy <- gather(virginiaStatistics, key = "Year", value = "Deaths", 2:16)
 vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
+
+# Virginia statistics wrangling for use with income dataset
+
+virginiaStatistics$Average_Deaths <- rowMeans(virginiaStatistics[ , 9:13], na.rm = TRUE)
+
+virginiaIncome$Value <- gsub(",", "", virginiaIncome$Value, fixed = TRUE)
 
 #VSRR provisional drug overdose death counts wrangling
   # csv too large to open inside RStudio - need to look at it in Excel
