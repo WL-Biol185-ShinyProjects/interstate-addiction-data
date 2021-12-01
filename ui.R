@@ -9,7 +9,6 @@ library(ggplot2)
 
 source("virginiaStatisticsScript.R")
 
-
 dashboardPage(
   skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -30,10 +29,8 @@ dashboardPage(
 
   dashboardBody(
     tabItems(
-      # IDEA - make a solid-color, long text column (width = 4) with a 2x2 of boxes that have info/graphs in them
-      # use the long text column to expand upon what drug addiction is, why we chose the idea, etc.
-
       tabItem(
+        # Idea - add box with reason we chose this topic, define drug addiction, types of drugs, etc.
         tabName = "backgroundTab",
         h1(strong("BACKGROUND INFORMATION")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
@@ -68,7 +65,7 @@ dashboardPage(
         fluidRow(
           box(
             width = 4,
-            img(src = "Common-Drugs.png", height = 250, width = 300)
+            img(src = "Common-Drugs.png", height = 250, width = 330)
           ),
           box(
             title = "Drug Use Trends from xYear to xYear",
@@ -184,7 +181,7 @@ dashboardPage(
             selectInput(
               inputId = "",
               label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = c("Select a state...", state.name),
+              choices = c("Select a state...", "United States", state.name),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
@@ -192,6 +189,8 @@ dashboardPage(
               size = NULL),
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
             #reporting rates and quality per states data set
+          # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
+            # have option for each monthYear for each state, same data set
           )
         )
         # h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
@@ -202,17 +201,58 @@ dashboardPage(
         h1(strong("ADDICTION IN VIRGINIA")),
         fluidRow(
           box(
-            selectInput(inputId = "locality",
-                        label = "Select a locality in Virginia",
-                        choices = unique(vaStatisticsTidy$Locality),
-                        multiple = FALSE,
-                        selected = "Accomack County"
-                        ),
+            width = 8,
+            status = "primary",
+            selectInput(
+              inputId = "locality",
+              label = "Select a locality in Virginia",
+              choices = unique(vaStatisticsTidy$Locality),
+              multiple = FALSE,
+              selected = "Accomack County"
+            ),
             plotOutput(outputId = "virginiaDeathsPlot")
+          ),
+
+            ## Need a server function to show the opioid deaths per year for the selected locality.
+
+          box(
+            title = strong("Why Virginia?"), style = "font-size:18px;",
+            icon("question-circle-o", class = NULL, lib = "font-awesome"),
+            width = 4,
+            height = 530,
+            status = "primary",
+            style = "font-size:16px;",
+            "We chose to focus on opioid-related deaths in particular, due to the fact that opioids were involved in 70% of overdose deaths in 2018.
+            As native Virginians, we chose to focus on this increasingly prevalent opioid crisis within our home state of Virginia. While Virginia pales
+            in comparison to national averages of opioid-related overdoses and deaths, it still contributes to the opioid crisis, including in ways you
+            wouldn't expect. For example, in 2018, Virginian physicians wrote 44.8 opioid prescriptions per 100 people. While this is lower than the national
+            average of 51.4 prescriptions per 100 people, it is still cause for concern. Opioids, and their even deadlier derivatives like heroin, morphine, and
+            fentanyl, are very easy to access due to their prevalence in healthcare. As such, opioids have helped lead people towards further addiction to
+            stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
+          )
+        ),
+        fluidRow(
+          box(
+            width = 8,
+            status = "primary" #,
+            # selectInput(
+              # inputId = "",
+              # label = "Select a Virginia locality to view its household median income",
+              # choices = c(colnames(), selected = NULL, multiple = FALSE, width = 500, size = NULL)
+            ),
+          box(
+            title = strong("Are poverty and drug use related?"), style = "font-size:18px;",
+            icon("credit-card", class = NULL, lib = "font-awesome"),
+            width = 4,
+            height = 530,
+            status= "primary",
+            style = "font-size:16px;",
+            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."#,
+            # selectInput(inputId = "locality")
           )
         )
       ),
-
+            
       # Insert VA heat tiles/chloropeth map to show all the counties
       # Counties with higher opioid death rates will be colored darker
       # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
@@ -291,6 +331,5 @@ dashboardPage(
         )
       )
     )
+  )
 )
-)
-
