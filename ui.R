@@ -7,7 +7,7 @@ library(ggplot2)
 
 # files sourced
 
-#source("virginiaStatisticsScript.R")
+source("virginiaStatisticsScript.R")
 
 dashboardPage(
   skin = "purple",
@@ -181,7 +181,7 @@ dashboardPage(
             selectInput(
               inputId = "",
               label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = c("Select a state...", state.name),
+              choices = c("Select a state...", "United States", state.name),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
@@ -189,6 +189,8 @@ dashboardPage(
               size = NULL),
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
             #reporting rates and quality per states data set
+          # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
+            # have option for each monthYear for each state, same data set
           )
         )
         # h4("Survey data was sourced from the American Addiction Center, based on the percentage of drug users per city population surveyed.", style = "font-size:15px;", align = "center")
