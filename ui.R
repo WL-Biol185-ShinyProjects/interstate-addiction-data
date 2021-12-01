@@ -205,7 +205,7 @@ dashboardPage(
             status = "primary",
             selectInput(
               inputId = "locality",
-              label = "Select a locality in Virginia",
+              label = "Select a locality in Virginia...",
               choices = unique(vaStatisticsTidy$Locality),
               multiple = FALSE,
               selected = "Accomack County"

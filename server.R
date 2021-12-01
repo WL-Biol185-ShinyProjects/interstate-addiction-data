@@ -34,9 +34,11 @@ function(input, output, session) {
 
   # I think we need to call the renderLeaflet function somewhere in this blurb.
 
+  # Virginia Graphs
+  
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C")
   })
 }
