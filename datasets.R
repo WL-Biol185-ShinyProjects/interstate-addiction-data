@@ -1,11 +1,12 @@
-library(tidyverse)
 library(ggplot2)
+library(tidyverse)
+library(tidyr)
 
 # Read all data CSVs.
 
 overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Per State.csv", header = TRUE)
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
-# reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
+### reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
@@ -21,9 +22,7 @@ VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_De
 # Overdose deaths by state wrangling
 
 # Reporting rates by state wrangling
-  # too many rows to manunally edit csv file
-  # need to make the rows just: State,MonthYear,percentComplete,percentPending,percentSpecified,stateName
-  # need to delete the New York City rows - KEEP New York STATE rows
+
   # there are United States (US) rows - KEEP these, make it an option in the dropdown to include United States
   # x-axis: monthYear
   # y-axis: percentReported
@@ -52,22 +51,24 @@ methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place
 
 surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
 surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
-# surveyERTrendsByState <- surveyERTrendsTidy[1:728] - won't establish a variable if NA is there, but need NA option for graphing
-# surveyERTrendChanges <- surveyERTrendsTidy[729:780] - won't establish a variable if NA is there, but need NA option for graphing
+
+### THERE IS A PROBLEM WITH THE FOLLOWING TWO LINES...
+### surveyERTrendsByState <- surveyERTrendsTidy[1:728] # won't establish a variable if NA is there, but need NA option for graphing
+### surveyERTrendChanges <- surveyERTrendsTidy[729:780] # won't establish a variable if NA is there, but need NA option for graphing
 
   # ggplot that plots points and connects them with a line for each state
   # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use"
-  # want each x-axis point to be a month - gather those columns into one variable name? but keep numbers distinct
   # x-axis: each month
-  # y-axis: #, just a ylin from 0 to ymax
+  # y-axis: #, just a ylim from 0 to ymax
   # some states didn't report ER trends data - when that state is selected, have empty graph and text box to the right that says "STATE did not report ER surveillance trends of drug use for this time period."
-  
+
 # Virginia income wrangling
-  
+
 # Virginia statistics wrangling
 
 vaStatisticsTidy <- gather(virginiaStatistics, key = "Year", value = "Deaths", 2:17)
 vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 
-#VSRR provisional drug overdose death counts wrangling
-  # csv too large to open inside RStudio - need to look at it in Excel
+# VSRR provisional drug overdose death counts wrangling
+
+# csv too large to open inside RStudio - need to look at it in Excel

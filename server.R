@@ -1,5 +1,7 @@
 library(leaflet)
 library(ggplot2)
+library(tidyr)
+# library(plotly)
 
 source("datasets.R")
 
@@ -34,15 +36,24 @@ function(input, output, session) {
 
   # I think we need to call the renderLeaflet function somewhere in this blurb.
 
+  output$overdosesByStateDeathsPlot <- renderPlot({
+    df <- overdosesByState2019 %>%
+      filter(stateAbbrev %in% input$stateabbrev)
+    ggplot(df, aes(stateAbbrev, Deaths)) + geom_col()
+    # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point() - other option
+  })
+  
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
     ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
   })
-  
+
   output$drugUseTrendsPlot <- renderPlot ({
     df <- surveyERTrendsTidy %>%
-      filter(Month %in% input$month)
-    ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point()
+      filter(stateAbbrev %in% input$stateabbrev)
+    ggplot(df, aes(Month, Trend)) + geom_point()
+    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
+    # months need to be plotted chronologically, NOT alphabetically
   })
 }
