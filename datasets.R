@@ -9,7 +9,7 @@ cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
-virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE, na.strings = "**")
+virginiaIncome <- read_csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", na = "NA")
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 
@@ -67,6 +67,8 @@ vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 virginiaStatistics$Average_Deaths <- rowMeans(virginiaStatistics[ , 9:13], na.rm = TRUE)
 
 virginiaIncome$Value <- gsub(",", "", virginiaIncome$Value, fixed = TRUE)
+
+vaCompleteTable <- merge(x = virginiaStatistics, y = virginiaIncome, by = "Locality", all.x = TRUE)
 
 #VSRR provisional drug overdose death counts wrangling
   # csv too large to open inside RStudio - need to look at it in Excel
