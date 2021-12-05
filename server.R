@@ -1,7 +1,13 @@
+# libraries used
+
 library(leaflet)
 library(ggplot2)
 
+# files sourced
+
 source("datasets.R")
+
+# server function
 
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
@@ -40,5 +46,12 @@ function(input, output, session) {
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
     ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C")
+  })
+  
+  output$virginiaIncomePlot <- renderPlot ({
+    df2 <- vaCompleteTable %>%
+      filter(Locality %in% input$place)
+    ggplot(df2, aes(Locality, Value, fill = Average_Deaths)) + geom_bar(stat = "identity")
+    
   })
 }

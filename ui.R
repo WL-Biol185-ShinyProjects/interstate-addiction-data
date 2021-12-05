@@ -8,6 +8,7 @@ library(ggplot2)
 # files sourced
 
 source("virginiaStatisticsScript.R")
+source("datasets.R")
 
 dashboardPage(
   skin = "purple",
@@ -234,12 +235,14 @@ dashboardPage(
         fluidRow(
           box(
             width = 8,
-            status = "primary" #,
-            # selectInput(
-              # inputId = "",
-              # label = "Select a Virginia locality to view its household median income",
-              # choices = c(colnames(), selected = NULL, multiple = FALSE, width = 500, size = NULL)
+            status = "primary",
+            selectInput(inputId = "place",
+                        label = "Select localities in Virginia...",
+                        choices = unique(vaCompleteTable$Locality),
+                        multiple = TRUE),
+            plotOutput(outputId = "virginiaIncomePlot")
             ),
+          
           box(
             title = strong("Are poverty and drug use related?"), style = "font-size:18px;",
             icon("credit-card", class = NULL, lib = "font-awesome"),
