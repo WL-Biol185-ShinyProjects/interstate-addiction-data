@@ -51,7 +51,7 @@ function(input, output, session) {
   output$virginiaIncomePlot <- renderPlot ({
     df2 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df2, aes(Locality, Average_Deaths, fill = Income)) + geom_bar(stat = "identity") + ylab("Average Deaths (2014-2018)") + geom_text(aes(label = Income), vjust=1.6, color = "white", size=3.5)+
+    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5)+
       theme_minimal()
     
   })

@@ -7,7 +7,6 @@ library(ggplot2)
 
 # files sourced
 
-source("virginiaStatisticsScript.R")
 source("datasets.R")
 
 dashboardPage(
@@ -237,7 +236,7 @@ dashboardPage(
             width = 8,
             status = "primary",
             selectInput(inputId = "place",
-                        label = "Select localities in Virginia to compare average income to average deaths for 2014-2018...",
+                        label = "Select localities in Virginia to compare average income to average deaths related to opioids for 2014-2018...",
                         choices = unique(vaCompleteTable$Locality),
                         multiple = TRUE,
                         selected = "Accomack County"),
