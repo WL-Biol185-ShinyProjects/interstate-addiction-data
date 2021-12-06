@@ -50,9 +50,11 @@ function(input, output, session) {
   })
 
   output$drugUseTrendsPlot <- renderPlot ({
-    df <- surveyERTrendsTidy %>%
-      filter(stateAbbrev %in% input$stateabbrev)
-    ggplot(df, aes(Month, Trend)) + geom_point()
+    ggplot(diamonds, aes(diamonds$clarity, fill=diamonds$cut)) + geom_bar()
+#    df <- surveyERTrendsTidy %>%
+#      filter(stateAbbrev %in% input$stateabbrev)
+#    ggplot(df, aes(Month, Trend)) + geom_point()
+
     # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
     # months need to be plotted chronologically, NOT alphabetically
   })

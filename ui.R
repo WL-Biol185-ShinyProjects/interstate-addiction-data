@@ -3,13 +3,12 @@
 library(shiny)
 library(shinydashboard)
 library(leaflet)
-library(ggplot2)
-library(tidyr)
+#library(ggplot2)
+library(tidyverse)
 # library(plotly)
 
-# files sourced
+# Files sourced
 
-# source("virginiaStatisticsScript.R")
 source("datasets.R")
 
 dashboardPage(
@@ -111,11 +110,10 @@ dashboardPage(
               size = NULL
             )
           ),
-
+          leafletOutput("topFiveMap"),
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
 
-          leafletOutput("topFiveMap")
         ),
         br(),
         fluidRow(
@@ -134,6 +132,8 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
+#            ggplot(diamonds, aes(diamonds$clarity, fill=diamonds$cut)) + geom_bar()
+#            plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
             plotOutput("drugUseTrendsPlot")
           )
 
