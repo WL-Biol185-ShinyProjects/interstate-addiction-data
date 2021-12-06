@@ -111,7 +111,7 @@ dashboardPage(
               size = NULL
             )
           ),
-          leafletOutput("topFiveMap"),
+          leafletOutput("topFiveMap")
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
 
@@ -171,7 +171,7 @@ dashboardPage(
             width = 4,
             height = 110,
             status = "primary",
-            style = "font-size:16px;",
+            style = "font-size:16px;"
             # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
 
             # surveillance of ER visit trends data set
@@ -194,9 +194,8 @@ dashboardPage(
               selectize = FALSE,
               width = 500,
               size = NULL
-            ),
 
-            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
+           # "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
@@ -204,6 +203,7 @@ dashboardPage(
           )
         )
       ),
+      
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
@@ -232,16 +232,10 @@ dashboardPage(
             status = "primary",
             "We chose to focus on opioid-related deaths in particular, due to the fact that opioids were involved in 70% of overdose deaths in 2018. As native Virginians, we chose to focus on this increasingly prevalent opioid crisis within our home state of Virginia. While Virginia pales in comparison to national averages of opioid-related overdoses and deaths, it still contributes to the opioid crisis, including in ways you wouldn't expect. For example, in 2018, Virginian physicians wrote 44.8 opioid prescriptions per 100 people. While this is lower than the national average of 51.4 prescriptions per 100 people, it is still cause for concern. Opioids, and their even deadlier derivatives like heroin, morphine, and fentanyl, are very easy to access due to their prevalence in healthcare. As such, opioids have helped lead people towards further addiction to stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
           )
-        ),
+            ),
         fluidRow(
           box(
             width = 8,
-            status = "primary"
-            # selectInput(
-            #   inputId = "",
-            #   label = "Select a Virginia locality to view its household median income",
-            #   choices = c(colnames(), selected = NULL, multiple = FALSE, width = 500, size = NULL)
-          ),
             status = "primary",
             selectInput(inputId = "place",
                         label = "Select localities in Virginia to compare average income to average deaths related to opioids for 2014-2018...",
@@ -258,7 +252,6 @@ dashboardPage(
             height = 530,
             status= "primary",
             "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
-            # selectInput(inputId = "locality")
           )
         )
       ),
@@ -337,5 +330,6 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         )
       )
+    )
   )
 )
