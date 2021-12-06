@@ -66,7 +66,7 @@ vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 
 virginiaStatistics$Average_Deaths <- rowMeans(virginiaStatistics[ , 9:13], na.rm = TRUE)
 
-virginiaIncome$Income <- gsub(",", "", virginiaIncome$Income, fixed = TRUE)
+virginiaIncome$Average_Income <- gsub(",", "", virginiaIncome$Average_Income, fixed = TRUE)
 
 vaCompleteTable <- merge(x = virginiaStatistics, y = virginiaIncome, by = "Locality", all.x = TRUE)
 
