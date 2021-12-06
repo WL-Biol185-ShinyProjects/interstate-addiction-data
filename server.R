@@ -49,6 +49,15 @@ function(input, output, session) {
     # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point() - other option
   })
   
+  output$reportingRatesPlot <- renderPlot({
+    df4 <- reportingRates %>%
+      filter(State %in% input$location) %>%
+      filter(Year %in% input$year)
+    ggplot(df4, aes(x = Year, y = Percent_with_drugs_specified, fill = State)) + geom_bar(stat = "identity") + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5)+
+      theme_minimal()
+    
+  })
+  
   # Virginia Graphs
   
   output$virginiaDeathsPlot <- renderPlot ({
