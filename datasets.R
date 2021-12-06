@@ -3,10 +3,9 @@ library(tidyverse)
 library(tidyr)
 
 overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Per State.csv", header = TRUE)
-<<<<<<< HEAD
 #   x-axis: stateAbbrev, y-axis: Deaths
 #   ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point()
-=======
+
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 # reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
@@ -22,16 +21,11 @@ VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_De
   # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point()
 
 # Overdose deaths by state wrangling
->>>>>>> c50f409731f428b682e06453d620b175dcea1596
 
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 
 # Top five substances wrangling (in descending order).
-<<<<<<< HEAD
-=======
-
->>>>>>> c50f409731f428b682e06453d620b175dcea1596
 marijuanaTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Marijuana),][1:5,]
 cocaineTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Cocaine),][1:5,]
 heroinTopFive <- substanceUseEstimatesByCity[order(-substanceUseEstimatesByCity$Heroin),][1:5,]
@@ -46,8 +40,6 @@ methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place
 surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 
 # Surveillance trends (ER) of drug use per state wrangling
-<<<<<<< HEAD
-
 surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
 surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
 
@@ -75,7 +67,6 @@ VSRR_Provisional_Drug_Overdose_Death_Counts <- read.csv("Dataset-CSV-files/VSRR_
 
 #VSRRedited <- VSRR_Provisional_Drug_Overdose_Death_Counts %>%
 #  VSRRdeaths <- VSRRedited[!(VSRRedited$Name=="Psychostimulants with abuse potential (T43.6)" | VSRRedited$Name=="Percent with drugs specified"),]
-=======
   # need stateAbbrev to be strings, and need to make a ggplot that plots points and connects them with a line for each state
   # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use"
   # x-axis: each month
@@ -99,4 +90,3 @@ vaCompleteTable <- merge(x = virginiaStatistics, y = virginiaIncome, by = "Local
 
 #VSRR provisional drug overdose death counts wrangling
   # csv too large to open inside RStudio - need to look at it in Excel
->>>>>>> c50f409731f428b682e06453d620b175dcea1596
