@@ -133,28 +133,28 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
             plotOutput("drugUseTrendsPlot")
           )
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
           # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
           # drug overdose deaths per state data set and VSRR provisional drug overdose data set
 
           # Neeed to create a server function that will create the data for the ggplot output.
         ),
-        br(),
+
         fluidRow(
           box(
             icon = NULL,
             width = 8,
-            height = 110,
+#            height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "",
+              inputId = "statename",
               label = "Drug-related death rates in each US state in 2019",
-              choices = c("Select a state...", state.name),
+              choices = unique(overdosesByState2019$State),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
@@ -166,23 +166,30 @@ dashboardPage(
             # 2019 drug overdose deaths per state data set
             # hoverOpts(id = input$Deaths), hover only works for R-based packages, not ggplot
           ),
+
           box(
             icon = NULL,
             width = 4,
             height = 110,
             status = "primary",
-            style = "font-size:16px;"
+            style = "font-size:16px;"),
+#          box(
+#            icon = NULL,
+#            width = 4,
+#            height = 110,
+#            status = "primary",
+#            style = "font-size:16px;"
             # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
 
             # surveillance of ER visit trends data set
-          )
-        ),
+#          )
+#        ),
         br(),
         fluidRow(
           box(
             icon = NULL,
             width = 12,
-            height = 110,
+#            height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -196,14 +203,16 @@ dashboardPage(
               size = NULL
 
            # "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
+            ),
+            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
             # have option for each monthYear for each state, same data set
           )
-        )
-      ),
-      
+)
+)
+),
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
@@ -253,8 +262,7 @@ dashboardPage(
             status= "primary",
             "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
           )
-        )
-      ),
+        ),
             
       # Insert VA heat tiles/chloropeth map to show all the counties
       # Counties with higher opioid death rates will be colored darker
@@ -332,4 +340,5 @@ dashboardPage(
       )
     )
   )
+)
 )

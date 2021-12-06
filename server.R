@@ -43,9 +43,9 @@ function(input, output, session) {
   # I think we need to call the renderLeaflet function somewhere in this blurb.
 
   output$overdosesByStateDeathsPlot <- renderPlot({
-    df <- overdosesByState2019 %>%
-      filter(stateAbbrev %in% input$stateabbrev)
-    ggplot(df, aes(stateAbbrev, Deaths)) + geom_col()
+    df3 <- overdosesByState2019 %>%
+      filter(State %in% input$statename)
+    ggplot(df3, aes(State, Deaths)) + geom_col()
     # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point() - other option
   })
   
