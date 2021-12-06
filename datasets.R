@@ -49,5 +49,6 @@ vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 VSRR_Provisional_Drug_Overdose_Death_Counts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 # dropVSRR <- c("Period","Percent.Complete","Percent.Pending.Investigation","State.Name","Footnote","Footnote.Symbol") %>%
 #    VSRR_edited <- VSRRDeathCounts[,!(names(VSRRDeathCounts) %in% dropVSRR)]
-VSRRedited <- VSRR_Provisional_Drug_Overdose_Death_Counts %>%
-  VSRRdeaths <- VSRRedited[!(VSRRedited$Name=="Psychostimulants with abuse potential (T43.6)" | VSRRedited$Name=="Percent with drugs specified"),]
+
+#VSRRedited <- VSRR_Provisional_Drug_Overdose_Death_Counts %>%
+#  VSRRdeaths <- VSRRedited[!(VSRRedited$Name=="Psychostimulants with abuse potential (T43.6)" | VSRRedited$Name=="Percent with drugs specified"),]

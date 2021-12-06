@@ -3,8 +3,9 @@
 library(shiny)
 library(shinydashboard)
 library(leaflet)
-#library(ggplot2)
+library(ggplot2)
 library(tidyverse)
+library(tidyr)
 # library(plotly)
 
 # Files sourced
@@ -132,8 +133,8 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-#            ggplot(diamonds, aes(diamonds$clarity, fill=diamonds$cut)) + geom_bar()
-#            plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
             plotOutput("drugUseTrendsPlot")
           )
 

@@ -50,7 +50,7 @@ function(input, output, session) {
   })
 
   output$drugUseTrendsPlot <- renderPlot ({
-    ggplot(diamonds, aes(diamonds$clarity, fill=diamonds$cut)) + geom_bar()
+    ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
 #    df <- surveyERTrendsTidy %>%
 #      filter(stateAbbrev %in% input$stateabbrev)
 #    ggplot(df, aes(Month, Trend)) + geom_point()
