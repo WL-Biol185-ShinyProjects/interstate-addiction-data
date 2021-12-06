@@ -193,16 +193,14 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "",
+              inputId = "location",
               label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = c("Select a state...", "United States", state.name),
+              choices = unique(reportingRates$State),
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
               width = 500,
               size = NULL
-
-           # "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
             ),
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 

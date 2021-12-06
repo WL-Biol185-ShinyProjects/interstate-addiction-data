@@ -7,7 +7,7 @@ overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Pe
 #   ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point()
 
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
-# reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
+reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
@@ -50,7 +50,9 @@ surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE
   # x-axis: each month in chronological order, y-axis: # from 0 to max/limit
 # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use" OR to say "STATE did not report ER visit trends for drug overdoses in this time period."
 
-reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
+# Data wrangling for Reporting Rates
+
+
 #   ggplot line graph, x-axis: monthYaer, y-axis: percentReported
 #   ggplot tri-bar graph, each monthYear has %reported, %pending, and %specified
     # key/label for graph that specifies which % is which color
