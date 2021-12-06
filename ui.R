@@ -112,7 +112,7 @@ dashboardPage(
               size = NULL
             )
           ),
-          leafletOutput("topFiveMap"),
+          leafletOutput("topFiveMap")
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
 
@@ -134,10 +134,10 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
             plotOutput("drugUseTrendsPlot")
           )
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
           # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
           # drug overdose deaths per state data set and VSRR provisional drug overdose data set
@@ -149,7 +149,7 @@ dashboardPage(
           box(
             icon = NULL,
             width = 8,
-            height = 110,
+#            height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -167,23 +167,24 @@ dashboardPage(
             # 2019 drug overdose deaths per state data set
             # hoverOpts(id = input$Deaths), hover only works for R-based packages, not ggplot
           ),
-          box(
-            icon = NULL,
-            width = 4,
-            height = 110,
-            status = "primary",
-            style = "font-size:16px;",
+          br(),
+#          box(
+#            icon = NULL,
+#            width = 4,
+#            height = 110,
+#            status = "primary",
+#            style = "font-size:16px;"
             # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
 
             # surveillance of ER visit trends data set
-          )
-        ),
+#          )
+#        ),
         br(),
         fluidRow(
           box(
             icon = NULL,
             width = 12,
-            height = 110,
+#            height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -196,15 +197,15 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
             # have option for each monthYear for each state, same data set
           )
-        )
-      ),
+)
+)
+),
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
@@ -237,12 +238,6 @@ dashboardPage(
         fluidRow(
           box(
             width = 8,
-            status = "primary"
-            # selectInput(
-            #   inputId = "",
-            #   label = "Select a Virginia locality to view its household median income",
-            #   choices = c(colnames(), selected = NULL, multiple = FALSE, width = 500, size = NULL)
-          ),
             status = "primary",
             selectInput(inputId = "place",
                         label = "Select localities in Virginia to compare average income to average deaths for 2014-2018...",
@@ -261,8 +256,7 @@ dashboardPage(
             "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
             # selectInput(inputId = "locality")
           )
-        )
-      ),
+        ),
             
       # Insert VA heat tiles/chloropeth map to show all the counties
       # Counties with higher opioid death rates will be colored darker
@@ -338,5 +332,7 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         )
       )
-  )
+      )
+)
+)
 )
