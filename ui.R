@@ -206,7 +206,7 @@ dashboardPage(
             status = "primary",
             selectInput(
               inputId = "locality",
-              label = "Select a locality in Virginia...",
+              label = "Select a locality in Virginia to view the number of opioid related deaths for 2007-Q1 2021...",
               choices = unique(vaStatisticsTidy$Locality),
               multiple = FALSE,
               selected = "Accomack County"
@@ -237,9 +237,10 @@ dashboardPage(
             width = 8,
             status = "primary",
             selectInput(inputId = "place",
-                        label = "Select localities in Virginia...",
+                        label = "Select localities in Virginia to compare average income to average deaths for 2014-2018...",
                         choices = unique(vaCompleteTable$Locality),
-                        multiple = TRUE),
+                        multiple = TRUE,
+                        selected = "Accomack County"),
             plotOutput(outputId = "virginiaIncomePlot")
             ),
           
