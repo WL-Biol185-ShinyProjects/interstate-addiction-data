@@ -43,10 +43,16 @@ function(input, output, session) {
   # I think we need to call the renderLeaflet function somewhere in this blurb.
 
   output$overdosesByStateDeathsPlot <- renderPlot({
-    df <- overdosesByState2019 %>%
+    overdosesByState2019df <- overdosesByState2019 %>%
       filter(stateAbbrev %in% input$stateabbrev)
-    ggplot(df, aes(stateAbbrev, Deaths)) + geom_col()
-    # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point() - other option
+    ggplot(overdosesByState2019df, aes(stateAbbrev, Deaths)) + geom_col()
+    # ggplot(overdosesByState2019df, aes(stateAbbrev, Deaths)) + geom_point() - other option
+  })
+  
+  output$drugUseTrendsPlot <- renderPlot({
+    drugUseTrendsdf <- surveyERTrendsTidy %>%
+      filter(stateAbbrev %in% input$stateabbrev)
+    ggplot(drugUseTrendsdf, aes(Month, Trend)) + geom_point()
   })
   
   # Virginia Graphs
@@ -65,13 +71,13 @@ function(input, output, session) {
     
   })
 
-  output$drugUseTrendsPlot <- renderPlot ({
-    ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+#  output$drugUseTrendsPlot <- renderPlot ({
+
+#    ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
 #    df <- surveyERTrendsTidy %>%
 #      filter(stateAbbrev %in% input$stateabbrev)
 #    ggplot(df, aes(Month, Trend)) + geom_point()
 
     # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
     # months need to be plotted chronologically, NOT alphabetically
-  })
-}
+  }

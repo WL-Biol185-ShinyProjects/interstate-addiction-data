@@ -112,30 +112,69 @@ dashboardPage(
               size = NULL
             )
           ),
-          leafletOutput("topFiveMap")
+          leafletOutput("topFiveMap"),
+          br(),
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
-
-        ),
-        br(),
-        fluidRow(
           box(
             icon = NULL,
-            width = 12,
-            height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
               inputId = "",
-              label = "Compare how many ER visits there were for only drug use/overdoses MonthYear to MonthYear",
+              label = "Compare how many ER visits there were for overdoses from MonthYear to MonthYear",
               choices = c("Select a state...", state.name, "United States overall"),
-              multiple = FALSE,
+              selected = NULL,
+              multiple = TRUE,
               selectize = FALSE,
               width = 500,
               size = NULL
             ),
             plotOutput("drugUseTrendsPlot")
+          ),
+          box(
+            icon = NULL,
+            width = 8,
+            status = "primary",
+            style = "font-size:16px;",
+            selectInput(
+              inputId = "statename",
+              label = "Drug-related death rates in each US state in 2019",
+              choices = c("Select a state...", state.name),
+              selected = NULL,
+              multiple = TRUE,
+              selectize = FALSE,
+              width = 500,
+              size = NULL
+            ),
+            plotOutput("overdosesByStateDeathsPlot")
+          ),
+          box(
+            icon = NULL,
+            width = 12,
+            #            height = 110,
+            status = "primary",
+            style = "font-size:16px;",
+            selectInput(
+              inputId = "",
+              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
+              choices = c("Select a state...", "United States", state.name),
+              selected = NULL,
+              multiple = TRUE,
+              selectize = FALSE,
+              width = 500,
+              size = NULL
+            ),
+            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
+            
+            # reporting rates and quality per states data set
+            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
+            # have option for each monthYear for each state, same data set
           )
+        )
+      ),
+          
+          
             # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
             # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
@@ -143,31 +182,9 @@ dashboardPage(
           # drug overdose deaths per state data set and VSRR provisional drug overdose data set
 
           # Neeed to create a server function that will create the data for the ggplot output.
-        ),
-        br(),
-        fluidRow(
-          box(
-            icon = NULL,
-            width = 8,
-#            height = 110,
-            status = "primary",
-            style = "font-size:16px;",
-            selectInput(
-              inputId = "",
-              label = "Drug-related death rates in each US state in 2019",
-              choices = c("Select a state...", state.name),
-              selected = NULL,
-              multiple = FALSE,
-              selectize = FALSE,
-              width = 500,
-              size = NULL
-            ),
-            plotOutput("overdosesByStateDeathsPlot")
             # want to hover over a data point and have a pop-up text box tell you the exact number of deaths"
             # 2019 drug overdose deaths per state data set
             # hoverOpts(id = input$Deaths), hover only works for R-based packages, not ggplot
-          ),
-          br(),
 #          box(
 #            icon = NULL,
 #            width = 4,
@@ -179,33 +196,7 @@ dashboardPage(
             # surveillance of ER visit trends data set
 #          )
 #        ),
-        br(),
-        fluidRow(
-          box(
-            icon = NULL,
-            width = 12,
-#            height = 110,
-            status = "primary",
-            style = "font-size:16px;",
-            selectInput(
-              inputId = "",
-              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = c("Select a state...", "United States", state.name),
-              selected = NULL,
-              multiple = FALSE,
-              selectize = FALSE,
-              width = 500,
-              size = NULL
-            ),
-            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 
-            # reporting rates and quality per states data set
-            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
-            # have option for each monthYear for each state, same data set
-          )
-)
-)
-),
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
