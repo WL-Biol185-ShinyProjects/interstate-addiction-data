@@ -120,18 +120,26 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "",
+              inputId = "location",
               label = "Compare how many ER visits there were for overdoses from MonthYear to MonthYear",
-              choices = c("Select a state...", state.name, "United States overall"),
+              choices = unique(surveyERTrendsTidy$State),
               selected = NULL,
               multiple = TRUE,
-              selectize = FALSE,
+              width = 500,
+              size = NULL
+            ),
+            selectInput(
+              inputId = "months",
+              label = "Select a month...",
+              choices = unique(surveyERTrendsTidy$Month),
+              selected = NULL,
+              multiple = TRUE,
               width = 500,
               size = NULL
             ),
             plotOutput("drugUseTrendsPlot")
           )
-          )
+        ),
             # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
             # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
@@ -139,7 +147,6 @@ dashboardPage(
           # drug overdose deaths per state data set and VSRR provisional drug overdose data set
 
           # Neeed to create a server function that will create the data for the ggplot output.
-        ),
 
         fluidRow(
           box(
@@ -153,7 +160,6 @@ dashboardPage(
               choices = unique(overdosesByState2019$State),
               selected = NULL,
               multiple = TRUE,
-              selectize = FALSE,
               width = 500,
               size = NULL
             ),
@@ -164,7 +170,8 @@ dashboardPage(
             width = 4,
             height = 110,
             status = "primary",
-            style = "font-size:16px;"),
+            style = "font-size:16px;")
+        ),
 #          box(
 #            icon = NULL,
 #            width = 4,
@@ -190,7 +197,6 @@ dashboardPage(
               choices = unique(reportingRates$State),
               selected = NULL,
               multiple = TRUE,
-              selectize = FALSE,
               width = 500,
               size = NULL
             ),

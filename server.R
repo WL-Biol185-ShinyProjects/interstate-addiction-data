@@ -41,15 +41,16 @@ function(input, output, session) {
   })
 
   output$drugUseTrendsPlot <- renderPlot({
-    drugUseTrendsdf <- surveyERTrendsTidy %>%
-      filter(stateAbbrev %in% input$stateabbrev)
-    ggplot(drugUseTrendsdf, aes(Month, Trend)) + geom_point()
+    df3 <- surveyERTrendsTidy %>%
+      filter(stateAbbrev %in% input$location)
+      filter(Month %in% input$months)
+    ggplot(df3, aes(State, Trend)) + geom_point()
   })
 
   output$overdosesByStateDeathsPlot <- renderPlot({
-    overdosesByState2019df <- overdosesByState2019 %>%
+    df4 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
-    ggplot(overdosesByState2019df, aes(State, Deaths)) + geom_col()
+    ggplot(df4, aes(State, Deaths)) + geom_col()
 # other option - ggplot + geom_point()
   })
   
