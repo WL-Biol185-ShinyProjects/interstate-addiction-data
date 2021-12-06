@@ -1,9 +1,15 @@
+# libraries used
+
 library(leaflet)
 library(ggplot2)
 library(tidyr)
 # library(plotly)
 
+# files sourced
+
 source("datasets.R")
+
+# server function
 
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
@@ -43,10 +49,20 @@ function(input, output, session) {
     # ggplot(overdosesByState2019, aes(stateAbbrev, Deaths)) + geom_point() - other option
   })
   
+  # Virginia Graphs
+  
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_point()
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C")
+  })
+  
+  output$virginiaIncomePlot <- renderPlot ({
+    df2 <- vaCompleteTable %>%
+      filter(Locality %in% input$place)
+    ggplot(df2, aes(Locality, Average_Deaths, fill = Income)) + geom_bar(stat = "identity") + ylab("Average Deaths (2014-2018)") + geom_text(aes(label = Income), vjust=1.6, color = "white", size=3.5)+
+      theme_minimal()
+    
   })
 
   output$drugUseTrendsPlot <- renderPlot ({
