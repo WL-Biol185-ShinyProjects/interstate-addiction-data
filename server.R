@@ -40,19 +40,17 @@ function(input, output, session) {
     }
   })
 
-  # I think we need to call the renderLeaflet function somewhere in this blurb.
-
-  output$overdosesByStateDeathsPlot <- renderPlot({
-    overdosesByState2019df <- overdosesByState2019 %>%
-      filter(stateAbbrev %in% input$stateabbrev)
-    ggplot(overdosesByState2019df, aes(stateAbbrev, Deaths)) + geom_col()
-    # ggplot(overdosesByState2019df, aes(stateAbbrev, Deaths)) + geom_point() - other option
-  })
-  
   output$drugUseTrendsPlot <- renderPlot({
     drugUseTrendsdf <- surveyERTrendsTidy %>%
       filter(stateAbbrev %in% input$stateabbrev)
     ggplot(drugUseTrendsdf, aes(Month, Trend)) + geom_point()
+  })
+
+  output$overdosesByStateDeathsPlot <- renderPlot({
+    overdosesByState2019df <- overdosesByState2019 %>%
+      filter(State %in% input$statename)
+    ggplot(overdosesByState2019df, aes(State, Deaths)) + geom_col()
+# other option - ggplot + geom_point()
   })
   
   # Virginia Graphs
@@ -66,7 +64,7 @@ function(input, output, session) {
   output$virginiaIncomePlot <- renderPlot ({
     df2 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df2, aes(Locality, Average_Deaths, fill = Income)) + geom_bar(stat = "identity") + ylab("Average Deaths (2014-2018)") + geom_text(aes(label = Income), vjust=1.6, color = "white", size=3.5)+
+    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5)+
       theme_minimal()
     
   })
@@ -80,4 +78,4 @@ function(input, output, session) {
 
     # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
     # months need to be plotted chronologically, NOT alphabetically
-  }
+}
