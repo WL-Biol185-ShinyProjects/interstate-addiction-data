@@ -109,9 +109,9 @@ dashboardPage(
               selectize = FALSE,
               width = 500,
               size = NULL
-            )
+            ),
+            leafletOutput("topFiveMap")
           ),
-          leafletOutput("topFiveMap"),
           br(),
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
@@ -121,7 +121,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare how many ER visits there were for overdoses from MonthYear to MonthYear",
+              label = "Compare the rate of ER visits that there were for overdoses from MonthYear to MonthYear",
               choices = unique(surveyERTrendsTidy$stateAbbrev),
               selected = "AK",
               multiple = TRUE,
@@ -156,7 +156,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "statename",
-              label = "Drug-related death rates in each US state in 2019",
+              label = "Drug-related deaths in each US state in 2019",
               choices = unique(overdosesByState2019$State),
               selected = "AK",
               multiple = TRUE,
@@ -164,13 +164,7 @@ dashboardPage(
               size = NULL
             ),
             plotOutput(outputId = "overdosesByStateDeathsPlot")
-          ),
-          box(
-            icon = NULL,
-            width = 4,
-            height = 110,
-            status = "primary",
-            style = "font-size:16px;")
+          )
         ),
 #          box(
 #            icon = NULL,
@@ -258,7 +252,7 @@ dashboardPage(
 
           box(
             title = strong("Why Virginia?"),
-            style = "font-size:18px;",
+            style = "font-size:16px;",
             icon("question-circle-o", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 530,
@@ -279,7 +273,7 @@ dashboardPage(
             ),
           box(
             title = strong("Are poverty and drug use related?"),
-            style = "font-size:18px;",
+            style = "font-size:16px;",
             icon("credit-card", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 530,
