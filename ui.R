@@ -122,8 +122,8 @@ dashboardPage(
             selectInput(
               inputId = "location",
               label = "Compare how many ER visits there were for overdoses from MonthYear to MonthYear",
-              choices = unique(surveyERTrendsTidy$State),
-              selected = NULL,
+              choices = unique(surveyERTrendsTidy$stateAbbrev),
+              selected = "AK",
               multiple = TRUE,
               width = 500,
               size = NULL
@@ -132,7 +132,7 @@ dashboardPage(
               inputId = "months",
               label = "Select a month...",
               choices = unique(surveyERTrendsTidy$Month),
-              selected = NULL,
+              selected = "Jan",
               multiple = TRUE,
               width = 500,
               size = NULL
@@ -158,12 +158,12 @@ dashboardPage(
               inputId = "statename",
               label = "Drug-related death rates in each US state in 2019",
               choices = unique(overdosesByState2019$State),
-              selected = NULL,
+              selected = "AK",
               multiple = TRUE,
               width = 500,
               size = NULL
             ),
-            plotOutput("overdosesByStateDeathsPlot")
+            plotOutput(outputId = "overdosesByStateDeathsPlot")
           ),
           box(
             icon = NULL,
@@ -204,8 +204,8 @@ dashboardPage(
               choices = unique(reportingRates$Month),
               selected = "January",
               multiple = FALSE
-            ),
-            plotOutput(outputId = "reportingRatesPlot")
+            )
+           # plotOutput(outputId = "reportingRatesPlot")
             )
             ),
             

@@ -42,15 +42,16 @@ function(input, output, session) {
 
   output$drugUseTrendsPlot <- renderPlot({
     df3 <- surveyERTrendsTidy %>%
-      filter(stateAbbrev %in% input$location)
+      filter(stateAbbrev %in% input$location) %>%
       filter(Month %in% input$months)
-    ggplot(df3, aes(State, Trend)) + geom_point()
+    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point()
   })
-
+  
   output$overdosesByStateDeathsPlot <- renderPlot({
     df4 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
-    ggplot(df4, aes(State, Deaths)) + geom_col()
+    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#34568b") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
 # other option - ggplot + geom_point()
   })
   
