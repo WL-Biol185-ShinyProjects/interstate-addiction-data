@@ -192,27 +192,27 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "location",
-              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = unique(reportingRates$State),
-              selected = "AK",
-              multiple = TRUE
+            inputId = "area",
+            label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
+            choices = unique(reportingRates$State),
+            selected = "AK",
+            multiple = TRUE
             ),
             selectInput(
-              inputId = "year",
-              label = "Choose a year...",
-              choices = unique(reportingRates$Year),
-              selected = "2015",
+              inputId = "monthOfYear",
+              label = "Choose a month...",
+              choices = unique(reportingRates$Month),
+              selected = "January",
               multiple = FALSE
             ),
             plotOutput(outputId = "reportingRatesPlot")
+            )
             ),
-            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
             
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
             # have option for each monthYear for each state, same data set
-          )
+          
         ),
           
             # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
