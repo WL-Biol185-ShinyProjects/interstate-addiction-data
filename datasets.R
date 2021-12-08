@@ -37,10 +37,13 @@ cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c(
 heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 
-surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
-
 # Surveillance trends (ER) of drug use per state wrangling
-surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
+
+# surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
+surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
+# sert <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
+surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:13)
+# surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
 surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
 
 # PROBLEM with these 2 lines:
