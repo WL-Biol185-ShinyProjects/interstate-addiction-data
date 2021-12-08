@@ -15,22 +15,9 @@ source("datasets.R")
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
-#      mainMapLabels <- lapply(
-#        seq(nrow(cityLatLon)),
-#        function(i) {
-#          paste0('<p>', cityLatLon[i, "City_State"], '</p>', '<p>', 'All Drugs: ', cityLatLon[i, "All Drugs"], '</p>')
-#        }
-#      )
-# trying to make it like the Top 5 selections, where clicking on the marker will show you a text box saying "All Drugs: Marijuana: %, Cocaine: %, etc."
-      
       leaflet(data = cityLatLon) %>%
         addTiles() %>%
-        addMarkers(
-#          lng = ~lon,
-#          lat = ~lat,
-          popup = ~place
-#          label = lapply(mainMapLabels, htmltools::HTML)
-        )
+        addMarkers(popup = ~place)
     }
     
     else if (input$topFiveCategory == "Top 5 Marijuana Use") {
