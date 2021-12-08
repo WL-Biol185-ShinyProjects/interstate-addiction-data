@@ -65,7 +65,7 @@ function(input, output, session) {
     df3 <- surveyERTrendsTidy %>%
       filter(stateAbbrev %in% input$location) %>%
       filter(Month %in% input$months)
-    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point()
+    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point() + ylab("Trend (%)") + xlab("State")
   })
   
   output$overdosesByStateDeathsPlot <- renderPlot({
@@ -84,12 +84,20 @@ function(input, output, session) {
      theme_minimal()
   })
   
+  output$substanceUseGraph <- renderPlot({
+    df6 <- substanceUseEstimatesByCityTidy %>%
+      filter(City_State %in% input$city_state)
+    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
+  })
+  
   # Virginia Graphs
   
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C")
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
   })
   
   output$virginiaIncomePlot <- renderPlot ({

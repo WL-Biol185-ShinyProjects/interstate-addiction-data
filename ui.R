@@ -108,6 +108,23 @@ dashboardPage(
           
         ),
         br(),
+        
+        fluidRow(
+          box(
+            width = 12,
+            icon = NULL,
+            status = "primary",
+            selectInput(
+              inputId = "city_state",
+              label = "Choose a city in the US to view the percent of the population that used these substances...",
+              choices = unique(substanceUseEstimatesByCityTidy$City_State),
+              selected = "Albuquerque, NM",
+              multiple = FALSE
+            ),
+            plotOutput(outputId = "substanceUseGraph")
+          )
+        ),
+        br(),
             # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
             # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
@@ -136,7 +153,7 @@ dashboardPage(
               label = "Select a month...",
               choices = unique(surveyERTrendsTidy$Month),
               selected = "Jan",
-              multiple = TRUE,
+              multiple = FALSE,
               width = 500,
               size = NULL
             ),
