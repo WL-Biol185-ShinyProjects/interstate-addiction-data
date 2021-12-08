@@ -37,6 +37,10 @@ cocaineLatLon <- merge(cocaineTopFive, cityLatLon, by.x=c("City_State"), by.y=c(
 heroinLatLon <- merge(heroinTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place"))
 
+# Substance Use Tidy
+
+substanceUseEstimatesByCityTidy <- gather(substanceUseEstimatesByCity, key = "Drug_Type", value = "Percent_Used", 2:5)
+
 surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 
 # Surveillance trends (ER) of drug use per state wrangling
