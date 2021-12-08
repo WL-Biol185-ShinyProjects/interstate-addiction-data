@@ -38,33 +38,22 @@ dashboardPage(
         h1(strong("BACKGROUND INFORMATION")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
         br(),
+        
         fluidRow(
-          box(
-            icon("prescription-bottle", class = NULL, lib = "font-awesome"),
-            width = 4,
-            height = 160,
-            status = "primary",
-            style = "font-size:20px;",
-            "On average, 38% of US adults battle an illegal drug use disorder each year."
-          ),
-          box(
-            icon("search-dollar", class = NULL, lib = "font-awesome"),
-            width = 4,
-            height = 160,
-            status = "primary",
-            style = "font-size:20px;",
-            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"
-          ),
+          valueBoxOutput("averageUse"),
+          valueBoxOutput("drugCosts"),
           box(
             icon("tablets", class = NULL, lib = "font-awesome"),
+            background = "purple",
             width = 4,
-            height = 160,
+            height = 125,
             status = "primary",
-            style = "font-size:20px;",
+            style = "font-size:18px;",
             "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
           )
         ),
-        br(),
+      
+    
         fluidRow(
           box(
             width = 4,
@@ -96,7 +85,7 @@ dashboardPage(
         fluidRow(
           box(
             icon = NULL,
-            # width = 8,
+            width = 12,
             # height = 110,
             status = "primary",
             style = "font-size:16px;",
@@ -107,15 +96,29 @@ dashboardPage(
               selected = NULL,
               multiple = FALSE,
               selectize = FALSE,
-              width = 500,
+        
               size = NULL
             ),
             leafletOutput("topFiveMap")
-          ),
-          br(),
+            
+          )
+
           ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
           ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
+          
+        ),
+        br(),
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
+
+          # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
+          # drug overdose deaths per state data set and VSRR provisional drug overdose data set
+
+          # Neeed to create a server function that will create the data for the ggplot output.
+
+        fluidRow(
           box(
+            width = 12,
             icon = NULL,
             status = "primary",
             style = "font-size:16px;",
@@ -138,20 +141,10 @@ dashboardPage(
               size = NULL
             ),
             plotOutput("drugUseTrendsPlot")
-          )
-        ),
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-          # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
-          # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-          # Neeed to create a server function that will create the data for the ggplot output.
-
-        fluidRow(
+          ),
           box(
+            width = 12,
             icon = NULL,
-            width = 8,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -160,7 +153,7 @@ dashboardPage(
               choices = unique(overdosesByState2019$State),
               selected = "AK",
               multiple = TRUE,
-              width = 500,
+         
               size = NULL
             ),
             plotOutput(outputId = "overdosesByStateDeathsPlot")

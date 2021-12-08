@@ -12,6 +12,27 @@ source("datasets.R")
 # server function
 
 function(input, output, session) {
+  
+  # Value Boxes for Front Page
+  
+  output$averageUse <- renderValueBox({
+    valueBox(value = "38%",
+             subtitle = "On average, 38% of US adults battle an illegal drug use disorder each year.",
+             icon = icon("prescription-bottle"),
+             color = "purple",
+             width = 5)
+  })
+  
+  output$drugCosts <- renderValueBox({
+    valueBox(value = "$740 billion",
+             subtitle = "The annual cost of drug addiction due to lost productivity, healthcare, and crime-related expenses.",
+             icon = icon("search-dollar"),
+             color = "purple",
+             width = 5)
+  })
+  
+  # US Graphs
+  
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
       leaflet(data = cityLatLon) %>%
