@@ -3,6 +3,7 @@
 library(leaflet)
 library(ggplot2)
 library(tidyr)
+library(htmltools)
 # library(plotly)
 
 # files sourced
@@ -39,31 +40,98 @@ function(input, output, session) {
         addTiles() %>%
         addMarkers(popup = ~place)
     }
+    
     else if (input$topFiveCategory == "Top 5 Marijuana Use") {
+      marijuanaLabels <- lapply(
+        seq(nrow(marijuanaLatLon)),
+        function(i) {
+          paste0('<p>', marijuanaLatLon[i, "City_State"], '</p>', '<p>', 'Marijuana: ', marijuanaLatLon[i, "Marijuana"], '</p>')
+        }
+      )
+
       leaflet(data = marijuanaLatLon) %>%
         addTiles() %>%
-        addMarkers(popup = ~City_State)
+        addCircles(
+          lng = ~lon,
+          lat = ~lat,
+          fillColor = 'darkBlue',
+          radius = 25000,
+          stroke = FALSE,
+          fillOpacity = 0.8,
+          label = lapply(marijuanaLabels, htmltools::HTML)
+        )
     }
     else if (input$topFiveCategory == "Top 5 Cocaine Use") {
+      cocaineLabels <- lapply(
+        seq(nrow(cocaineLatLon)),
+        function(i) {
+          paste0('<p>', cocaineLatLon[i, "City_State"], '</p>', '<p>', 'Cocaine: ', cocaineLatLon[i, "Cocaine"], '</p>')
+        }
+      )
+
       leaflet(data = cocaineLatLon) %>%
         addTiles() %>%
-        addMarkers(popup = ~City_State)
+        addCircles(
+          lng = ~lon,
+          lat = ~lat,
+          fillColor = 'darkBlue',
+          radius = 25000,
+          stroke = FALSE,
+          fillOpacity = 0.8,
+          label = lapply(cocaineLabels, htmltools::HTML)
+        )
     }
     else if (input$topFiveCategory == "Top 5 Heroin Use") {
+      heroinLabels <- lapply(
+        seq(nrow(heroinLatLon)),
+        function(i) {
+          paste0('<p>', heroinLatLon[i, "City_State"], '</p>', '<p>', 'Heroin: ', heroinLatLon[i, "Heroin"], '</p>')
+        }
+      )
+
       leaflet(data = heroinLatLon) %>%
         addTiles() %>%
-        addMarkers(popup = ~City_State)
+        addCircles(
+          lng = ~lon,
+          lat = ~lat,
+          fillColor = 'darkBlue',
+          radius = 25000,
+          stroke = FALSE,
+          fillOpacity = 0.8,
+          label = lapply(heroinLabels, htmltools::HTML)
+        )
     }
     else if (input$topFiveCategory == "Top 5 Meth Use") {
+      methLabels <- lapply(
+        seq(nrow(methLatLon)),
+        function(i) {
+          paste0('<p>', methLatLon[i, "City_State"], '</p>', '<p>', 'Meth: ', methLatLon[i, "Meth"], '</p>')
+        }
+      )
+
       leaflet(data = methLatLon) %>%
         addTiles() %>%
-        addMarkers(popup = ~City_State)
+        addCircles(
+          lng = ~lon,
+          lat = ~lat,
+          fillColor = 'darkBlue',
+          radius = 25000,
+          stroke = FALSE,
+          fillOpacity = 0.8,
+          label = lapply(methLabels, htmltools::HTML)
+        )
     }
   })
 
   output$drugUseTrendsPlot <- renderPlot({
+    # df3 <- surveyERTrendsTidy %>%
+    #     filter(stateAbbrev %in% input$location) %>%
+    #     filter(Month %in% input$months)
+    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point or geom_col
+    # plot months chronologically, not alphabetically
+
     df3 <- surveyERTrendsTidy %>%
-      filter(stateAbbrev %in% input$location) %>%
+      filter(surveyERTrendsTidy$stateAbbrev %in% input$location) %>%
       filter(Month %in% input$months)
     ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point() + ylab("Trend (%)") + xlab("State")
   })
@@ -71,11 +139,11 @@ function(input, output, session) {
   output$overdosesByStateDeathsPlot <- renderPlot({
     df4 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
-    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#34568b") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
-      theme_minimal()
-# other option - ggplot + geom_point()
+    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
-  
+
+# other option - ggplot + geom_point()
+
   output$reportingRatesPlot <- renderPlot({
    df5 <- reportingRates %>%
      filter(State %in% input$area) %>%
@@ -83,23 +151,23 @@ function(input, output, session) {
    ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5)+
      theme_minimal()
   })
-  
+
   output$substanceUseGraph <- renderPlot({
     df6 <- substanceUseEstimatesByCityTidy %>%
       filter(City_State %in% input$city_state)
     ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
       theme_minimal()
   })
-  
+
   # Virginia Graphs
-  
+
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
     ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
       theme_minimal()
   })
-  
+
   output$virginiaIncomePlot <- renderPlot ({
     df2 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
@@ -107,14 +175,5 @@ function(input, output, session) {
       theme_minimal()
     
   })
-
-#  output$drugUseTrendsPlot <- renderPlot ({
-
-#    ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-#    df <- surveyERTrendsTidy %>%
-#      filter(stateAbbrev %in% input$stateabbrev)
-#    ggplot(df, aes(Month, Trend)) + geom_point()
-
-    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
-    # months need to be plotted chronologically, NOT alphabetically
+  
 }

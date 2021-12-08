@@ -11,7 +11,7 @@ reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per St
 # stateDrugUseTrends <- read.csv("Dataset-CSV-files/State Drug Use Trends.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
-virginiaIncome <- read_csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", na = "NA")
+virginiaIncome <- read_csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv")
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 
@@ -44,7 +44,12 @@ substanceUseEstimatesByCityTidy <- gather(substanceUseEstimatesByCity, key = "Dr
 surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 
 # Surveillance trends (ER) of drug use per state wrangling
-surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
+
+# surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
+surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
+# sert <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
+surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:13)
+# surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
 surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
 
 # PROBLEM with these 2 lines:
@@ -53,6 +58,7 @@ surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE
 # ggplot that plots points and connects them with a line for each state
   # x-axis: each month in chronological order, y-axis: # from 0 to max/limit
 # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use" OR to say "STATE did not report ER visit trends for drug overdoses in this time period."
+  # need to edit surveillanceTrends table
 
 # Data wrangling for Reporting Rates
 
@@ -62,6 +68,7 @@ surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE
     # key/label for graph that specifies which % is which color
 
 virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE)
+virginiaIncome[virginiaIncome == "NaN"] <- NA
 
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 vaStatisticsTidy <- gather(virginiaStatistics, key = "Year", value = "Deaths", 2:17)
@@ -93,6 +100,7 @@ virginiaStatistics$Average_Deaths <- rowMeans(virginiaStatistics[ , 9:13], na.rm
 virginiaIncome$Average_Income <- gsub(",", "", virginiaIncome$Average_Income, fixed = TRUE)
 
 vaCompleteTable <- merge(x = virginiaStatistics, y = virginiaIncome, by = "Locality", all.x = TRUE)
+vaCompleteTable[vaCompleteTable == "NaN"] <- NA
 
 #VSRR provisional drug overdose death counts wrangling
   # csv too large to open inside RStudio - need to look at it in Excel
