@@ -12,6 +12,8 @@ library(tidyr)
 
 source("datasets.R")
 
+# Dashboard page
+
 dashboardPage(
   skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
