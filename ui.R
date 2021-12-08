@@ -43,7 +43,6 @@ dashboardPage(
         
         fluidRow(
           valueBoxOutput("averageUse"),
-          valueBoxOutput("drugCosts"),
           box(
             icon("tablets", class = NULL, lib = "font-awesome"),
             background = "purple",
@@ -52,10 +51,10 @@ dashboardPage(
             status = "primary",
             style = "font-size:18px;",
             "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
-          )
+          ),
+          valueBoxOutput("drugCosts")
         ),
       
-    
         fluidRow(
           box(
             width = 4,
@@ -64,7 +63,7 @@ dashboardPage(
           ),
           box(
             title = "Drug Use Trends from xYear to xYear",
-            width = 4,
+            width = 4
             # solidHeader = TRUE
 
             # "ggplot trend line showing increase in drug use over the last 50 years"
@@ -90,7 +89,7 @@ dashboardPage(
         fluidRow(
           box(
             icon = NULL,
-            width = 12,
+            width = 6,
             # height = 110,
             status = "primary",
             style = "font-size:16px;",
@@ -105,22 +104,14 @@ dashboardPage(
               size = NULL
             ),
             leafletOutput("topFiveMap")
-          )
-        ),
-
-          ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
-          ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
-        
-        br(),
-        
-        fluidRow(
+          ),
           box(
-            width = 12,
+            width = 6,
             icon = NULL,
             status = "primary",
             selectInput(
               inputId = "city_state",
-              label = "Choose a city in the US to view the percent of the population that used these substances...",
+              label = "Choose a city in the US to view the percent of the population that used these substances in 2019...",
               choices = unique(substanceUseEstimatesByCityTidy$City_State),
               selected = "Albuquerque, NM",
               multiple = FALSE
@@ -145,7 +136,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare how many ER visits there were for overdoses from Month/Year to Month/Year",
+              label = "Compare how many ER visits there were for overdoses from January/Year to February/NextYear",
               choices = unique(surveyERTrendsTidy$stateAbbrev),
               selected = "AK",
               multiple = TRUE,
@@ -178,7 +169,7 @@ dashboardPage(
               size = NULL
             ),
             plotOutput("overdosesByStateDeathsPlot")
-          ),
+          )
           # box(
           # icon = NULL,
           # width = 4,
@@ -379,6 +370,6 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         )
       )
-)
-)
+    )
+  )
 )

@@ -122,12 +122,16 @@ function(input, output, session) {
         )
     }
   })
+  
+  output$substanceUseGraph <- renderPlot({
+    df6 <- substanceUseEstimatesByCityTidy %>%
+      filter(City_State %in% input$city_state)
+    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
+  })  
 
   output$drugUseTrendsPlot <- renderPlot({
-    # df3 <- surveyERTrendsTidy %>%
-    #     filter(stateAbbrev %in% input$location) %>%
-    #     filter(Month %in% input$months)
-    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point or geom_col
+
     # plot months chronologically, not alphabetically
 
     df3 <- surveyERTrendsTidy %>%
@@ -135,7 +139,7 @@ function(input, output, session) {
       filter(Month %in% input$months)
     ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point() + ylab("Trend (%)") + xlab("State")
   })
-  
+
   output$overdosesByStateDeathsPlot <- renderPlot({
     df4 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
@@ -148,15 +152,7 @@ function(input, output, session) {
    df5 <- reportingRates %>%
      filter(State %in% input$area) %>%
      filter(Month %in% input$monthOfYear)
-   ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5)+
-     theme_minimal()
-  })
-
-  output$substanceUseGraph <- renderPlot({
-    df6 <- substanceUseEstimatesByCityTidy %>%
-      filter(City_State %in% input$city_state)
-    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
-      theme_minimal()
+   ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   # Virginia Graphs
@@ -164,15 +160,13 @@ function(input, output, session) {
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
-      theme_minimal()
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$virginiaIncomePlot <- renderPlot ({
     df2 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5)+
-      theme_minimal()
+    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
     
   })
   
