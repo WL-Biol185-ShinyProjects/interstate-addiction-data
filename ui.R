@@ -213,7 +213,7 @@ dashboardPage(
             )
            # plotOutput(outputId = "reportingRatesPlot")
             )
-            ),
+            )
             
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
