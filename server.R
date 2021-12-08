@@ -15,18 +15,32 @@ source("datasets.R")
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
+      mainMapLabels <- lapply(
+        seq(nrow(cityLatLon)),
+        function(i) {
+          paste0('<p>', cityLatLon[i, "City_State"], '</p>', '<p>', 'All Drugs: ', cityLatLon[i, "All Drugs"], '</p>')
+        }
+      )
+# trying to make it like the Top 5 selections, where clicking on the marker will show you a text box saying "All Drugs: Marijuana: %, Cocaine: %, etc."
+      
       leaflet(data = cityLatLon) %>%
         addTiles() %>%
-        addMarkers(popup = ~place)
+        addMarkers(
+          lng = ~lon,
+          lat = ~lat,
+          popup = ~place,
+          label = lapply(mainMapLabels, htmltools::HTML)
+        )
     }
+    
     else if (input$topFiveCategory == "Top 5 Marijuana Use") {
       marijuanaLabels <- lapply(
         seq(nrow(marijuanaLatLon)),
         function(i) {
-          paste0('<p>', marijuanaLatLon[i, "City_State"], '</p>', '<p>', 'Marijuana: ', methLatLon[i, "Marijuana"], '</p>')
+          paste0('<p>', marijuanaLatLon[i, "City_State"], '</p>', '<p>', 'Marijuana: ', marijuanaLatLon[i, "Marijuana"], '</p>')
         }
       )
-      
+
       leaflet(data = marijuanaLatLon) %>%
         addTiles() %>%
         addCircles(
@@ -37,16 +51,16 @@ function(input, output, session) {
           stroke = FALSE,
           fillOpacity = 0.8,
           label = lapply(marijuanaLabels, htmltools::HTML)
-        )}
-    
+        )
+    }
     else if (input$topFiveCategory == "Top 5 Cocaine Use") {
       cocaineLabels <- lapply(
         seq(nrow(cocaineLatLon)),
         function(i) {
-          paste0('<p>', cocaineLatLon[i, "City_State"], '</p>', '<p>', 'Cocaine: ', methLatLon[i, "Cocaine"], '</p>')
+          paste0('<p>', cocaineLatLon[i, "City_State"], '</p>', '<p>', 'Cocaine: ', cocaineLatLon[i, "Cocaine"], '</p>')
         }
       )
-      
+
       leaflet(data = cocaineLatLon) %>%
         addTiles() %>%
         addCircles(
@@ -57,8 +71,8 @@ function(input, output, session) {
           stroke = FALSE,
           fillOpacity = 0.8,
           label = lapply(cocaineLabels, htmltools::HTML)
-        )}
-    
+        )
+    }
     else if (input$topFiveCategory == "Top 5 Heroin Use") {
       heroinLabels <- lapply(
         seq(nrow(heroinLatLon)),
@@ -66,7 +80,7 @@ function(input, output, session) {
           paste0('<p>', heroinLatLon[i, "City_State"], '</p>', '<p>', 'Heroin: ', heroinLatLon[i, "Heroin"], '</p>')
         }
       )
-      
+
       leaflet(data = heroinLatLon) %>%
         addTiles() %>%
         addCircles(
@@ -77,8 +91,8 @@ function(input, output, session) {
           stroke = FALSE,
           fillOpacity = 0.8,
           label = lapply(heroinLabels, htmltools::HTML)
-        )}
-    
+        )
+    }
     else if (input$topFiveCategory == "Top 5 Meth Use") {
       methLabels <- lapply(
         seq(nrow(methLatLon)),
@@ -97,18 +111,16 @@ function(input, output, session) {
           stroke = FALSE,
           fillOpacity = 0.8,
           label = lapply(methLabels, htmltools::HTML)
-        )}
-
-        # label = HTML(paste0('<p>', methLatLon$City_State, '</p>', '<p>', 'Meth: ', methLatLon$Meth, '</p>')))
-
-        # addMarkers(popup = ~City_State)
-  }
-  )}
+        )
+    }
+  })
 
   output$drugUseTrendsPlot <- renderPlot({
     # df3 <- surveyERTrendsTidy %>%
     #     filter(stateAbbrev %in% input$location) %>%
     #     filter(Month %in% input$months)
+    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point or geom_col
+    # plot months chronologically, not alphabetically
 
     df3 <- surveyERTrendsTidy %>% filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
     ggplot(df3, aes(stateAbbrev, Trend)) + geom_point()
@@ -134,13 +146,5 @@ function(input, output, session) {
       theme_minimal()
     
   })
-
-#  output$drugUseTrendsPlot <- renderPlot ({
-
-#    ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-#    df <- surveyERTrendsTidy %>%
-#      filter(stateAbbrev %in% input$stateabbrev)
-#    ggplot(df, aes(Month, Trend)) + geom_point()
-
-    # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_col() - other option
-    # months need to be plotted chronologically, NOT alphabetically
+  
+}

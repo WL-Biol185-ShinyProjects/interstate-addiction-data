@@ -52,6 +52,7 @@ surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE
 # ggplot that plots points and connects them with a line for each state
   # x-axis: each month in chronological order, y-axis: # from 0 to max/limit
 # want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use" OR to say "STATE did not report ER visit trends for drug overdoses in this time period."
+  # need to edit surveillanceTrends table
 
 # Data wrangling for Reporting Rates
 

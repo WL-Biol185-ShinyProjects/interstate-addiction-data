@@ -15,7 +15,7 @@ dashboardPage(
   skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
   dashboardSidebar(
-    width = 300,
+    width = 250,
 
     # Sidebar - options to go to different pages (US, VA, types of drugs, etc.)
 
@@ -103,7 +103,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "topFiveCategory",
-              label = "Compare US cities to see which cities use different drugs the most",
+              label = "Compare US cities to see which cities use different drugs the most (reported as percentages)",
               choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
               selected = NULL,
               multiple = FALSE,
@@ -140,12 +140,6 @@ dashboardPage(
             plotOutput("drugUseTrendsPlot")
           )
         ),
-
-        # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
-        # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-        # Neeed to create a server function that will create the data for the ggplot output.
-
         fluidRow(
           box(
             icon = NULL,
@@ -178,9 +172,7 @@ dashboardPage(
           # style = "font-size:16px;"
           #
           # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
-          #
-          # surveillance of ER visit trends data set
-          # )
+          # increase/decrease change trends are in the surveillanceTrends variable
         ),
         br(),
         fluidRow(
@@ -207,7 +199,6 @@ dashboardPage(
           )
         )
 
-        # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
         # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
         # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
@@ -245,12 +236,9 @@ dashboardPage(
             ),
             plotOutput(outputId = "virginiaDeathsPlot")
           ),
-
-          ## Need a server function to show the opioid deaths per year for the selected locality.
-
           box(
             title = strong("Why Virginia?"),
-            style = "font-size:18px;",
+            style = "font-size:16px;",
             icon("question-circle-o", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 530,
@@ -273,7 +261,7 @@ dashboardPage(
           ),
           box(
             title = strong("Are poverty and drug use related?"),
-            style = "font-size:18px;",
+            style = "font-size:16px;",
             icon("credit-card", class = NULL, lib = "font-awesome"),
             width = 4,
             height = 530,
