@@ -11,6 +11,8 @@ library(tidyr)
 
 source("datasets.R")
 
+# Dashboard page
+
 dashboardPage(
   skin = "purple",
   dashboardHeader(title = "Addiction Statistics", titleWidth = 300),
@@ -38,33 +40,22 @@ dashboardPage(
         h1(strong("BACKGROUND INFORMATION")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
         br(),
+        
         fluidRow(
-          box(
-            icon("prescription-bottle", class = NULL, lib = "font-awesome"),
-            width = 4,
-            height = 160,
-            status = "primary",
-            style = "font-size:20px;",
-            "On average, 38% of US adults battle an illegal drug use disorder each year."
-          ),
-          box(
-            icon("search-dollar", class = NULL, lib = "font-awesome"),
-            width = 4,
-            height = 160,
-            status = "primary",
-            style = "font-size:20px;",
-            "Drug addiction costs American society upwards of $740 billion annually in lost productivity, healthcare expenses, and crime-related expenses"
-          ),
+          valueBoxOutput("averageUse"),
+          valueBoxOutput("drugCosts"),
           box(
             icon("tablets", class = NULL, lib = "font-awesome"),
+            background = "purple",
             width = 4,
-            height = 160,
+            height = 125,
             status = "primary",
-            style = "font-size:20px;",
+            style = "font-size:18px;",
             "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
           )
         ),
-        br(),
+      
+    
         fluidRow(
           box(
             width = 4,
@@ -98,6 +89,7 @@ dashboardPage(
         h6("**It is important to note that in some surveys, certain states either did not take part in reporting services or did not submit data for certain months/years.**"),
         fluidRow(
           box(
+            icon = NULL,
             width = 12,
             # height = 110,
             status = "primary",
@@ -109,14 +101,46 @@ dashboardPage(
               selected = "Select a category..",
               multiple = FALSE,
               selectize = FALSE,
-              width = 500,
+        
               size = NULL
             ),
             leafletOutput("topFiveMap")
-          ),
-          br(),
+          )
+        ),
+
+          ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
+          ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
+        
+        br(),
+        
+        fluidRow(
           box(
             width = 12,
+            icon = NULL,
+            status = "primary",
+            selectInput(
+              inputId = "city_state",
+              label = "Choose a city in the US to view the percent of the population that used these substances...",
+              choices = unique(substanceUseEstimatesByCityTidy$City_State),
+              selected = "Albuquerque, NM",
+              multiple = FALSE
+            ),
+            plotOutput(outputId = "substanceUseGraph")
+          )
+        ),
+        br(),
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
+
+          # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
+          # drug overdose deaths per state data set and VSRR provisional drug overdose data set
+
+          # Neeed to create a server function that will create the data for the ggplot output.
+
+        fluidRow(
+          box(
+            width = 12,
+            icon = NULL,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -128,22 +152,20 @@ dashboardPage(
               width = 500,
               size = NULL
             ),
-#            selectInput(
-#              inputId = "months",
-#              label = "Select a month...",
-#              choices = unique(surveyERTrendsTidy$Month),
-#              selected = "Jan",
-#              multiple = TRUE,
-#              selectize = TRUE
-              # width = 500,
-              # size = NULL
+            selectInput(
+              inputId = "months",
+              label = "Select a month...",
+              choices = unique(surveyERTrendsTidy$Month),
+              selected = "Jan",
+              multiple = FALSE,
+              width = 500,
+              size = NULL
             ),
             plotOutput("drugUseTrendsPlot")
           ),
-        fluidRow(
           box(
+            width = 12,
             icon = NULL,
-            width = 8,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -152,17 +174,10 @@ dashboardPage(
               choices = unique(overdosesByState2019$State),
               selected = "AK",
               multiple = TRUE,
-              width = 500,
+         
               size = NULL
             ),
             plotOutput("overdosesByStateDeathsPlot")
-          ),
-          box(
-            icon = NULL,
-            width = 4,
-            height = 110,
-            status = "primary",
-            style = "font-size:16px;"
           ),
           # box(
           # icon = NULL,
@@ -173,7 +188,7 @@ dashboardPage(
           #
           # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
           # increase/decrease change trends are in the surveillanceTrends variable
-            plotOutput(outputId = "overdosesByStateDeathsPlot")
+          #  plotOutput(outputId = "overdosesByStateDeathsPlot")
         ),
         br(),
         fluidRow(
@@ -199,8 +214,7 @@ dashboardPage(
             )
            # plotOutput(outputId = "reportingRatesPlot")
             )
-            ),
-            "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
+            )
 
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state

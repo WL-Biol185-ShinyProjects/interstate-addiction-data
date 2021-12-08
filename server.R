@@ -13,6 +13,27 @@ source("datasets.R")
 # server function
 
 function(input, output, session) {
+  
+  # Value Boxes for Front Page
+  
+  output$averageUse <- renderValueBox({
+    valueBox(value = "38%",
+             subtitle = "On average, 38% of US adults battle an illegal drug use disorder each year.",
+             icon = icon("prescription-bottle"),
+             color = "purple",
+             width = 5)
+  })
+  
+  output$drugCosts <- renderValueBox({
+    valueBox(value = "$740 billion",
+             subtitle = "The annual cost of drug addiction due to lost productivity, healthcare, and crime-related expenses.",
+             icon = icon("search-dollar"),
+             color = "purple",
+             width = 5)
+  })
+  
+  # US Graphs
+  
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
       leaflet(data = cityLatLon) %>%
@@ -112,7 +133,7 @@ function(input, output, session) {
     df3 <- surveyERTrendsTidy %>%
       filter(surveyERTrendsTidy$stateAbbrev %in% input$location) %>%
       filter(Month %in% input$months)
-    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point()
+    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point() + ylab("Trend (%)") + xlab("State")
   })
   
   output$overdosesByStateDeathsPlot <- renderPlot({
@@ -131,12 +152,20 @@ function(input, output, session) {
      theme_minimal()
   })
 
+  output$substanceUseGraph <- renderPlot({
+    df6 <- substanceUseEstimatesByCityTidy %>%
+      filter(City_State %in% input$city_state)
+    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
+  })
+
   # Virginia Graphs
 
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C")
+    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) +
+      theme_minimal()
   })
 
   output$virginiaIncomePlot <- renderPlot ({
