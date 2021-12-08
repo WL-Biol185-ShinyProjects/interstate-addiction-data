@@ -1,12 +1,12 @@
 State,Year,Month,Period,Percent_Complete,Percent_Pending_Investigation,Percent_with_drugs_specified,StateName
-AK,2015,January,12 month-ending,100,0,89.68,Alaska
-AK,2015,February,12 month-ending,100,0,88.98,Alaska
-AK,2015,March,12 month-ending,100,0,88.8,Alaska
-AK,2015,April,12 month-ending,100,0,88.1,Alaska
-AK,2015,May,12 month-ending,100,0,86.4,Alaska
-AK,2015,June,12 month-ending,100,0,86.78,Alaska
-AK,2015,July,12 month-ending,100,0,87.18,Alaska
-AK,2015,August,12 month-ending,100,0,87.9,Alaska
+AK,2015,January,12 month-ending,100,0,"89.68",Alaska
+AK,2015,February,12 month-ending,100,0,"88.98",Alaska
+AK,2015,March,12 month-ending,100,0,"88.8",Alaska
+AK,2015,April,12 month-ending,100,0,"88.1",Alaska
+AK,2015,May,12 month-ending,100,0,"86.4",Alaska
+AK,2015,June,12 month-ending,100,0,"86.78",Alaska
+AK,2015,July,12 month-ending,100,0,"87.18",Alaska
+AK,2015,August,12 month-ending,100,0,"87.9",Alaska
 AK,2015,September,12 month-ending,100,0,88,Alaska
 AK,2015,October,12 month-ending,100,0,90,Alaska
 AK,2015,November,12 month-ending,100,0,90.43,Alaska

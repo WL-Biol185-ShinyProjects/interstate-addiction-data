@@ -15,21 +15,21 @@ source("datasets.R")
 function(input, output, session) {
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
-      mainMapLabels <- lapply(
-        seq(nrow(cityLatLon)),
-        function(i) {
-          paste0('<p>', cityLatLon[i, "City_State"], '</p>', '<p>', 'All Drugs: ', cityLatLon[i, "All Drugs"], '</p>')
-        }
-      )
+#      mainMapLabels <- lapply(
+#        seq(nrow(cityLatLon)),
+#        function(i) {
+#          paste0('<p>', cityLatLon[i, "City_State"], '</p>', '<p>', 'All Drugs: ', cityLatLon[i, "All Drugs"], '</p>')
+#        }
+#      )
 # trying to make it like the Top 5 selections, where clicking on the marker will show you a text box saying "All Drugs: Marijuana: %, Cocaine: %, etc."
       
       leaflet(data = cityLatLon) %>%
         addTiles() %>%
         addMarkers(
-          lng = ~lon,
-          lat = ~lat,
-          popup = ~place,
-          label = lapply(mainMapLabels, htmltools::HTML)
+#          lng = ~lon,
+#          lat = ~lat,
+          popup = ~place
+#          label = lapply(mainMapLabels, htmltools::HTML)
         )
     }
     
@@ -122,13 +122,26 @@ function(input, output, session) {
     # ggplot(surveyERTrendsTidy, aes(Month, Trend)) + geom_point or geom_col
     # plot months chronologically, not alphabetically
 
-    df3 <- surveyERTrendsTidy %>% filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
-    ggplot(df3, aes(stateAbbrev, Trend)) + geom_point()
+    df3 <- surveyERTrendsTidy %>%
+      filter(surveyERTrendsTidy$stateAbbrev %in% input$location) %>%
+      filter(Month %in% input$months)
+    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point()
+  })
+  
+  output$overdosesByStateDeathsPlot <- renderPlot({
+    df4 <- overdosesByState2019 %>%
+      filter(State %in% input$statename)
+    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
-  output$overdosesByStateDeathsPlot <- renderPlot({
-    df4 <- overdosesByState2019 %>% filter(State %in% input$statename)
-    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C")
+# other option - ggplot + geom_point()
+
+  output$reportingRatesPlot <- renderPlot({
+   df5 <- reportingRates %>%
+     filter(State %in% input$area) %>%
+     filter(Month %in% input$monthOfYear)
+   ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5)+
+     theme_minimal()
   })
 
   # Virginia Graphs

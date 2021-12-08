@@ -84,12 +84,13 @@ dashboardPage(
             title = "% Addicts receiving treatment",
             width = 4,
             # solidHeader = TRUE,
-            "ggplot percent of addicts receiving treatment vs. admitted to ER?"
+            # "ggplot percent of addicts receiving treatment vs. admitted to ER?"
 
             # might end up removing this box and adding a blurb with the reason we chose this topic
           )
         )
       ),
+      
       tabItem(
         tabName = "unitedstatesTab",
         h1(strong("ADDICTION IN THE UNITED STATES")),
@@ -105,14 +106,14 @@ dashboardPage(
               inputId = "topFiveCategory",
               label = "Compare US cities to see which cities use different drugs the most (reported as percentages)",
               choices = c("Select a category...", "Top 5 Marijuana Use", "Top 5 Cocaine Use", "Top 5 Heroin Use", "Top 5 Meth Use"),
-              selected = NULL,
+              selected = "Select a category..",
               multiple = FALSE,
-              selectize = FALSE
-              # width = 500,
-              # size = NULL
-            )
+              selectize = FALSE,
+              width = 500,
+              size = NULL
+            ),
+            leafletOutput("topFiveMap")
           ),
-          leafletOutput("topFiveMap"),
           br(),
           box(
             width = 12,
@@ -122,24 +123,23 @@ dashboardPage(
               inputId = "location",
               label = "Compare how many ER visits there were for overdoses from Month/Year to Month/Year",
               choices = unique(surveyERTrendsTidy$stateAbbrev),
-              selected = NULL,
+              selected = "AK",
               multiple = TRUE,
-              selectize = TRUE
-              # width = 500,
-              # size = NULL
+              width = 500,
+              size = NULL
             ),
 #            selectInput(
 #              inputId = "months",
 #              label = "Select a month...",
 #              choices = unique(surveyERTrendsTidy$Month),
-#              selected = NULL,
-#              multiple = TRUE
-#              # width = 500,
-#              # size = NULL
-#            ),
+#              selected = "Jan",
+#              multiple = TRUE,
+#              selectize = TRUE
+              # width = 500,
+              # size = NULL
+            ),
             plotOutput("drugUseTrendsPlot")
-          )
-        ),
+          ),
         fluidRow(
           box(
             icon = NULL,
@@ -148,9 +148,9 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "statename",
-              label = "Drug-related death rates in each US state in 2019",
+              label = "Drug-related deaths in each US state in 2019",
               choices = unique(overdosesByState2019$State),
-              selected = NULL,
+              selected = "AK",
               multiple = TRUE,
               width = 500,
               size = NULL
@@ -173,6 +173,7 @@ dashboardPage(
           #
           # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
           # increase/decrease change trends are in the surveillanceTrends variable
+            plotOutput(outputId = "overdosesByStateDeathsPlot")
         ),
         br(),
         fluidRow(
@@ -183,21 +184,36 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-              inputId = "location",
-              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
-              choices = unique(reportingRates$State),
-              selected = NULL,
-              multiple = TRUE,
-              width = 500,
-              size = NULL
+            inputId = "area",
+            label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
+            choices = unique(reportingRates$State),
+            selected = "AK",
+            multiple = TRUE
+            ),
+            selectInput(
+              inputId = "monthOfYear",
+              label = "Choose a month...",
+              choices = unique(reportingRates$Month),
+              selected = "January",
+              multiple = FALSE
+            )
+           # plotOutput(outputId = "reportingRatesPlot")
+            )
             ),
             "plotOutput() - insert ggplot trendline graph that shows MonthYear vs. % reported"
 
             # reporting rates and quality per states data set
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
             # have option for each monthYear for each state, same data set
-          )
-        )
+        ),
+
+            # reporting rates and quality per states data set
+            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
+            # have option for each monthYear for each state, same data set
+
+          
+            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
         # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
@@ -218,7 +234,6 @@ dashboardPage(
 
         # surveillance of ER visit trends data set
         #          )
-      ),
 
       tabItem(
         tabName = "virginiaTab",
@@ -275,6 +290,11 @@ dashboardPage(
         # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
         # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
       ),
+            
+      # Insert VA heat tiles/chloropeth map to show all the counties
+      # Counties with higher opioid death rates will be colored darker
+      # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
+      # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
 
       tabItem(
         tabName = "datasourcesTab",
@@ -345,6 +365,6 @@ dashboardPage(
           style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
         )
       )
-    )
-  )
+)
+)
 )
