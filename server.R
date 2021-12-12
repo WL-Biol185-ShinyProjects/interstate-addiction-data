@@ -16,6 +16,14 @@ function(input, output, session) {
   
   # Value Boxes for Front Page
   
+  output$reasoning <- renderValueBox({
+    valueBox(value = "Why addiction?",
+             subtitle = "Drug addiction has become an increasingly prevalent issue in the United States and affects millions of people and families every year. Both recreational substance use and substance abuse can have detrimental affects not only on one's personal life, but also their economic, medical, and mental well-being. Drug addiction and overdoses claim thousands of Americans' lives every year, and as such, prompted us to take a further look into where drug use is the worst in the United States and what types of drugs are most common.",
+             icon = icon("pills"),
+             color = "purple",
+             width = 500)
+  })
+  
   output$averageUse <- renderValueBox({
     valueBox(value = "38%",
              subtitle = "On average, 38% of US adults battle an illegal drug use disorder each year.",
@@ -36,6 +44,20 @@ function(input, output, session) {
   
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
+      allCitiesLabels <- lapply(
+        seq(nrow(allCities)),
+        function(i) {
+          paste0(
+            '<b>', toupper(allCities[i, "City_State"]), '</b><br/>',
+            #"<hr style=\"height:2px;color:black\">",
+            'Marijuana: ', allCities[i, "Marijuana"], '%<br/>',
+            'Cocaine: ', allCities[i, "Cocaine"], '%<br/>',
+            'Heroin: ', allCities[i, "Heroin"], '%<br/>',
+            'Meth: ', allCities[i, "Meth"], '%'
+          )
+        }
+      )
+
       leaflet(data = cityLatLon) %>%
         addTiles() %>%
         addMarkers(popup = ~place)

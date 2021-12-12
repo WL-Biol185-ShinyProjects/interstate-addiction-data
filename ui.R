@@ -25,7 +25,7 @@ dashboardPage(
       menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
       menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
       menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marked")),
-      menuItem("Data Sources", tabName = "datasourcesTab", icon = icon("server"))
+      menuItem("About", tabName = "datasourcesTab", icon = icon("server"))
     )
   ),
 
@@ -35,12 +35,22 @@ dashboardPage(
     tabItems(
       tabItem(
         # Idea - add box with reason we chose this topic, define drug addiction, types of drugs, etc.
-
         tabName = "backgroundTab",
         h1(strong("BACKGROUND INFORMATION")),
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
         br(),
-        
+        # the value box below isn't wide enough to fill the entire page's width
+        fluidRow(
+          box(
+            width = 4,
+            img(src = "Illicit Users 2018.png", height = 250, width = 330)
+          ),
+          valueBoxOutput("reasoning"),
+          box(
+            width = 4,
+            img(src = "Drug Use Bar Graph.jpeg", height = 250, width = 330)
+          )
+        ),
         fluidRow(
           valueBoxOutput("averageUse"),
           box(
@@ -53,31 +63,6 @@ dashboardPage(
             "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
           ),
           valueBoxOutput("drugCosts")
-        ),
-      
-        fluidRow(
-          box(
-            width = 4,
-            # solidHeader = TRUE,
-            img(src = "Common-Drugs.png", height = 250, width = 330)
-          ),
-          box(
-            title = "Drug Use Trends from xYear to xYear",
-            width = 4
-            # solidHeader = TRUE
-
-            # "ggplot trend line showing increase in drug use over the last 50 years"
-            # ggplot(virginiaStatistics),
-            # might end up removing this box and reformatting to fit page
-          ),
-          box(
-            title = "% Addicts receiving treatment",
-            width = 4,
-            # solidHeader = TRUE,
-            # "ggplot percent of addicts receiving treatment vs. admitted to ER?"
-
-            # might end up removing this box and adding a blurb with the reason we chose this topic
-          )
         )
       ),
       
@@ -90,7 +75,6 @@ dashboardPage(
           box(
             icon = NULL,
             width = 6,
-            # height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -100,7 +84,6 @@ dashboardPage(
               selected = "Select a category..",
               multiple = FALSE,
               selectize = FALSE,
-        
               size = NULL
             ),
             leafletOutput("topFiveMap")
@@ -120,14 +103,10 @@ dashboardPage(
           )
         ),
         br(),
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
             # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
 
           # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
           # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-          # Neeed to create a server function that will create the data for the ggplot output.
-
         fluidRow(
           box(
             width = 12,
@@ -170,23 +149,14 @@ dashboardPage(
             ),
             plotOutput("overdosesByStateDeathsPlot")
           )
-          # box(
-          # icon = NULL,
-          # width = 4,
-          # height = 110,
-          # status = "primary",
-          # style = "font-size:16px;"
-          #
           # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
           # increase/decrease change trends are in the surveillanceTrends variable
-          #  plotOutput(outputId = "overdosesByStateDeathsPlot")
         ),
         br(),
         fluidRow(
           box(
             icon = NULL,
             width = 12,
-            # height = 110,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -211,35 +181,10 @@ dashboardPage(
             # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
             # have option for each monthYear for each state, same data set
         ),
-
-            # reporting rates and quality per states data set
-            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
-            # have option for each monthYear for each state, same data set
-
-          
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-        # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-        # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
-        # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-        # Neeed to create a server function that will create the data for the ggplot output.
         # want to hover over a data point and have a pop-up text box tell you the exact number of deaths"
-        # 2019 drug overdose deaths per state data set
         # hoverOpts(id = input$Deaths), hover only works for R-based packages, not ggplot
-        #          box(
-        #            icon = NULL,
-        #            width = 4,
-        #            height = 110,
-        #            status = "primary",
-        #            style = "font-size:16px;"
+
         # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
-
-        # surveillance of ER visit trends data set
-        #          )
-
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
@@ -289,85 +234,71 @@ dashboardPage(
             "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
           )
         )
-
-        # Insert VA heat tiles/chloropeth map to show all the counties
-        # Counties with higher opioid death rates will be colored darker
-        # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-        # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
       ),
-            
-      # Insert VA heat tiles/chloropeth map to show all the counties
-      # Counties with higher opioid death rates will be colored darker
-      # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-      # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
 
       tabItem(
+        # adding "About Us" at top of page - picture and description about us :)
+        # need to re-center the data source hyperlinks
         tabName = "datasourcesTab",
-        align = "center",
-        h1(strong("Data Sources and Further Information")),
+        h1(strong("FURTHER INFORMATION")),
         br(),
+        h4("Insert an About Us section and pictures here", align = "center"),
         br(),
+        h4("Insert explanation of data sources here and mention hyperlinks"),
         a(
-          "VIRGINIA'S OPIOID STATISTICS BY COUNTY",
+          "Virginia's opioid statistics by county",
           href = "https://www.vdh.virginia.gov/medical-examiner/forensic-epidemiology/",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "VIRGINIA'S MEDIAN HOUSEHOLD INCOME",
+          "Virginia's median household income",
           href = "https://fred.stlouisfed.org/release/tables?eid=268980&rid=175",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "STATES' DRUG OVERDOSE REPORTING RATES AND QUALITY LEVELS",
+          "States' drug overdose reporting rates and quailty levels",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "STATES' TOTAL DRUG OVERDOES DEATHS FROM 2019",
+          "States' total drug overdose deaths from 2019",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "THE SURVEILLANCE OF EMERGENCY ROOM VISITS INVOLVING DRUG OVERDOSES",
+          "The surveillance of emergency room visits involving drug overdoses",
           href = "https://www.cdc.gov/drugoverdose/nonfatal/all-drugs.html",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "PROVISIONAL DRUG OVERDOES DEATH COUNTS",
+          "Provisional drug overdose death counts",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "OVERDOSE-RELATED DEATHS FROM 1999 to 2019",
+          "Overdose-related deaths from 1999-2019",
           href = "https://www.drugabuse.gov/drug-topics/trends-statistics/overdose-death-rates",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "MAJOR CITIES' SUBSTANCE USE ESTIMATES",
+          "Major cities' substance use estimates",
           href = "https://americanaddictioncenters.org/learn/substance-abuse-by-city/",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         )
       )
     )
