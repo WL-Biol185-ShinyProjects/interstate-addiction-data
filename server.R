@@ -4,7 +4,6 @@ library(leaflet)
 library(ggplot2)
 library(tidyr)
 library(htmltools)
-# library(plotly)
 
 # files sourced
 
@@ -14,7 +13,7 @@ source("datasets.R")
 
 function(input, output, session) {
   
-  # Value Boxes for Front Page
+# Value Boxes for Front Page
   
   output$reasoning <- renderValueBox({
     valueBox(value = "Why addiction?",
@@ -40,7 +39,7 @@ function(input, output, session) {
              width = 5)
   })
   
-  # US Graphs
+# US Graphs
   
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
@@ -153,22 +152,19 @@ function(input, output, session) {
   })  
 
   output$drugUseTrendsPlot <- renderPlot({
-
-    # plot months chronologically, not alphabetically
-
     df3 <- surveyERTrendsTidy %>%
       filter(surveyERTrendsTidy$stateAbbrev %in% input$location) %>%
       filter(Month %in% input$months)
-    ggplot(df3, aes(stateAbbrev, Trend, color = Month)) + geom_point() + ylab("Trend (%)") + xlab("State")
+    ggplot(df3, aes(stateAbbrev, Trend, color = stateAbbrev)) + geom_line(size=0.75) + xlab("State") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
+    # other labelling option that we originally had: + geom_point() + ylab("Trend (%)") + xlab("State")
+    
   })
-
+  
   output$overdosesByStateDeathsPlot <- renderPlot({
     df4 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
     ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
-
-# other option - ggplot + geom_point()
 
   output$reportingRatesPlot <- renderPlot({
    df5 <- reportingRates %>%
@@ -177,7 +173,7 @@ function(input, output, session) {
    ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
-  # Virginia Graphs
+# Virginia Graphs
 
   output$virginiaDeathsPlot <- renderPlot ({
     df <- vaStatisticsTidy %>%
