@@ -114,22 +114,13 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare how many ER visits there were for overdoses from January/Year to February/NextYear",
-              
-                # checking data set to find the time frame for years label
-              
+              label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January/Year to February/NextYear",
+
+              # checking data set to find the time frame for years label
+
               choices = unique(surveyERTrendsTidy$stateAbbrev),
               selected = "AK",
               multiple = TRUE,
-              width = 500,
-              size = NULL
-            ),
-            selectInput(
-              inputId = "months",
-              label = "Select a month...",
-              choices = unique(surveyERTrendsTidy$Month),
-              selected = "Jan",
-              multiple = FALSE,
               width = 500,
               size = NULL
             ),
@@ -159,11 +150,11 @@ dashboardPage(
             status = "primary",
             style = "font-size:16px;",
             selectInput(
-            inputId = "area",
-            label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years (2015-2021)",
-            choices = unique(reportingRates$State),
-            selected = "AK",
-            multiple = TRUE
+              inputId = "area",
+              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years (2015-2021)",
+              choices = unique(reportingRates$State),
+              selected = "AK",
+              multiple = TRUE
             ),
             selectInput(
               inputId = "monthOfYear",
@@ -186,13 +177,13 @@ dashboardPage(
               actually specified which drugs were used in each case. We chose to focus on the percent of drugs specified, as there is a wide range of reporting among
               states. While it is important that each state accurately reports their annual drug use, it is equally important that they accurately report each case's
               drug used. In order to battle the national drug use crisis, states must begin to address the types of drugs used, not just the fact that people are using them."
-            )
-            )
-            ),
+          )
+        )
+      ),
 
       # reporting rates line graph - percentSpecified data - ggplot + geom_line()
-          # x-axis: each month, from Jan2015 to Feb2021 in chronological order (not default alphabetical) - may do average of each 6 years instead to keep it from getting crammed
-          # y-axis: percentages from 0 to 100 (may make range narrower if the minimum value is higher, like 40-100 or something)
+      # x-axis: each month, from Jan2015 to Feb2021 in chronological order (not default alphabetical) - may do average of each 6 years instead to keep it from getting crammed
+      # y-axis: percentages from 0 to 100 (may make range narrower if the minimum value is higher, like 40-100 or something)
       # multi-select option for states - can compare multiple lines at once on the graph
 
       tabItem(
@@ -255,7 +246,6 @@ dashboardPage(
           )
         )
       ),
-
       tabItem(
         tabName = "datasourcesTab",
         h1(strong("FURTHER INFORMATION")),
@@ -266,34 +256,41 @@ dashboardPage(
                 h2(class = "title", icon("users"), "About Us", align = "center")
               ),
               fluidRow(class = "cards-container",
-                       
-                  # trying to get the pictures to be equidistant from the page's borders so that it looks better
-                  # trying to get our info blurbs to be centered underneath our pictures, not centered in the middle of the whole page
-                       
-                       column(8, class = "cards",
-                              div(class = "card",
-                                  img(src = "Sophia.jpg", alt = "Avatar", height = 700, style = "width:50%", ),
-                                  div(class = "container",
-                                      h4(class = "name", strong("Sophia Roché")),
-                                      p(class = "year", "Class of 2023"),
-                                      p(strong("Major:"), "Biology (pre-med)")
-                                  )),
-                              div(class = "card",
-                                  img(src = "", alt = "Avatar", height = 700, style = "width:50%"),
-                                  div(class = "container",
-                                      h4(class = "name", strong("Cecily Stern")),
-                                      p(class = "year", "Class of 2023"),
-                                      p(strong("Major:"), " ")
-                                  ))
-                       )
+
+              # trying to get the pictures to be equidistant from the page's borders so that it looks better
+              # trying to get our info blurbs to be centered underneath our pictures, not centered in the middle of the whole page
+
+              column(8,
+                class = "cards",
+                div(
+                  class = "card",
+                  img(src = "Sophia.jpg", alt = "Avatar", height = 700, style = "width:50%", ),
+                  div(
+                    class = "container",
+                    h4(class = "name", strong("Sophia Roché")),
+                    p(class = "year", "Class of 2023"),
+                    p(strong("Major:"), "Biology (pre-med)")
+                  )
+                ),
+                div(class = "card",
+                  img(src = "", alt = "Avatar", height = 700, style = "width:50%"),
+                  div(
+                    class = "container",
+                    h4(class = "name", strong("Cecily Stern")),
+                    p(class = "year", "Class of 2023"),
+                    p(strong("Major:"), " ")
+                  )
+                )
               )
+            )
           )
         ),
         br(),
         h2(strong("SOURCES:")),
-        
-        # trying to get it so the big font SOURCES is on the same line as the smaller font Below... line
-        
+
+        # trying to get it so the big font SOURCES is on the same line as the smaller font "Below..." line
+        # need to get our pictures to auto-size so that they don't look weird with different size webpages/browsers
+
         h4("Below, you will find hyperlinks to our data sources if you wish to further investigate drug addiction in the United States."),
         a(
           "Virginia's opioid statistics by county",
