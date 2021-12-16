@@ -25,7 +25,7 @@ dashboardPage(
       menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
       menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
       menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marked")),
-      menuItem("About", tabName = "datasourcesTab", icon = icon("server"))
+      menuItem("About/Sources", tabName = "datasourcesTab", icon = icon("server"))
     )
   ),
 
@@ -39,9 +39,9 @@ dashboardPage(
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and
            within the state of Virginia.", style = "font-size:20px"),
         br(),
-        
-        # need to format these 2 pictures so they fit to the box's width, regardless of browser/page size when looking at the app
-        
+
+        # Need to format these two pictures so they fit to the box's width, regardless of browser/page size when looking at the app.
+
         fluidRow(
           box(
             width = 4,
@@ -67,7 +67,7 @@ dashboardPage(
           valueBoxOutput("drugCosts")
         )
       ),
-      
+
       tabItem(
         tabName = "unitedstatesTab",
         h1(strong("ADDICTION IN THE UNITED STATES")),
@@ -114,7 +114,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January/Year to February/NextYear",
+              label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January2018 to February2020",
 
               # checking data set to find the time frame for years label
 
@@ -142,7 +142,7 @@ dashboardPage(
             plotOutput("overdosesByStateDeathsPlot")
           )
         ),
-        br(),
+        # br(),
         fluidRow(
           box(
             icon = NULL,
@@ -151,20 +151,20 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "area",
-              label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years (2015-2021)",
-              choices = unique(reportingRates$State),
+              label = "Compare each states' average yearly reporting rate specificity regarding drug overdoses over the past 6 years (2015-2021)",
+              choices = unique(reportingRatesAverages$State),
               selected = "AK",
               multiple = TRUE
             ),
-            selectInput(
-              inputId = "monthOfYear",
-              label = "Choose a month...",
-              choices = unique(reportingRates$Month),
-              selected = "January",
-              multiple = FALSE
-            )
+            #selectInput(
+            #  inputId = "monthOfYear",
+            #  label = "Choose a ",
+            #  choices = unique(reportingRatesAverages$Year),
+            #  selected = "January",
+            #  multiple = FALSE
+            #),
+            plotOutput("reportingRatesPlot"),
           ),
-          # plotOutput(outputId = reportingRatesPlot),
           box(
             title = strong("What are reporting rates?"),
             style = "font-size:16px;",
@@ -248,38 +248,26 @@ dashboardPage(
       ),
       tabItem(
         tabName = "datasourcesTab",
-        h1(strong("FURTHER INFORMATION")),
-        br(),
         fluidRow(
           div(class = "page-section",
-              fluidRow(
-                h2(class = "title", icon("users"), "About Us", align = "center")
-              ),
-              fluidRow(class = "cards-container",
-
-              # trying to get the pictures to be equidistant from the page's borders so that it looks better
-              # trying to get our info blurbs to be centered underneath our pictures, not centered in the middle of the whole page
-
-              column(8,
-                class = "cards",
+            fluidRow(
+              h2(icon("users"), "ABOUT US", align = "center")
+            ),
+            fluidRow(
+              box(
+                img(src = "Sophia.jpg", style = "width:100%"),
                 div(
-                  class = "card",
-                  img(src = "Sophia.jpg", alt = "Avatar", height = 700, style = "width:50%", ),
-                  div(
-                    class = "container",
-                    h4(class = "name", strong("Sophia Roché")),
-                    p(class = "year", "Class of 2023"),
-                    p(strong("Major:"), "Biology (pre-med)")
-                  )
-                ),
-                div(class = "card",
-                  img(src = "", alt = "Avatar", height = 700, style = "width:50%"),
-                  div(
-                    class = "container",
-                    h4(class = "name", strong("Cecily Stern")),
-                    p(class = "year", "Class of 2023"),
-                    p(strong("Major:"), " ")
-                  )
+                  h2(strong("Sophia Roché"), style = "text-align:center"),
+                  h4("Class of 2023", style = "text-align:center"),
+                  h4(strong("Major:"), "Biology (pre-med)", style = "text-align:center")
+                )
+              ),
+              box(
+                img(src = "", style = "width:100%"),
+                div(
+                  h2(strong("Cecily Stern"), style = "text-align:center"),
+                  h4("Class of 2023", style = "text-align:center"),
+                  h4(strong("Major:"), "", style = "text-align:center")
                 )
               )
             )
@@ -289,60 +277,59 @@ dashboardPage(
         h2(strong("SOURCES:")),
 
         # trying to get it so the big font SOURCES is on the same line as the smaller font "Below..." line
-        # need to get our pictures to auto-size so that they don't look weird with different size webpages/browsers
 
         h4("Below, you will find hyperlinks to our data sources if you wish to further investigate drug addiction in the United States."),
         a(
-          "Virginia's opioid statistics by county",
+          "Virginia's Opioid Statistics By County",
           href = "https://www.vdh.virginia.gov/medical-examiner/forensic-epidemiology/",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "Virginia's median household income",
+          "Virginia's Median Household Income",
           href = "https://fred.stlouisfed.org/release/tables?eid=268980&rid=175",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "States' drug overdose reporting rates and quailty levels",
+          "States' Drug Overdose Reporting Rates And Quality Levels",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "States' total drug overdose deaths from 2019",
+          "States' Total Drug Overdose Deaths From 2019",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "The surveillance of emergency room visits involving drug overdoses",
+          "The Surveillance Of Emergency Room Visits Involving Drug Overdoses",
           href = "https://www.cdc.gov/drugoverdose/nonfatal/all-drugs.html",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "Provisional drug overdose death counts",
+          "Provisional Drug Overdose Death Counts",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "Overdose-related deaths from 1999-2019",
+          "Overdose-Related Deaths From 1999-2019",
           href = "https://www.drugabuse.gov/drug-topics/trends-statistics/overdose-death-rates",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
         a(
-          "Major cities' substance use estimates",
+          "Major Cities' Substance Use Estimates",
           href = "https://americanaddictioncenters.org/learn/substance-abuse-by-city/",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
