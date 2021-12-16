@@ -150,45 +150,51 @@ function(input, output, session) {
   })
 
   output$substanceUseGraph <- renderPlot({
-    df6 <- substanceUseEstimatesByCityTidy %>%
+    df1 <- substanceUseEstimatesByCityTidy %>%
       filter(City_State %in% input$city_state)
-    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
-      theme_minimal()
+    ggplot(df1, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$drugUseTrendsPlot <- renderPlot({
-    df3 <- surveyERTrendsTidy %>%
-      filter(surveyERTrendsTidy$stateAbbrev %in% input$location) # %>%
-      # filter(Month %in% input$months)
-      ggplot(df3, aes(x=match(Month, month.abb), y=Trend)) + geom_line(aes(colour=df3$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
-      # ggplot(df3, aes(stateAbbrev, Trend, color = stateAbbrev)) + geom_line(size=0.75) + xlab("State") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
-      # other labelling option that we originally had: + geom_point() + ylab("Trend (%)") + xlab("State")
+    df2 <- surveyERTrendsTidy %>%
+      filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
+    ggplot(df2, aes(x=match(Month, month.name) y=Trend)) + geom_line(aes, colour=df2$stateAbbrev) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
   })
 
+    #ggplot(df2, aes(x=match(Month, month.abb), y=Trend)) + geom_line(aes(colour=df2$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
+    # ggplot(df2, aes(stateAbbrev, Trend, color = stateAbbrev)) + geom_line(size=0.75) + xlab("State") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
+    # other labelling option that we originally had: + geom_point() + ylab("Trend (%)") + xlab("State")
+
   output$overdosesByStateDeathsPlot <- renderPlot({
-    df4 <- overdosesByState2019 %>%
+    df3 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
-    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    ggplot(df3, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$reportingRatesPlot <- renderPlot({
-   df5 <- reportingRates %>%
-     filter(State %in% input$area) %>%
-     filter(Month %in% input$monthOfYear)
-   ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    df4 <- reportingRatesAverages %>%
+      filter(State %in% input$area)
+    ggplot(df4, aes(Year, AVG_PWDS)) + geom_line(aes(colour = df4$State)) + xlab("Year") + ylab("Percent Specified (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
   })
+  
+#  output$reportingRatesPlot <- renderPlot({
+#    df4 <- reportingRates %>%
+#      filter(State %in% input$area) %>%
+#      filter(Month %in% input$monthOfYear)
+#    ggplot(df4, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_line(aes(colour=df4$State)) + xlab("Year") + ylab("Percent Unspecified") + labs(color = "State") + scale_color_brewer(palette = "Spectral") #stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+#  })
 
-# Virginia Graphs
+  # Virginia Graphs
 
   output$virginiaDeathsPlot <- renderPlot ({
-    df <- vaStatisticsTidy %>%
+    df5 <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    ggplot(df5, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$virginiaIncomePlot <- renderPlot ({
-    df2 <- vaCompleteTable %>%
+    df6 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    ggplot(df6, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 }

@@ -6,17 +6,15 @@ overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Pe
 reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
+surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 virginiaIncome <- read_csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", na = "NA")
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 
 # Substance use estimates cleanup and tidying
-substanceUseEstimatesByCityTidy <- gather(substanceUseEstimatesByCity, key = "Drug_Type", value = "Percent_Used", 2:5)
-
-surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
-
 cityLatLon <- read.csv("Dataset-CSV-files/CityLatLon", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
+substanceUseEstimatesByCityTidy <- gather(substanceUseEstimatesByCity, key = "Drug_Type", value = "Percent_Used", 2:5)
 
 # Top five substances wrangling (in descending order)
 allCities <- merge(substanceUseEstimatesByCity, cityLatLon, by.x = "City_State", by.y = "place")
@@ -33,26 +31,20 @@ methLatLon <- merge(methTopFive, cityLatLon, by.x=c("City_State"), by.y=c("place
 
 # ER surveillance trends of drug use per state wrangling
 
-# surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")
 surveyERTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
-# sert <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE, na.strings = "**")[1:13]
 surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:13)
-# surveyERTrendsTidy <- gather(surveyERTrends, key = "Month", value = "Trend", 2:16)
 surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE)
+surveyERTrendsTidy$Month_n <- match(surveyERTrendsTidy$Month, month.abb)
 
 # PROBLEM with these 2 lines:
 # surveyERTrendsByState <- surveyERTrendsTidy[1:728] # won't establish a variable if NA is there, but need NA option for graphing
 # surveyERTrendChanges <- surveyERTrendsTidy[729:780] # won't establish a variable if NA is there, but need NA option for graphing
-# ggplot that plots points and connects them with a line for each state
-  # x-axis: each month in chronological order, y-axis: # from 0 to max/limit
-# want the text box next to this graph to be filled by dataset's last column, "change", so that it says "STATE had a sig incr/decr/no change in drug use" OR to say "STATE did not report ER visit trends for drug overdoses in this time period."
-  # need to edit surveillanceTrends table
 
-# Data wrangling for Reporting Rates
+# Reporting rates data
 
-#   ggplot line graph, x-axis: monthYaer, y-axis: percentReported
-#   ggplot tri-bar graph, each monthYear has %reported, %pending, and %specified
-    # key/label for graph that specifies which % is which color
+reportingRatesAverages <- reportingRates %>%
+  group_by(State, Year) %>%
+    summarize(AVG_PC = mean(Percent_Complete), AVG_PPI = mean(Percent_Pending_Investigation), AVG_PWDS = mean(Percent_with_drugs_specified))
 
 # Virginia data
 
