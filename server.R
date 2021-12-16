@@ -158,7 +158,7 @@ function(input, output, session) {
   output$drugUseTrendsPlot <- renderPlot({
     df2 <- surveyERTrendsTidy %>%
       filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
-    ggplot(df2, aes(x=match(Month, month.name) y=Trend)) + geom_line(aes, colour=df2$stateAbbrev) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
+    ggplot(df2, aes(x=match(Month, month.name), y=Trend)) + geom_line(aes(colour=df2$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
   })
 
     #ggplot(df2, aes(x=match(Month, month.abb), y=Trend)) + geom_line(aes(colour=df2$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")

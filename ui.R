@@ -114,7 +114,7 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January2018 to February2020",
+              label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January 2018 to February 2020",
 
               # checking data set to find the time frame for years label
 
@@ -176,7 +176,8 @@ dashboardPage(
               can be further broken down into the percent of reports completed, the percent of reports pending further investigation, and the percent of reports that
               actually specified which drugs were used in each case. We chose to focus on the percent of drugs specified, as there is a wide range of reporting among
               states. While it is important that each state accurately reports their annual drug use, it is equally important that they accurately report each case's
-              drug used. In order to battle the national drug use crisis, states must begin to address the types of drugs used, not just the fact that people are using them."
+              drug used. In order to battle the national drug use crisis, states must begin to address the types of drugs used, not just the fact that people are using them.
+              Note: YC represents New York City within this data."
           )
         )
       ),
