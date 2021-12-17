@@ -1,46 +1,52 @@
-# libraries used
+# Libraries used
 
 library(leaflet)
 library(ggplot2)
 library(tidyr)
 library(htmltools)
 
-# files sourced
+# Files sourced
 
 source("datasets.R")
 
-# server function
+# Server function
 
 function(input, output, session) {
-  
-# Value Boxes for Front Page
-  
+
+  # Value Boxes for Front Page
+
   output$reasoning <- renderValueBox({
-    valueBox(value = "Why addiction?",
-             subtitle = "Drug addiction has become an increasingly prevalent issue in the United States and affects millions of people and families every year. Both recreational substance use and substance abuse can have detrimental affects not only on one's personal life, but also their economic, medical, and mental well-being. Drug addiction and overdoses claim thousands of Americans' lives every year, and as such, prompted us to take a further look into where drug use is the worst in the United States and what types of drugs are most common.",
-             icon = icon("pills"),
-             color = "purple",
-             width = 500)
+    valueBox(
+      value = "Why addiction?",
+      subtitle = "Drug addiction has become an increasingly prevalent issue in the United States and affects millions of people and families every year. Both recreational substance use and substance abuse can have detrimental affects not only on one's personal life, but also their economic, medical, and mental well-being. Drug addiction and overdoses claim thousands of Americans' lives every year, and as such, prompted us to take a further look into where drug use is the worst in the United States and what types of drugs are most common.",
+      icon = icon("pills"),
+      color = "purple",
+      width = 500
+    )
   })
-  
+
   output$averageUse <- renderValueBox({
-    valueBox(value = "38%",
-             subtitle = "On average, 38% of US adults battle an illegal drug use disorder each year.",
-             icon = icon("prescription-bottle"),
-             color = "purple",
-             width = 5)
+    valueBox(
+      value = "38%",
+      subtitle = "On average, 38% of US adults battle an illegal drug use disorder each year.",
+      icon = icon("prescription-bottle"),
+      color = "purple",
+      width = 5
+    )
   })
-  
+
   output$drugCosts <- renderValueBox({
-    valueBox(value = "$740 billion",
-             subtitle = "The annual cost of drug addiction due to lost productivity, healthcare, and crime-related expenses.",
-             icon = icon("search-dollar"),
-             color = "purple",
-             width = 5)
+    valueBox(
+      value = "$740 billion",
+      subtitle = "The annual cost of drug addiction due to lost productivity, healthcare, and crime-related expenses.",
+      icon = icon("search-dollar"),
+      color = "purple",
+      width = 5
+    )
   })
-  
-# US Graphs
-  
+
+  # US Graphs
+
   output$topFiveMap <- renderLeaflet({
     if (input$topFiveCategory == "Select a category...") {
       allCitiesLabels <- lapply(
@@ -48,7 +54,7 @@ function(input, output, session) {
         function(i) {
           paste0(
             '<b>', toupper(allCities[i, "City_State"]), '</b><br/>',
-            #"<hr style=\"height:2px;color:black\">",
+            # "<hr style=\"height:2px;color:black\">",
             'Marijuana: ', allCities[i, "Marijuana"], '%<br/>',
             'Cocaine: ', allCities[i, "Cocaine"], '%<br/>',
             'Heroin: ', allCities[i, "Heroin"], '%<br/>',
@@ -61,7 +67,6 @@ function(input, output, session) {
         addTiles() %>%
         addMarkers(popup = ~place)
     }
-    
     else if (input$topFiveCategory == "Top 5 Marijuana Use") {
       marijuanaLabels <- lapply(
         seq(nrow(marijuanaLatLon)),
@@ -143,49 +148,42 @@ function(input, output, session) {
         )
     }
   })
-  
+
   output$substanceUseGraph <- renderPlot({
-    df6 <- substanceUseEstimatesByCityTidy %>%
+    df1 <- substanceUseEstimatesByCityTidy %>%
       filter(City_State %in% input$city_state)
-    ggplot(df6, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) +
-      theme_minimal()
-  })  
+    ggplot(df1, aes(Drug_Type, Percent_Used)) + geom_bar(stat = "identity", fill = "#BF347C") + ylab("Percent of City Population") + xlab("Drug Type") + geom_text(aes(label = Percent_Used), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+  })
 
   output$drugUseTrendsPlot <- renderPlot({
-    df3 <- surveyERTrendsTidy %>%
-      filter(surveyERTrendsTidy$stateAbbrev %in% input$location) %>%
-      filter(Month %in% input$months)
-    ggplot(df3, aes(stateAbbrev, Trend, color = stateAbbrev)) + geom_line(size=0.75) + xlab("State") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
-    # other labelling option that we originally had: + geom_point() + ylab("Trend (%)") + xlab("State")
-    
+    df2 <- surveyERTrendsTidy %>%
+      filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
+    ggplot(df2, aes(x=Month_n, y=Trend)) + geom_line(aes(colour=stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral") + scale_x_discrete(limits = month.abb)
   })
-  
+
   output$overdosesByStateDeathsPlot <- renderPlot({
-    df4 <- overdosesByState2019 %>%
+    df3 <- overdosesByState2019 %>%
       filter(State %in% input$statename)
-    ggplot(df4, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    ggplot(df3, aes(State, Deaths)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$reportingRatesPlot <- renderPlot({
-   df5 <- reportingRates %>%
-     filter(State %in% input$area) %>%
-     filter(Month %in% input$monthOfYear)
-   ggplot(df5, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_bar(stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    df4 <- reportingRatesAverages %>%
+      filter(State %in% input$area)
+    ggplot(df4, aes(Year, AVG_PWDS)) + geom_line(aes(colour = df4$State)) + xlab("Year") + ylab("Percent Specified (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
   })
 
-# Virginia Graphs
+  # Virginia Graphs
 
   output$virginiaDeathsPlot <- renderPlot ({
-    df <- vaStatisticsTidy %>%
+    df5 <- vaStatisticsTidy %>%
       filter(Locality %in% input$locality)
-    ggplot(df, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
+    ggplot(df5, aes(Year, Deaths, color = Locality)) + geom_bar(stat = "identity", fill = "#BF347C") + geom_text(aes(label = Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
   })
 
   output$virginiaIncomePlot <- renderPlot ({
-    df2 <- vaCompleteTable %>%
+    df6 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df2, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + theme_minimal()
-    
+    ggplot(df6, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + geom_text(aes(label = Average_Income, y = Average_Income + 0.1), position = position_dodge(0.9), vjust = 0)
   })
-  
 }
