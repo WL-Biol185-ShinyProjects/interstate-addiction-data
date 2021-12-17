@@ -6,7 +6,7 @@ overdosesByState2019 <- read.csv("Dataset-CSV-files/2019 Drug Overdose Deaths Pe
 reportingRates <- read.csv("Dataset-CSV-files/Reporting Rates and Quality Per State.csv", header = TRUE)
 substanceUseEstimatesByCity <- read.csv("Dataset-CSV-files/Substance use estimates by city.csv", header = TRUE)
 surveillanceTrends <- read.csv("Dataset-CSV-files/Surveillance of ER Visit Trends for Overdose Per State.csv", header = TRUE)
-virginiaIncome <- read_csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv")
+virginiaIncome <- read.csv("Dataset-CSV-files/VAMedianIncomeTidy.csv", header = TRUE, na.strings = "**")
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 VSRRDeathCounts <- read.csv("Dataset-CSV-files/VSRR_Provisional_Drug_Overdose_Death_Counts.csv", header = TRUE)
 
@@ -54,14 +54,8 @@ surveyERTrendsTidy$Month <- gsub("X", "", surveyERTrendsTidy$Month, fixed = TRUE
 #   ggplot tri-bar graph, each monthYear has %reported, %pending, and %specified
     # key/label for graph that specifies which % is which color
 
-
-virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE)
-virginiaIncome[virginiaIncome == "NaN"] <- NA
-
 # Virginia data
 
-
-virginiaIncome <- read.csv("Dataset-CSV-files/VA Median Income by County - 2014-2018.csv", header = TRUE)
 virginiaStatistics <- read.csv("Dataset-CSV-files/VAstatistics.csv", header = TRUE, na.strings = "**")
 vaStatisticsTidy <- gather(virginiaStatistics, key = "Year", value = "Deaths", 2:17)
 vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
@@ -89,11 +83,11 @@ vaStatisticsTidy$Year <- gsub("X", "", vaStatisticsTidy$Year, fixed = TRUE)
 # Virginia statistics wrangling for use with income dataset
 
 virginiaStatistics$Average_Deaths <- rowMeans(virginiaStatistics[ , 9:13], na.rm = TRUE)
-virginiaIncome$Average_Income <- gsub(",", "", virginiaIncome$Average_Income, fixed = TRUE)
 
 
 vaCompleteTable <- merge(x = virginiaStatistics, y = virginiaIncome, by = "Locality", all.x = TRUE)
 vaCompleteTable[vaCompleteTable == "NaN"] <- NA
+
 
 #VSRR provisional drug overdose death counts wrangling
   # csv too large to open inside RStudio - need to look at it in Excel

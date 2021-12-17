@@ -43,11 +43,11 @@ dashboardPage(
         # need to format these 2 pictures so they fit to the box's width, regardless of browser/page size when looking at the app
         
         fluidRow(
+          valueBoxOutput("reasoning"),
           box(
             width = 4,
             img(src = "Illicit Users 2018.png", height = 250, width = 330)
           ),
-          valueBoxOutput("reasoning"),
           box(
             width = 4,
             img(src = "Drug Use Bar Graph.jpeg", height = 250, width = 330)
@@ -273,18 +273,18 @@ dashboardPage(
                        
                        column(8, class = "cards",
                               div(class = "card",
-                                  img(src = "Sophia.jpg", alt = "Avatar", height = 700, style = "width:50%", ),
+                                  img(src = "Sophia.jpg", alt = "Avatar", style = "width:50%", ),
                                   div(class = "container",
                                       h4(class = "name", strong("Sophia Roché")),
                                       p(class = "year", "Class of 2023"),
                                       p(strong("Major:"), "Biology (pre-med)")
                                   )),
                               div(class = "card",
-                                  img(src = "", alt = "Avatar", height = 700, style = "width:50%"),
+                                  img(src = "Cecily.JPG", alt = "Avatar", style = "width:50%"),
                                   div(class = "container",
                                       h4(class = "name", strong("Cecily Stern")),
                                       p(class = "year", "Class of 2023"),
-                                      p(strong("Major:"), " ")
+                                      p(strong("Major:"), "Biology (pre-vet")
                                   ))
                        )
               )
