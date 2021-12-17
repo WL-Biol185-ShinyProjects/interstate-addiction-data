@@ -268,7 +268,7 @@ dashboardPage(
         br(),
         a(
           "Virginia's Median Household Income",
-          href = "https://fred.stlouisfed.org/release/tables?eid=268980&rid=175",
+          href = "https://www.indexmundi.com/facts/united-states/quick-facts/virginia/median-household-income#table",
           target = "_blank",
           style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
