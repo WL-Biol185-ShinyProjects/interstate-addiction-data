@@ -184,6 +184,6 @@ function(input, output, session) {
   output$virginiaIncomePlot <- renderPlot ({
     df6 <- vaCompleteTable %>%
       filter(Locality %in% input$place)
-    ggplot(df6, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + geom_text(aes(label = Average_Income, y = Average_Income + 0.1), position = position_dodge(0.9), vjust = 0)
+    ggplot(df6, aes(Locality, Average_Income, fill = Average_Deaths)) + geom_bar(stat = "identity") + ylab("Average Income (2014-2018)") + geom_text(aes(label = Average_Deaths), vjust=1.6, color = "white", size=3.5) + geom_text(aes(label = Average_Income, y = Average_Income + 0.25), position = position_dodge(0.9), vjust = 0)
   })
 }
