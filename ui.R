@@ -39,9 +39,6 @@ dashboardPage(
         h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and
            within the state of Virginia.", style = "font-size:20px"),
         br(),
-
-        # Need to format these two pictures so they fit to the box's width, regardless of browser/page size when looking at the app.
-
         fluidRow(
           box(
             width = 4,
@@ -115,9 +112,6 @@ dashboardPage(
             selectInput(
               inputId = "location",
               label = "Compare states' increase/decrease trends in monthly ER visits due to overdose from January 2018 to February 2020",
-
-              # checking data set to find the time frame for years label
-
               choices = unique(surveyERTrendsTidy$stateAbbrev),
               selected = "AK",
               multiple = TRUE,
@@ -156,13 +150,6 @@ dashboardPage(
               selected = "AK",
               multiple = TRUE
             ),
-            #selectInput(
-            #  inputId = "monthOfYear",
-            #  label = "Choose a ",
-            #  choices = unique(reportingRatesAverages$Year),
-            #  selected = "January",
-            #  multiple = FALSE
-            #),
             plotOutput("reportingRatesPlot"),
           ),
           box(
@@ -181,12 +168,7 @@ dashboardPage(
           )
         )
       ),
-
-      # reporting rates line graph - percentSpecified data - ggplot + geom_line()
-      # x-axis: each month, from Jan2015 to Feb2021 in chronological order (not default alphabetical) - may do average of each 6 years instead to keep it from getting crammed
-      # y-axis: percentages from 0 to 100 (may make range narrower if the minimum value is higher, like 40-100 or something)
-      # multi-select option for states - can compare multiple lines at once on the graph
-
+      
       tabItem(
         tabName = "virginiaTab",
         h1(strong("ADDICTION IN VIRGINIA")),
@@ -276,9 +258,6 @@ dashboardPage(
         ),
         br(),
         h2(strong("SOURCES:")),
-
-        # trying to get it so the big font SOURCES is on the same line as the smaller font "Below..." line
-
         h4("Below, you will find hyperlinks to our data sources if you wish to further investigate drug addiction in the United States."),
         a(
           "Virginia's Opioid Statistics By County",

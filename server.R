@@ -1,20 +1,20 @@
-# libraries used
+# Libraries used
 
 library(leaflet)
 library(ggplot2)
 library(tidyr)
 library(htmltools)
 
-# files sourced
+# Files sourced
 
 source("datasets.R")
 
-# server function
+# Server function
 
 function(input, output, session) {
-  
-# Value Boxes for Front Page
-  
+
+  # Value Boxes for Front Page
+
   output$reasoning <- renderValueBox({
     valueBox(
       value = "Why addiction?",
@@ -158,12 +158,8 @@ function(input, output, session) {
   output$drugUseTrendsPlot <- renderPlot({
     df2 <- surveyERTrendsTidy %>%
       filter(surveyERTrendsTidy$stateAbbrev %in% input$location)
-    ggplot(df2, aes(x=match(Month, month.name), y=Trend)) + geom_line(aes(colour=df2$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
+    ggplot(df2, aes(x=Month_n, y=Trend)) + geom_line(aes(colour=stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral") + scale_x_discrete(limits = month.abb)
   })
-
-    #ggplot(df2, aes(x=match(Month, month.abb), y=Trend)) + geom_line(aes(colour=df2$stateAbbrev)) + xlab("Month") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
-    # ggplot(df2, aes(stateAbbrev, Trend, color = stateAbbrev)) + geom_line(size=0.75) + xlab("State") + ylab("Trend (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
-    # other labelling option that we originally had: + geom_point() + ylab("Trend (%)") + xlab("State")
 
   output$overdosesByStateDeathsPlot <- renderPlot({
     df3 <- overdosesByState2019 %>%
@@ -176,13 +172,6 @@ function(input, output, session) {
       filter(State %in% input$area)
     ggplot(df4, aes(Year, AVG_PWDS)) + geom_line(aes(colour = df4$State)) + xlab("Year") + ylab("Percent Specified (%)") + labs(color = "State") + scale_color_brewer(palette = "Spectral")
   })
-  
-#  output$reportingRatesPlot <- renderPlot({
-#    df4 <- reportingRates %>%
-#      filter(State %in% input$area) %>%
-#      filter(Month %in% input$monthOfYear)
-#    ggplot(df4, aes(State, Percent_with_drugs_specified, fill = Month)) + geom_line(aes(colour=df4$State)) + xlab("Year") + ylab("Percent Unspecified") + labs(color = "State") + scale_color_brewer(palette = "Spectral") #stat = "identity", position=position_dodge()) + geom_text(aes(label = Month), vjust=1.6, color = "white", size=3.5) + theme_minimal()
-#  })
 
   # Virginia Graphs
 
