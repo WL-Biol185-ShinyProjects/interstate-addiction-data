@@ -1,4 +1,4 @@
-# ui.R #
+# ui.R
 
 library(shiny)
 library(shinydashboard)
@@ -25,7 +25,7 @@ dashboardPage(
       menuItem("Background", tabName = "backgroundTab", icon = icon("info")),
       menuItem("United States", tabName = "unitedstatesTab", icon = icon("map-marker-alt")),
       menuItem("Virginia", tabName = "virginiaTab", icon = icon("map-marked")),
-      menuItem("Data Sources", tabName = "datasourcesTab", icon = icon("server"))
+      menuItem("About", tabName = "datasourcesTab", icon = icon("server"))
     )
   ),
 
@@ -34,16 +34,27 @@ dashboardPage(
   dashboardBody(
     tabItems(
       tabItem(
-        # Idea - add box with reason we chose this topic, define drug addiction, types of drugs, etc.
-
         tabName = "backgroundTab",
         h1(strong("BACKGROUND INFORMATION")),
-        h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and within the state of Virginia.", style = "font-size:20px"),
+        h4("Our project seeks to analyze the relationships between drug use and various factors (income, location, drug type, etc.) within the United States and
+           within the state of Virginia.", style = "font-size:20px"),
         br(),
         
+        # need to format these 2 pictures so they fit to the box's width, regardless of browser/page size when looking at the app
+        
+        fluidRow(
+          box(
+            width = 4,
+            img(src = "Illicit Users 2018.png", height = 250, width = 330)
+          ),
+          valueBoxOutput("reasoning"),
+          box(
+            width = 4,
+            img(src = "Drug Use Bar Graph.jpeg", height = 250, width = 330)
+          )
+        ),
         fluidRow(
           valueBoxOutput("averageUse"),
-          valueBoxOutput("drugCosts"),
           box(
             icon("tablets", class = NULL, lib = "font-awesome"),
             background = "purple",
@@ -52,46 +63,21 @@ dashboardPage(
             status = "primary",
             style = "font-size:18px;",
             "The drugs most commonly associated with overdose include: heroin, cocaine, opioids/fentanyl, and methamphetamine."
-          )
-        ),
-      
-    
-        fluidRow(
-          box(
-            width = 4,
-            # solidHeader = TRUE,
-            img(src = "Common-Drugs.png", height = 250, width = 330)
           ),
-          box(
-            title = "Drug Use Trends from xYear to xYear",
-            width = 4,
-            # solidHeader = TRUE
-
-            # "ggplot trend line showing increase in drug use over the last 50 years"
-            # ggplot(virginiaStatistics),
-            # might end up removing this box and reformatting to fit page
-          ),
-          box(
-            title = "% Addicts receiving treatment",
-            width = 4,
-            # solidHeader = TRUE,
-            # "ggplot percent of addicts receiving treatment vs. admitted to ER?"
-
-            # might end up removing this box and adding a blurb with the reason we chose this topic
-          )
+          valueBoxOutput("drugCosts")
         )
       ),
       
       tabItem(
         tabName = "unitedstatesTab",
         h1(strong("ADDICTION IN THE UNITED STATES")),
-        h4("Addiction is a common problem in several of the United States' major cities. Check out the interactives below to see addiction trends and drug use within the United States' major cities.", style = "font-size:20px"),
+        h4("Addiction is a common problem in several of the United States' major cities. Check out the interactives below to see addiction trends and drug use
+           within the United States' major cities.", style = "font-size:20px"),
         h6("**It is important to note that in some surveys, certain states either did not take part in reporting services or did not submit data for certain months/years.**"),
         fluidRow(
           box(
             icon = NULL,
-            width = 12,
-            # height = 110,
+            width = 6,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
@@ -101,26 +87,17 @@ dashboardPage(
               selected = "Select a category..",
               multiple = FALSE,
               selectize = FALSE,
-        
               size = NULL
             ),
             leafletOutput("topFiveMap")
-          )
-        ),
-
-          ## This is a sample of using the merged data for the top five meth cities. Need to make a server function
-          ## which takes the selectInput and produces an output of the leaflet for the specific data selected.
-        
-        br(),
-        
-        fluidRow(
+          ),
           box(
-            width = 12,
+            width = 6,
             icon = NULL,
             status = "primary",
             selectInput(
               inputId = "city_state",
-              label = "Choose a city in the US to view the percent of the population that used these substances...",
+              label = "Choose a city in the US to view the percent of the population that used these substances in 2019...",
               choices = unique(substanceUseEstimatesByCityTidy$City_State),
               selected = "Albuquerque, NM",
               multiple = FALSE
@@ -129,14 +106,6 @@ dashboardPage(
           )
         ),
         br(),
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-          # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
-          # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-          # Neeed to create a server function that will create the data for the ggplot output.
-
         fluidRow(
           box(
             width = 12,
@@ -145,7 +114,10 @@ dashboardPage(
             style = "font-size:16px;",
             selectInput(
               inputId = "location",
-              label = "Compare how many ER visits there were for overdoses from Month/Year to Month/Year",
+              label = "Compare how many ER visits there were for overdoses from January/Year to February/NextYear",
+              
+                # checking data set to find the time frame for years label
+              
               choices = unique(surveyERTrendsTidy$stateAbbrev),
               selected = "AK",
               multiple = TRUE,
@@ -174,33 +146,21 @@ dashboardPage(
               choices = unique(overdosesByState2019$State),
               selected = "AK",
               multiple = TRUE,
-         
               size = NULL
             ),
             plotOutput("overdosesByStateDeathsPlot")
-          ),
-          # box(
-          # icon = NULL,
-          # width = 4,
-          # height = 110,
-          # status = "primary",
-          # style = "font-size:16px;"
-          #
-          # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
-          # increase/decrease change trends are in the surveillanceTrends variable
-          #  plotOutput(outputId = "overdosesByStateDeathsPlot")
+          )
         ),
         br(),
         fluidRow(
           box(
             icon = NULL,
-            width = 12,
-            # height = 110,
+            width = 8,
             status = "primary",
             style = "font-size:16px;",
             selectInput(
             inputId = "area",
-            label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years",
+            label = "Compare each states' monthly reporting compliance rates regarding drug overdoses over the past 6 years (2015-2021)",
             choices = unique(reportingRates$State),
             selected = "AK",
             multiple = TRUE
@@ -212,41 +172,29 @@ dashboardPage(
               selected = "January",
               multiple = FALSE
             )
-           # plotOutput(outputId = "reportingRatesPlot")
+          ),
+          # plotOutput(outputId = reportingRatesPlot),
+          box(
+            title = strong("What are reporting rates?"),
+            style = "font-size:16px;",
+            icon("chart-line", class = NULL, lib = "font-awesome"),
+            width = 4,
+            height = 530,
+            status= "primary",
+            "Each year, a national survey is conducted concerning each state's compliance regarding accurate reporting of drug use and deaths. These reporting rates
+              can be further broken down into the percent of reports completed, the percent of reports pending further investigation, and the percent of reports that
+              actually specified which drugs were used in each case. We chose to focus on the percent of drugs specified, as there is a wide range of reporting among
+              states. While it is important that each state accurately reports their annual drug use, it is equally important that they accurately report each case's
+              drug used. In order to battle the national drug use crisis, states must begin to address the types of drugs used, not just the fact that people are using them."
             )
             )
-            # reporting rates and quality per states data set
-            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
-            # have option for each monthYear for each state, same data set
-        ),
+            ),
 
-            # reporting rates and quality per states data set
-            # insert ggplot TRI-BAR GRAPH here where you can select and see percentReported vs. percentPending vs. precentSpecified for each state
-            # have option for each monthYear for each state, same data set
+      # reporting rates line graph - percentSpecified data - ggplot + geom_line()
+          # x-axis: each month, from Jan2015 to Feb2021 in chronological order (not default alphabetical) - may do average of each 6 years instead to keep it from getting crammed
+          # y-axis: percentages from 0 to 100 (may make range narrower if the minimum value is higher, like 40-100 or something)
+      # multi-select option for states - can compare multiple lines at once on the graph
 
-          
-            # ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
-            # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-        # plot(surveyERTrendsTidy$stateAbbrev, surveyERTrendsTidy$Month)
-
-        # ggplot line graph that will plot the selected state's yearly drug use vs. the MonthYear
-        # drug overdose deaths per state data set and VSRR provisional drug overdose data set
-
-        # Neeed to create a server function that will create the data for the ggplot output.
-        # want to hover over a data point and have a pop-up text box tell you the exact number of deaths"
-        # 2019 drug overdose deaths per state data set
-        # hoverOpts(id = input$Deaths), hover only works for R-based packages, not ggplot
-        #          box(
-        #            icon = NULL,
-        #            width = 4,
-        #            height = 110,
-        #            status = "primary",
-        #            style = "font-size:16px;"
-        # "make this box data-dependent, where based on the state's data, it'll say '[state's name] has seen a significant incr/significant decr/no changes in drug use over X years'"
-
-        # surveillance of ER visit trends data set
-        #          )
 
       tabItem(
         tabName = "virginiaTab",
@@ -271,7 +219,12 @@ dashboardPage(
             width = 4,
             height = 530,
             status = "primary",
-            "We chose to focus on opioid-related deaths in particular, due to the fact that opioids were involved in 70% of overdose deaths in 2018. As native Virginians, we chose to focus on this increasingly prevalent opioid crisis within our home state of Virginia. While Virginia pales in comparison to national averages of opioid-related overdoses and deaths, it still contributes to the opioid crisis, including in ways you wouldn't expect. For example, in 2018, Virginian physicians wrote 44.8 opioid prescriptions per 100 people. While this is lower than the national average of 51.4 prescriptions per 100 people, it is still cause for concern. Opioids, and their even deadlier derivatives like heroin, morphine, and fentanyl, are very easy to access due to their prevalence in healthcare. As such, opioids have helped lead people towards further addiction to stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
+            "We chose to focus on opioid-related deaths in particular, due to the fact that opioids were involved in 70% of overdose deaths in 2018. As native Virginians,
+              we chose to focus on this increasingly prevalent opioid crisis within our home state of Virginia. While Virginia pales in comparison to national averages of
+              opioid-related overdoses and deaths, it still contributes to the opioid crisis, including in ways you wouldn't expect. For example, in 2018, Virginian physicians
+              wrote 44.8 opioid prescriptions per 100 people. While this is lower than the national average of 51.4 prescriptions per 100 people, it is still cause for concern.
+              Opioids, and their even deadlier derivatives like heroin, morphine, and fentanyl, are very easy to access due to their prevalence in healthcare. As such, opioids
+              have helped lead people towards further addiction to stronger substances, and it is our goal to understand where, and eventually why, this is happening in Virginia."
           )
         ),
         fluidRow(
@@ -294,90 +247,111 @@ dashboardPage(
             width = 4,
             height = 530,
             status= "primary",
-            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
+            "Poverty is an intersectional issue that can be affected by race, class, sex, and several other social determinants of health. Unfortunately, Americans with
+              lower incomes are at a greater risk of developing drug addictions. While several social factors can influence said predispositions, household income is one of
+              the greatest. For example, poverty often causes various types of stress, which is a prominent reason people turn to drug use. As such, we aimed to understand the
+              influence of poverty, or lack thereof, on drug use among Virginia's localities. For example, northern Virginia has several localities whose median household income
+              is far above the national average, whereas southwestern Virginia has several localities whose median household income is below the national average. By visualizing
+              these income disparities alongside opioid-involved death counts, we aim to understand any relationships between Virginians' incomes and opioid/drug use."
           )
         )
-
-        # Insert VA heat tiles/chloropeth map to show all the counties
-        # Counties with higher opioid death rates will be colored darker
-        # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-        # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
       ),
-            
-      # Insert VA heat tiles/chloropeth map to show all the counties
-      # Counties with higher opioid death rates will be colored darker
-      # Hovering over the county's outline will show you the county's number of deaths (as per the data set)
-      # Insert ggplot trend line graph comparing county income vs. opioid use/death rates
 
       tabItem(
         tabName = "datasourcesTab",
-        align = "center",
-        h1(strong("Data Sources and Further Information")),
+        h1(strong("FURTHER INFORMATION")),
         br(),
+        fluidRow(
+          div(class = "page-section",
+              fluidRow(
+                h2(class = "title", icon("users"), "About Us", align = "center")
+              ),
+              fluidRow(class = "cards-container",
+                       
+                  # trying to get the pictures to be equidistant from the page's borders so that it looks better
+                  # trying to get our info blurbs to be centered underneath our pictures, not centered in the middle of the whole page
+                       
+                       column(8, class = "cards",
+                              div(class = "card",
+                                  img(src = "Sophia.jpg", alt = "Avatar", height = 700, style = "width:50%", ),
+                                  div(class = "container",
+                                      h4(class = "name", strong("Sophia Roché")),
+                                      p(class = "year", "Class of 2023"),
+                                      p(strong("Major:"), "Biology (pre-med)")
+                                  )),
+                              div(class = "card",
+                                  img(src = "", alt = "Avatar", height = 700, style = "width:50%"),
+                                  div(class = "container",
+                                      h4(class = "name", strong("Cecily Stern")),
+                                      p(class = "year", "Class of 2023"),
+                                      p(strong("Major:"), " ")
+                                  ))
+                       )
+              )
+          )
+        ),
         br(),
+        h2(strong("SOURCES:")),
+        
+        # trying to get it so the big font SOURCES is on the same line as the smaller font Below... line
+        
+        h4("Below, you will find hyperlinks to our data sources if you wish to further investigate drug addiction in the United States."),
         a(
-          "VIRGINIA'S OPIOID STATISTICS BY COUNTY",
+          "Virginia's opioid statistics by county",
           href = "https://www.vdh.virginia.gov/medical-examiner/forensic-epidemiology/",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "VIRGINIA'S MEDIAN HOUSEHOLD INCOME",
+          "Virginia's median household income",
           href = "https://fred.stlouisfed.org/release/tables?eid=268980&rid=175",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "STATES' DRUG OVERDOSE REPORTING RATES AND QUALITY LEVELS",
+          "States' drug overdose reporting rates and quailty levels",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "STATES' TOTAL DRUG OVERDOES DEATHS FROM 2019",
+          "States' total drug overdose deaths from 2019",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "THE SURVEILLANCE OF EMERGENCY ROOM VISITS INVOLVING DRUG OVERDOSES",
+          "The surveillance of emergency room visits involving drug overdoses",
           href = "https://www.cdc.gov/drugoverdose/nonfatal/all-drugs.html",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "PROVISIONAL DRUG OVERDOES DEATH COUNTS",
+          "Provisional drug overdose death counts",
           href = "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "OVERDOSE-RELATED DEATHS FROM 1999 to 2019",
+          "Overdose-related deaths from 1999-2019",
           href = "https://www.drugabuse.gov/drug-topics/trends-statistics/overdose-death-rates",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         ),
         br(),
-        br(),
         a(
-          "MAJOR CITIES' SUBSTANCE USE ESTIMATES",
+          "Major cities' substance use estimates",
           href = "https://americanaddictioncenters.org/learn/substance-abuse-by-city/",
           target = "_blank",
-          style = "color: #9C77FF; font-size: 25px; text-align: center; font-weight: bold"
+          style = "color: #9C77FF; font-size: 22px; text-align: center; font-weight: bold"
         )
       )
-)
-)
+    )
+  )
 )
